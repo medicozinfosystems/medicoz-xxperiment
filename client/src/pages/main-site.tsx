@@ -28,13 +28,13 @@ export default function MainSite() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white via-[#EAF3DE]/10 to-[#CAD9C2]/20">
+    <div className="min-h-screen bg-gradient-to-br from-white via-cyan-50/30 to-violet-50/20">
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         {/* Ambient Background */}
-        <div className="absolute inset-0 opacity-30">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#74B3BC]/30 rounded-full blur-3xl" />
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#80A586]/30 rounded-full blur-3xl" />
+        <div className="absolute inset-0 opacity-40">
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl" />
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-violet-500/20 rounded-full blur-3xl" />
         </div>
 
         <div className="max-w-6xl mx-auto px-6 text-center relative z-10">
@@ -43,10 +43,10 @@ export default function MainSite() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-[#27515F] via-[#74B3BC] to-[#27515F]">
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 via-violet-600 to-pink-600">
               Medicoz Infosystems
             </h1>
-            <p className="text-2xl md:text-3xl text-[#27515F] mb-8 font-light tracking-wide">
+            <p className="text-2xl md:text-3xl text-blue-800 mb-8 font-light tracking-wide">
               technology that cares
             </p>
             <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-12 leading-relaxed">
@@ -76,7 +76,7 @@ export default function MainSite() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-[#27515F] mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold text-blue-800 mb-4">
               Healthcare Technology That Understands
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
@@ -95,10 +95,10 @@ export default function MainSite() {
               >
                 <Card className="h-full hover-elevate" data-testid={`card-feature-${index}`}>
                   <CardHeader>
-                    <div className="w-12 h-12 rounded-md bg-gradient-to-br from-[#80A586] to-[#74B3BC] flex items-center justify-center mb-4">
+                    <div className="w-12 h-12 rounded-md bg-gradient-to-br from-cyan-500 to-violet-500 flex items-center justify-center mb-4">
                       <feature.icon className="w-6 h-6 text-white" />
                     </div>
-                    <CardTitle className="text-xl text-[#27515F]">{feature.title}</CardTitle>
+                    <CardTitle className="text-xl text-blue-800">{feature.title}</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <CardDescription className="text-base">{feature.description}</CardDescription>
@@ -119,7 +119,7 @@ export default function MainSite() {
           viewport={{ once: true }}
           className="max-w-4xl mx-auto text-center"
         >
-          <Card className="bg-gradient-to-br from-[#27515F] to-[#74B3BC] text-white border-0">
+          <Card className="bg-gradient-to-br from-cyan-600 to-violet-600 text-white border-0">
             <CardHeader>
               <CardTitle className="text-3xl md:text-4xl mb-4">
                 Ready to Transform Healthcare Delivery?
