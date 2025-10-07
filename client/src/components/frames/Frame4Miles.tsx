@@ -11,8 +11,17 @@ export default function Frame4Miles() {
   ];
 
   return (
-    <div className="relative w-full h-screen flex items-center justify-center bg-gradient-to-b from-[#CAD9C2]/30 to-[#27515F]/10">
-      <div className="max-w-6xl mx-auto px-6 w-full">
+    <div id="frame4" className="relative w-full h-screen flex items-center justify-center bg-gradient-to-br from-[#CAD9C2]/30 via-[#27515F]/5 to-[#74B3BC]/10 overflow-hidden">
+      {/* Depth layers */}
+      <motion.div
+        className="absolute inset-0 opacity-20"
+        style={{ transform: "translateZ(-100px)" }}
+      >
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,#80A586_0%,transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,#74B3BC_0%,transparent_50%)]" />
+      </motion.div>
+
+      <div className="max-w-6xl mx-auto px-6 w-full relative z-10">
         {/* World map visualization */}
         <div className="relative w-full h-96 mb-12">
           {/* Subtle world map outline */}

@@ -2,8 +2,29 @@ import { motion } from "framer-motion";
 
 export default function Frame2Message() {
   return (
-    <div className="relative w-full h-screen flex items-center justify-center bg-gradient-to-b from-[#EAF3DE]/30 to-white">
-      <div className="max-w-4xl mx-auto px-6">
+    <div id="frame2" className="relative w-full h-screen flex items-center justify-center bg-gradient-to-br from-[#EAF3DE]/30 via-white to-[#CAD9C2]/20 overflow-hidden">
+      {/* Floating particles */}
+      {[...Array(15)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute w-1 h-1 rounded-full bg-[#74B3BC]/40"
+          style={{
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+          }}
+          animate={{
+            y: [0, -30, 0],
+            opacity: [0.2, 0.6, 0.2],
+          }}
+          transition={{
+            duration: 3 + Math.random() * 2,
+            repeat: Infinity,
+            delay: Math.random() * 2,
+          }}
+        />
+      ))}
+
+      <div className="max-w-4xl mx-auto px-6 relative z-10">
         {/* Circular ripple animation */}
         <div className="relative w-64 h-64 mx-auto mb-12">
           {/* Center dot */}
@@ -69,9 +90,9 @@ export default function Frame2Message() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8, duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center"
+          className="text-center backdrop-blur-sm bg-white/30 rounded-2xl p-6 border border-white/50 shadow-xl"
         >
-          <h2 className="text-5xl md:text-6xl font-light text-[#27515F] tracking-wide">
+          <h2 className="text-5xl md:text-6xl font-light text-transparent bg-clip-text bg-gradient-to-r from-[#27515F] via-[#74B3BC] to-[#27515F] tracking-wide">
             A message.
           </h2>
         </motion.div>

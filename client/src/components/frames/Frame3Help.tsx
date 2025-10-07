@@ -2,15 +2,26 @@ import { motion } from "framer-motion";
 
 export default function Frame3Help() {
   return (
-    <div className="relative w-full h-screen flex items-center justify-center bg-gradient-to-b from-white to-[#CAD9C2]/30">
-      <div className="max-w-4xl mx-auto px-6">
+    <div id="frame3" className="relative w-full h-screen flex items-center justify-center bg-gradient-to-br from-white via-[#EAF3DE]/40 to-[#CAD9C2]/30 overflow-hidden">
+      {/* Light beam effects */}
+      <motion.div
+        className="absolute inset-0 opacity-30"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 0.3 }}
+        transition={{ duration: 1.5 }}
+      >
+        <div className="absolute top-0 left-1/4 w-1 h-full bg-gradient-to-b from-transparent via-[#74B3BC]/50 to-transparent blur-sm" />
+        <div className="absolute top-0 right-1/4 w-1 h-full bg-gradient-to-b from-transparent via-[#80A586]/50 to-transparent blur-sm" />
+      </motion.div>
+
+      <div className="max-w-4xl mx-auto px-6 relative z-10">
         {/* Holographic connection scene */}
         <div className="relative w-full h-80 mb-12">
           {/* Person 1 (left) */}
           <motion.div
             className="absolute left-[10%] top-1/2 -translate-y-1/2"
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, x: -50, scale: 0.9 }}
+            whileInView={{ opacity: 1, x: 0, scale: 1 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
@@ -25,8 +36,8 @@ export default function Frame3Help() {
           {/* Person 2 (right) */}
           <motion.div
             className="absolute right-[10%] top-1/2 -translate-y-1/2"
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, x: 50, scale: 0.9 }}
+            whileInView={{ opacity: 1, x: 0, scale: 1 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >

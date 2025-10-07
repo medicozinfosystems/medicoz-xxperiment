@@ -6,8 +6,19 @@ export default function Frame6Closing() {
   const isInView = useInView(ref, { once: true, amount: 0.3 });
 
   return (
-    <div ref={ref} className="relative w-full h-screen flex items-center justify-center bg-gradient-to-b from-white to-[#EAF3DE]/50">
-      <div className="max-w-4xl mx-auto px-6 text-center">
+    <div id="frame6" ref={ref} className="relative w-full h-screen flex items-center justify-center bg-gradient-to-br from-white via-[#EAF3DE]/50 to-[#CAD9C2]/40 overflow-hidden">
+      {/* Elevated background */}
+      <motion.div
+        className="absolute inset-0"
+        initial={{ opacity: 0 }}
+        animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+        transition={{ duration: 2 }}
+      >
+        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top,#80A586_0%,transparent_50%)] opacity-20" />
+        <div className="absolute bottom-0 right-0 w-full h-full bg-[radial-gradient(ellipse_at_bottom,#74B3BC_0%,transparent_50%)] opacity-20" />
+      </motion.div>
+
+      <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
         {/* Heart to logo transition */}
         <motion.div
           className="mb-12"
@@ -21,8 +32,10 @@ export default function Frame6Closing() {
             animate={isInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ delay: 0.5, duration: 1 }}
           >
-            <h1 className="text-6xl md:text-7xl font-bold text-[#27515F] mb-8">
-              Medicoz Infosystems
+            <h1 className="text-6xl md:text-7xl font-bold mb-8">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#27515F] via-[#74B3BC] to-[#27515F] animate-gradient">
+                Medicoz Infosystems
+              </span>
             </h1>
           </motion.div>
         </motion.div>

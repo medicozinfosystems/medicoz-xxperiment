@@ -2,8 +2,18 @@ import { motion } from "framer-motion";
 
 export default function Frame5Heart() {
   return (
-    <div className="relative w-full h-screen flex items-center justify-center bg-gradient-to-b from-[#27515F]/10 to-white">
-      <div className="max-w-4xl mx-auto px-6">
+    <div id="frame5" className="relative w-full h-screen flex items-center justify-center bg-gradient-to-br from-[#27515F]/10 via-white to-[#EAF3DE]/40 overflow-hidden">
+      {/* Volumetric glow background */}
+      <motion.div
+        className="absolute inset-0 opacity-40"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 0.4 }}
+        transition={{ duration: 2 }}
+      >
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[#74B3BC]/30 blur-3xl" />
+      </motion.div>
+
+      <div className="max-w-4xl mx-auto px-6 relative z-10">
         {/* Heart animation */}
         <div className="relative w-64 h-64 mx-auto mb-16">
           {/* Connection lines merging into heart */}
@@ -81,10 +91,12 @@ export default function Frame5Heart() {
           viewport={{ once: true }}
           className="text-center"
         >
-          <h2 className="text-4xl md:text-5xl font-light text-[#27515F] tracking-wide leading-relaxed">
-            Technology listens,
-            <br />
-            learns, and responds.
+          <h2 className="text-4xl md:text-5xl font-light tracking-wide leading-relaxed">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#27515F] via-[#74B3BC] to-[#80A586]">
+              Technology listens,
+              <br />
+              learns, and responds.
+            </span>
           </h2>
         </motion.div>
       </div>
