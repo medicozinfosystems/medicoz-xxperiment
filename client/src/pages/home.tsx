@@ -1,31 +1,37 @@
-import { useEffect } from "react";
-import Frame1Pulse from "@/components/frames/Frame1Pulse";
-import Frame2Message from "@/components/frames/Frame2Message";
-import Frame3Help from "@/components/frames/Frame3Help";
-import Frame4Miles from "@/components/frames/Frame4Miles";
-import Frame5Heart from "@/components/frames/Frame5Heart";
-import Frame6Closing from "@/components/frames/Frame6Closing";
-import ScrollProgress from "@/components/ScrollProgress";
-import ScrollHint from "@/components/ScrollHint";
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import Preloader from "@/components/Preloader";
+import MainSite from "./main-site";
 
 export default function Home() {
-  useEffect(() => {
-    // Smooth scroll behavior
-    document.documentElement.style.scrollBehavior = "smooth";
-  }, []);
+  const [showPreloader, setShowPreloader] = useState(true);
+
+  const handlePreloaderComplete = () => {
+    setShowPreloader(false);
+  };
 
   return (
-    <div className="relative overflow-x-hidden">
-      <ScrollProgress />
-      <ScrollHint />
-      <main className="relative">
-        <Frame1Pulse />
-        <Frame2Message />
-        <Frame3Help />
-        <Frame4Miles />
-        <Frame5Heart />
-        <Frame6Closing />
-      </main>
-    </div>
+    <>
+      <AnimatePresence mode="wait">
+        {showPreloader ? (
+          <motion.div
+            key="preloader"
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <Preloader onComplete={handlePreloaderComplete} />
+          </motion.div>
+        ) : (
+          <motion.div
+            key="main-site"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8 }}
+          >
+            <MainSite />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
