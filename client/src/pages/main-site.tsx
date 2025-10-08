@@ -241,24 +241,24 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
             transition={{ duration: 0.6 }}
             className="mb-6"
           >
-            <p className="text-xs font-semibold text-cyan-600 dark:text-cyan-400 tracking-[0.2em] uppercase">
-              Healthcare • Platforms • AI
+            <p className="text-xs font-semibold text-primary tracking-[0.2em] uppercase">
+              {t("hero.eyebrow")}
             </p>
           </motion.div>
 
           {/* Main Title */}
           <motion.h1 
-            className="text-7xl md:text-8xl lg:text-9xl font-bold mb-4 text-gray-900 dark:text-white"
+            className="text-7xl md:text-8xl lg:text-9xl font-bold mb-4 text-foreground"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.8 }}
           >
-            Medicoz Infosystems
+            {t("hero.title")}
           </motion.h1>
 
           {/* Handwritten Tagline with Writing Animation */}
           <HandwrittenText 
-            text="Technology that cares"
+            text={t("hero.tagline")}
             delay={0.8}
             duration={2.5}
             color="cyan"
@@ -267,14 +267,12 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
 
           {/* Support Text */}
           <motion.p 
-            className="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-12 leading-relaxed"
+            className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-12 leading-relaxed"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.2, duration: 0.8 }}
           >
-            Empowering healthcare providers with intelligent, empathetic technology solutions
-            that put patients first. From real-time communication to global connectivity,
-            we bridge the gap between care and technology.
+            {t("hero.subtitle")}
           </motion.p>
 
           {/* CTAs */}
@@ -288,17 +286,17 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
             }}
           >
             <Button size="lg" className="text-lg px-8 bg-cyan-600 dark:bg-cyan-500" data-testid="button-explore-services">
-              Explore our services
+              {t("hero.cta.primary")}
             </Button>
             <Button size="lg" variant="outline" className="text-lg px-8 border-cyan-600 text-cyan-600 dark:border-cyan-400 dark:text-cyan-400" data-testid="button-partner">
-              Partner with us
+              {t("hero.cta.secondary")}
             </Button>
           </motion.div>
         </motion.div>
       </section>
 
       {/* From Conversation to Care Section */}
-      <section ref={servicesRef} className="relative py-32 px-6 bg-gradient-to-br from-gray-50 via-white to-cyan-50/30 dark:from-gray-900 dark:via-gray-950 dark:to-cyan-950/20 overflow-hidden">
+      <section ref={servicesRef} className="relative py-32 px-6 bg-gradient-to-br from-muted via-background to-muted/50 overflow-hidden">
         <div className="max-w-7xl mx-auto relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -307,11 +305,11 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
             viewport={{ once: true }}
             className="text-center mb-20"
           >
-            <h2 className="text-5xl md:text-6xl font-bold mb-6 text-gray-900 dark:text-white">
-              From Conversation to Care
+            <h2 className="text-5xl md:text-6xl font-bold mb-6 text-foreground">
+              {t("service.title")}
             </h2>
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-              Empowering women's health through stories and seamless digital care
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              {t("service.subtitle")}
             </p>
           </motion.div>
 
@@ -352,7 +350,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                 data-testid="xxperiment-card"
               >
                 <motion.div
-                  className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-2xl border border-pink-200 dark:border-pink-900/50"
+                  className="bg-card rounded-2xl p-8 shadow-2xl border border-pink-200 dark:border-pink-900/50"
                   whileHover={{ y: -8, boxShadow: "0 30px 60px rgba(219, 39, 119, 0.3)" }}
                   transition={{ type: "spring", stiffness: 300 }}
                 >
@@ -361,13 +359,13 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                       <Mic className="w-8 h-8 text-white" />
                     </div>
                     <div>
-                      <h3 className="text-2xl font-bold text-gray-900 dark:text-white">The XXperiment</h3>
-                      <p className="text-sm text-pink-600 dark:text-pink-400">Podcast</p>
+                      <h3 className="text-2xl font-bold text-card-foreground">{t("service.xxperiment.title")}</h3>
+                      <p className="text-sm text-pink-600 dark:text-pink-400">{t("service.xxperiment.type")}</p>
                     </div>
                   </div>
                   
-                  <p className="text-gray-600 dark:text-gray-300 mb-6">
-                    Women's health conversations that empower, educate, and inspire change through authentic stories.
+                  <p className="text-muted-foreground mb-6">
+                    {t("service.xxperiment.description")}
                   </p>
 
                   {/* Voice Wave Visualization */}
@@ -399,7 +397,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                     data-testid="button-xxperiment"
                   >
                     <a href="https://thexxperiment.com" target="_blank" rel="noopener noreferrer">
-                      Listen Now →
+                      {t("service.xxperiment.cta")}
                     </a>
                   </Button>
                 </motion.div>
@@ -468,8 +466,8 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                                 <Mic className="w-6 h-6 text-white" />
                               </div>
                               <div>
-                                <p className="text-white font-semibold">The XXperiment</p>
-                                <p className="text-pink-300 text-xs">Latest Episode</p>
+                                <p className="text-white font-semibold">{t("service.xxperiment.title")}</p>
+                                <p className="text-pink-300 text-xs">{t("service.xxperiment.type")}</p>
                               </div>
                             </div>
                             
@@ -490,8 +488,8 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                             </div>
 
                             <div className="space-y-2">
-                              <p className="text-white text-sm">Fertility & Choice</p>
-                              <p className="text-gray-400 text-xs">Your timeline is valid, always</p>
+                              <p className="text-white text-sm">{t("service.xxperiment.episode")}</p>
+                              <p className="text-gray-400 text-xs">{t("service.xxperiment.episode.tagline")}</p>
                             </div>
                           </motion.div>
 
@@ -508,17 +506,17 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                                   <Heart className="w-6 h-6 text-white" />
                                 </div>
                                 <div>
-                                  <p className="text-white font-semibold">Medicoz App</p>
-                                  <Badge className="bg-cyan-500/30 text-cyan-300 border-0 text-xs">Coming Soon</Badge>
+                                  <p className="text-white font-semibold">{t("service.medicoz.title")}</p>
+                                  <Badge className="bg-cyan-500/30 text-cyan-300 border-0 text-xs">{t("service.medicoz.badge")}</Badge>
                                 </div>
                               </div>
                             </div>
 
                             <div className="space-y-3">
                               {[
-                                { icon: Activity, label: "Health Tracking", color: "cyan" },
-                                { icon: Brain, label: "AI Insights", color: "blue" },
-                                { icon: Lock, label: "Private & Secure", color: "violet" }
+                                { icon: Activity, label: t("service.phoneFeature1"), color: "cyan" },
+                                { icon: Brain, label: t("service.phoneFeature2"), color: "blue" },
+                                { icon: Lock, label: t("service.phoneFeature3"), color: "violet" }
                               ].map((feature, i) => (
                                 <motion.div
                                   key={i}
@@ -577,11 +575,11 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
 
                 {/* Interaction Hint */}
                 <motion.p
-                  className="text-center mt-8 text-sm text-gray-500 dark:text-gray-400"
+                  className="text-center mt-8 text-sm text-muted-foreground"
                   animate={{ opacity: phoneRotation > 0 ? 0 : [0.5, 1, 0.5] }}
                   transition={{ duration: 2, repeat: Infinity }}
                 >
-                  Hover to switch apps
+                  {t("service.phone.hint")}
                 </motion.p>
               </motion.div>
 
@@ -595,7 +593,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                 data-testid="medicoz-card"
               >
                 <motion.div
-                  className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-2xl border border-cyan-200 dark:border-cyan-900/50"
+                  className="bg-card rounded-2xl p-8 shadow-2xl border border-cyan-200 dark:border-cyan-900/50"
                   whileHover={{ y: -8, boxShadow: "0 30px 60px rgba(8, 145, 178, 0.3)" }}
                   transition={{ type: "spring", stiffness: 300 }}
                 >
@@ -604,21 +602,21 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                       <Smartphone className="w-8 h-8 text-white" />
                     </div>
                     <div>
-                      <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Medicoz App</h3>
-                      <Badge className="bg-cyan-100 text-cyan-700 dark:bg-cyan-950/30 dark:text-cyan-400 border-0">Coming Soon</Badge>
+                      <h3 className="text-2xl font-bold text-card-foreground">{t("service.medicoz.title")}</h3>
+                      <Badge className="bg-cyan-100 text-cyan-700 dark:bg-cyan-950/30 dark:text-cyan-400 border-0">{t("service.medicoz.badge")}</Badge>
                     </div>
                   </div>
                   
-                  <p className="text-gray-600 dark:text-gray-300 mb-6">
-                    Your complete women's health companion — appointments, insights, and personalized care in one app.
+                  <p className="text-muted-foreground mb-6">
+                    {t("service.medicoz.description")}
                   </p>
 
                   {/* Feature List */}
                   <div className="space-y-3 mb-6">
                     {[
-                      { icon: Activity, text: "Track your health vitals" },
-                      { icon: Brain, text: "AI-powered insights" },
-                      { icon: Lock, text: "Privacy-first design" }
+                      { icon: Activity, text: t("service.medicoz.feature1") },
+                      { icon: Brain, text: t("service.medicoz.feature2") },
+                      { icon: Lock, text: t("service.medicoz.feature3") }
                     ].map((item, i) => (
                       <div key={i} className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-400">
                         <div className="w-8 h-8 rounded-lg bg-cyan-100 dark:bg-cyan-950/30 flex items-center justify-center">
@@ -634,14 +632,14 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                       className="w-full bg-gradient-to-r from-cyan-600 to-blue-600 text-white"
                       data-testid="button-waitlist"
                     >
-                      Join Waitlist
+                      {t("service.medicoz.cta1")}
                     </Button>
                     <Button 
                       variant="outline"
                       className="w-full border-cyan-600 text-cyan-600 dark:border-cyan-400 dark:text-cyan-400"
                       data-testid="button-notify"
                     >
-                      Get Notified
+                      {t("service.medicoz.cta2")}
                     </Button>
                   </div>
                 </motion.div>
@@ -657,18 +655,18 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
             transition={{ delay: 0.5 }}
             viewport={{ once: true }}
           >
-            <p className="text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-2">
-              From conversation to care, in your pocket
+            <p className="text-2xl font-semibold text-foreground mb-2">
+              {t("service.closing")}
             </p>
-            <p className="text-gray-600 dark:text-gray-400">
-              Empowering women's health through knowledge and technology
+            <p className="text-muted-foreground">
+              {t("service.closingSubtitle")}
             </p>
           </motion.div>
         </div>
       </section>
 
       {/* About & Team Section - Orbit Design */}
-      <section ref={teamRef} className="relative py-32 px-6 bg-white dark:bg-gray-950">
+      <section ref={teamRef} className="relative py-32 px-6 bg-background">
         <div className="max-w-7xl mx-auto relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -677,11 +675,11 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
             viewport={{ once: true, margin: "-100px" }}
             className="text-center mb-16"
           >
-            <h2 className="text-5xl md:text-6xl font-bold mb-6 text-gray-900 dark:text-white">
-              People Behind the Pulse
+            <h2 className="text-5xl md:text-6xl font-bold mb-6 text-foreground">
+              {t("team.title")}
             </h2>
-            <p className="text-2xl font-semibold text-cyan-600 dark:text-cyan-400 mb-4">
-              Everyone revolves around the same purpose: care
+            <p className="text-2xl font-semibold text-primary mb-4">
+              {t("team.subtitle")}
             </p>
           </motion.div>
 
@@ -704,8 +702,8 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
               transition={{ duration: 3, repeat: Infinity }}
             >
               <div className="text-center">
-                <Heart className="w-8 h-8 text-cyan-600 dark:text-cyan-400 mx-auto mb-2" />
-                <p className="text-sm font-bold text-gray-900 dark:text-white">Our Purpose</p>
+                <Heart className="w-8 h-8 text-primary mx-auto mb-2" />
+                <p className="text-sm font-bold text-foreground">{t("team.center")}</p>
               </div>
             </motion.div>
 
@@ -791,7 +789,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
       </section>
 
       {/* Contact Section - Innovated */}
-      <section className="relative py-32 px-6 bg-gradient-to-br from-gray-50 via-white to-cyan-50/30 dark:from-gray-900 dark:via-gray-950 dark:to-cyan-950/20">
+      <section className="relative py-32 px-6 bg-gradient-to-br from-muted via-background to-muted/50">
         <div className="max-w-6xl mx-auto relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -800,11 +798,11 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
             viewport={{ once: true, margin: "-100px" }}
             className="text-center mb-16"
           >
-            <h2 className="text-5xl md:text-6xl font-bold mb-6 text-gray-900 dark:text-white">
-              Start a Conversation
+            <h2 className="text-5xl md:text-6xl font-bold mb-6 text-foreground">
+              {t("contact.title")}
             </h2>
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-              Whether it's a partnership, pilot, or joining our team—let's build healthcare that cares
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              {t("contact.subtitle")}
             </p>
           </motion.div>
 
@@ -818,8 +816,8 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
               className="space-y-6"
             >
               <div>
-                <h3 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Choose Your Path</h3>
-                <p className="text-gray-600 dark:text-gray-300 mb-6">Select what brings you here today</p>
+                <h3 className="text-2xl font-bold mb-4 text-foreground">{t("contact.pathTitle")}</h3>
+                <p className="text-muted-foreground mb-6">{t("contact.pathSubtitle")}</p>
                 
                 <div className="space-y-3">
                   {intents.map((intent, index) => {
@@ -838,7 +836,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                         className={`p-4 rounded-xl border-2 cursor-pointer transition-all ${
                           selectedIntent === intent 
                             ? `${colors.bg} ${colors.border}` 
-                            : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-600"
+                            : "bg-card border-border hover:border-border/80"
                         }`}
                         onClick={() => setSelectedIntent(intent)}
                         whileHover={{ scale: 1.02, x: 5 }}
@@ -847,7 +845,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                         <div className="flex items-center gap-3">
                           <span className="text-2xl">{colors.icon}</span>
                           <div>
-                            <p className={`font-semibold ${selectedIntent === intent ? colors.text : "text-gray-900 dark:text-white"}`}>
+                            <p className={`font-semibold ${selectedIntent === intent ? colors.text : "text-foreground"}`}>
                               {intent}
                             </p>
                             {selectedIntent === intent && intent === "Careers" && (
@@ -856,7 +854,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                                 animate={{ opacity: 1, height: "auto" }}
                                 className="text-sm text-emerald-700 dark:text-emerald-300 mt-1"
                               >
-                                Remote-friendly. Mission-first. Healthcare experts welcome.
+                                {t("contact.intent.careers.note")}
                               </motion.p>
                             )}
                           </div>
@@ -875,48 +873,47 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
             >
-              <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl border border-gray-200 dark:border-gray-700">
+              <div className="bg-card rounded-2xl p-8 shadow-xl border border-border">
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
-                    <label className="text-sm font-semibold mb-2 block text-gray-700 dark:text-gray-200">Your Name</label>
+                    <label className="text-sm font-semibold mb-2 block text-foreground">{t("contact.form.name")}</label>
                     <Input 
-                      placeholder="Jane Doe" 
-                      className="h-12 border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-900"
+                      placeholder={t("contact.form.namePlaceholder")}
+                      className="h-12"
                       data-testid="input-name"
                       required
                     />
                   </div>
 
                   <div>
-                    <label className="text-sm font-semibold mb-2 block text-gray-700 dark:text-gray-200">Email Address</label>
+                    <label className="text-sm font-semibold mb-2 block text-foreground">{t("contact.form.email")}</label>
                     <Input 
-                      placeholder="jane@example.com" 
+                      placeholder={t("contact.form.emailPlaceholder")}
                       type="email"
-                      className="h-12 border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-900"
+                      className="h-12"
                       data-testid="input-email"
                       required
                     />
                   </div>
 
                   <div>
-                    <label className="text-sm font-semibold mb-2 block text-gray-700 dark:text-gray-200">Your Message</label>
+                    <label className="text-sm font-semibold mb-2 block text-foreground">{t("contact.form.message")}</label>
                     <Textarea 
-                      placeholder="Tell us about your goals, timeline, and how we can help make care more human..." 
+                      placeholder={t("contact.form.messagePlaceholder")}
                       rows={6}
-                      className="border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-900"
                       data-testid="textarea-message"
                       required
                     />
                   </div>
 
                   <div>
-                    <label className="text-sm font-semibold mb-2 block text-gray-700 dark:text-gray-200">
-                      Supporting Links (Optional)
+                    <label className="text-sm font-semibold mb-2 block text-foreground">
+                      {t("contact.form.links")}
                     </label>
                     <Input 
-                      placeholder="Portfolio, deck, or relevant links..." 
+                      placeholder={t("contact.form.linksPlaceholder")}
                       type="url"
-                      className="h-12 border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-900"
+                      className="h-12"
                       data-testid="input-attachment"
                     />
                   </div>
@@ -928,7 +925,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                       className="bg-emerald-50 dark:bg-emerald-950/30 border-2 border-emerald-200 dark:border-emerald-800 rounded-xl p-6"
                     >
                       <p className="text-emerald-800 dark:text-emerald-300 font-semibold text-lg mb-4 text-center">
-                        Message received. We'll reply within 48h.
+                        {t("contact.success.message")}
                       </p>
                       
                       {/* Pulse ID Line */}
@@ -945,7 +942,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                         />
                         <div className="relative bg-emerald-50 dark:bg-emerald-950/30 px-4 py-2 rounded-lg border border-emerald-300 dark:border-emerald-700">
                           <p className="text-sm font-mono text-emerald-700 dark:text-emerald-300">
-                            Pulse ID: {Math.random().toString(36).substring(2, 10).toUpperCase()}
+                            {t("contact.success.id")}: {Math.random().toString(36).substring(2, 10).toUpperCase()}
                           </p>
                         </div>
                       </div>
@@ -957,7 +954,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                       className="w-full bg-cyan-600 dark:bg-cyan-500 text-white text-lg h-14"
                       data-testid="button-send-message"
                     >
-                      Send Message →
+                      {t("contact.form.submit")} →
                     </Button>
                   )}
                 </form>
@@ -1119,11 +1116,11 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                         initial={{ opacity: 0, scale: 0.9, rotate: -1 }}
                         animate={{ opacity: 1, scale: 1, rotate: 1 }}
                         transition={{ duration: 0.18 }}
-                        className="bg-white dark:bg-gray-800 rounded-lg p-3 shadow-md border-l-4 border-cyan-600 dark:border-cyan-400"
+                        className="bg-card rounded-lg p-3 shadow-md border-l-4 border-cyan-600 dark:border-cyan-400"
                         style={{ transform: "rotate(0.5deg)" }}
                       >
-                        <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Intent</p>
-                        <p className="font-semibold text-gray-900 dark:text-white">{curtainAnswers.intent}</p>
+                        <p className="text-xs text-muted-foreground mb-1">Intent</p>
+                        <p className="font-semibold text-foreground">{curtainAnswers.intent}</p>
                       </motion.div>
                     )}
                     {curtainAnswers.name && curtainStep > 1 && (
@@ -1131,11 +1128,11 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                         initial={{ opacity: 0, scale: 0.9, rotate: 1 }}
                         animate={{ opacity: 1, scale: 1, rotate: -0.5 }}
                         transition={{ duration: 0.18 }}
-                        className="bg-white dark:bg-gray-800 rounded-lg p-3 shadow-md border-l-4 border-violet-600 dark:border-violet-400"
+                        className="bg-card rounded-lg p-3 shadow-md border-l-4 border-violet-600 dark:border-violet-400"
                         style={{ transform: "rotate(-0.3deg)" }}
                       >
-                        <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Name</p>
-                        <p className="font-semibold text-gray-900 dark:text-white">{curtainAnswers.name}</p>
+                        <p className="text-xs text-muted-foreground mb-1">Name</p>
+                        <p className="font-semibold text-foreground">{curtainAnswers.name}</p>
                       </motion.div>
                     )}
                     {curtainAnswers.message && curtainStep > 2 && (
@@ -1143,26 +1140,26 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                         initial={{ opacity: 0, scale: 0.9, rotate: -1 }}
                         animate={{ opacity: 1, scale: 1, rotate: 0.8 }}
                         transition={{ duration: 0.18 }}
-                        className="bg-white dark:bg-gray-800 rounded-lg p-3 shadow-md border-l-4 border-pink-600 dark:border-pink-400"
+                        className="bg-card rounded-lg p-3 shadow-md border-l-4 border-pink-600 dark:border-pink-400"
                         style={{ transform: "rotate(0.6deg)" }}
                       >
-                        <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Message</p>
-                        <p className="font-semibold text-gray-900 dark:text-white line-clamp-2">{curtainAnswers.message}</p>
+                        <p className="text-xs text-muted-foreground mb-1">Message</p>
+                        <p className="font-semibold text-foreground line-clamp-2">{curtainAnswers.message}</p>
                       </motion.div>
                     )}
                   </motion.div>
                 )}
 
                 {/* Center stage card */}
-                <Card className="shadow-2xl border-gray-200 dark:border-gray-800 rounded-3xl overflow-hidden">
+                <Card className="shadow-2xl border-border rounded-3xl overflow-hidden">
                   <CardContent className="p-8 md:p-12">
                     {curtainStep === 0 && (
                       <div className="space-y-6">
                         <div>
-                          <h3 className="text-3xl font-bold mb-2 text-gray-900 dark:text-white">
+                          <h3 className="text-3xl font-bold mb-2 text-foreground">
                             {t("curtain.q1.title")}
                           </h3>
-                          <p className="text-gray-600 dark:text-gray-400">{t("curtain.q1.subtitle")}</p>
+                          <p className="text-muted-foreground">{t("curtain.q1.subtitle")}</p>
                           
                           {/* Intent-specific helper copy */}
                           <AnimatePresence mode="wait">
@@ -1174,11 +1171,11 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                                 exit={{ opacity: 0, y: -10 }}
                                 className="mt-3 text-cyan-600 dark:text-cyan-400 font-medium"
                               >
-                                {curtainAnswers.intent === "Partnership" && "Tell us who you serve and how we can move the needle."}
-                                {curtainAnswers.intent === "Pilot project" && "Scope, timeline, and what 'success' looks like."}
-                                {curtainAnswers.intent === "Sponsorship" && "Which topics, geographies, and outcomes matter most?"}
-                                {curtainAnswers.intent === "Careers" && "Link work you're proud of—we review every note."}
-                                {curtainAnswers.intent === "Other" && "We're listening."}
+                                {curtainAnswers.intent === "Partnership" && t("curtain.q1.helper.partnership")}
+                                {curtainAnswers.intent === "Pilot project" && t("curtain.q1.helper.pilot")}
+                                {curtainAnswers.intent === "Sponsorship" && t("curtain.q1.helper.sponsorship")}
+                                {curtainAnswers.intent === "Careers" && t("curtain.q1.helper.careers")}
+                                {curtainAnswers.intent === "Other" && t("curtain.q1.helper.other")}
                               </motion.p>
                             )}
                           </AnimatePresence>
@@ -1200,7 +1197,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                               className={`p-4 rounded-xl border-2 text-left transition-all ${
                                 curtainAnswers.intent === key
                                   ? "bg-cyan-50 dark:bg-cyan-950/30 border-cyan-600 dark:border-cyan-400"
-                                  : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:border-cyan-300 dark:hover:border-cyan-700"
+                                  : "bg-card border-border hover:border-cyan-300 dark:hover:border-cyan-700"
                               }`}
                               whileHover={{ x: 4 }}
                               data-testid={`chip-curtain-${key.toLowerCase().replace(" ", "-")}`}
@@ -1208,7 +1205,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                               <span className={`font-semibold ${
                                 curtainAnswers.intent === key
                                   ? "text-cyan-600 dark:text-cyan-400"
-                                  : "text-gray-900 dark:text-white"
+                                  : "text-foreground"
                               }`}>
                                 {label}
                               </span>
@@ -1236,19 +1233,19 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                     {curtainStep === 1 && (
                       <div className="space-y-6">
                         <div>
-                          <h3 className="text-3xl font-bold mb-2 text-gray-900 dark:text-white">
-                            Who are you?
+                          <h3 className="text-3xl font-bold mb-2 text-foreground">
+                            {t("curtain.q2.title")}
                           </h3>
-                          <p className="text-gray-600 dark:text-gray-400">So we can say hello properly</p>
+                          <p className="text-muted-foreground">{t("curtain.q2.subtitle")}</p>
                         </div>
                         
                         <div className="space-y-4">
                           <div>
-                            <label className="text-sm font-semibold mb-2 block text-gray-700 dark:text-gray-200">
-                              Full Name
+                            <label className="text-sm font-semibold mb-2 block text-foreground">
+                              {t("curtain.q2.nameLabel")}
                             </label>
                             <Input
-                              placeholder="Jane Doe"
+                              placeholder={t("curtain.q2.namePlaceholder")}
                               value={curtainAnswers.name || ""}
                               onChange={(e) => setCurtainAnswers({ ...curtainAnswers, name: e.target.value })}
                               className="h-12"
@@ -1257,22 +1254,22 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                           </div>
                           
                           <div>
-                            <label className="text-sm font-semibold mb-2 block text-gray-700 dark:text-gray-200">
-                              Role
+                            <label className="text-sm font-semibold mb-2 block text-foreground">
+                              {t("curtain.q2.roleLabel")}
                             </label>
                             <Select
                               value={curtainAnswers.role}
                               onValueChange={(value) => setCurtainAnswers({ ...curtainAnswers, role: value })}
                             >
                               <SelectTrigger className="h-12" data-testid="select-curtain-role">
-                                <SelectValue placeholder="Select your role" />
+                                <SelectValue placeholder={t("curtain.q2.rolePlaceholder")} />
                               </SelectTrigger>
                               <SelectContent>
-                                <SelectItem value="clinician">Clinician</SelectItem>
-                                <SelectItem value="executive">Executive</SelectItem>
-                                <SelectItem value="developer">Developer</SelectItem>
-                                <SelectItem value="researcher">Researcher</SelectItem>
-                                <SelectItem value="other">Other</SelectItem>
+                                <SelectItem value="clinician">{t("curtain.q2.roles.clinician")}</SelectItem>
+                                <SelectItem value="executive">{t("curtain.q2.roles.executive")}</SelectItem>
+                                <SelectItem value="developer">{t("curtain.q2.roles.developer")}</SelectItem>
+                                <SelectItem value="researcher">{t("curtain.q2.roles.researcher")}</SelectItem>
+                                <SelectItem value="other">{t("curtain.q2.roles.other")}</SelectItem>
                               </SelectContent>
                             </Select>
                           </div>
@@ -1284,7 +1281,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                             onClick={() => setCurtainStep(0)}
                             data-testid="button-curtain-back-1"
                           >
-                            <ArrowLeft className="mr-2 w-4 h-4" /> Back
+                            <ArrowLeft className="mr-2 w-4 h-4" /> {t("curtain.back")}
                           </Button>
                           <Button
                             onClick={() => setCurtainStep(2)}
@@ -1292,7 +1289,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                             className="flex-1 bg-cyan-600 dark:bg-cyan-500 text-white"
                             data-testid="button-curtain-next-1"
                           >
-                            Next <ArrowRight className="ml-2 w-4 h-4" />
+                            {t("curtain.next")} <ArrowRight className="ml-2 w-4 h-4" />
                           </Button>
                         </div>
                       </div>
@@ -1301,16 +1298,16 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                     {curtainStep === 2 && (
                       <div className="space-y-6">
                         <div>
-                          <h3 className="text-3xl font-bold mb-2 text-gray-900 dark:text-white">
-                            How can we help?
+                          <h3 className="text-3xl font-bold mb-2 text-foreground">
+                            {t("curtain.q3.title")}
                           </h3>
-                          <p className="text-gray-600 dark:text-gray-400">
-                            Goals, audience, timelines, constraints—whatever helps us help you
+                          <p className="text-muted-foreground">
+                            {t("curtain.q3.subtitle")}
                           </p>
                         </div>
                         
                         <Textarea
-                          placeholder="Tell us what you're building..."
+                          placeholder={t("curtain.q3.placeholder")}
                           value={curtainAnswers.message || ""}
                           onChange={(e) => setCurtainAnswers({ ...curtainAnswers, message: e.target.value })}
                           rows={6}
@@ -1323,7 +1320,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                             onClick={() => setCurtainStep(1)}
                             data-testid="button-curtain-back-2"
                           >
-                            <ArrowLeft className="mr-2 w-4 h-4" /> Back
+                            <ArrowLeft className="mr-2 w-4 h-4" /> {t("curtain.back")}
                           </Button>
                           <Button
                             onClick={() => setCurtainStep(3)}
@@ -1331,7 +1328,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                             className="flex-1 bg-cyan-600 dark:bg-cyan-500 text-white"
                             data-testid="button-curtain-next-2"
                           >
-                            Next <ArrowRight className="ml-2 w-4 h-4" />
+                            {t("curtain.next")} <ArrowRight className="ml-2 w-4 h-4" />
                           </Button>
                         </div>
                       </div>
@@ -1340,10 +1337,10 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                     {curtainStep === 3 && (
                       <div className="space-y-6">
                         <div>
-                          <h3 className="text-3xl font-bold mb-2 text-gray-900 dark:text-white">
-                            How fast do you need us?
+                          <h3 className="text-3xl font-bold mb-2 text-foreground">
+                            {t("curtain.q4.title")}
                           </h3>
-                          <p className="text-gray-600 dark:text-gray-400">We'll match your pace</p>
+                          <p className="text-muted-foreground">{t("curtain.q4.subtitle")}</p>
                         </div>
                         
                         <div className="space-y-4">
@@ -1356,15 +1353,15 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                             className="w-full"
                             data-testid="slider-curtain-urgency"
                           />
-                          <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
-                            <span>Today</span>
-                            <span>48 hours</span>
-                            <span>Next week</span>
+                          <div className="flex justify-between text-sm text-muted-foreground">
+                            <span>{t("curtain.q4.urgency.today")}</span>
+                            <span>{t("curtain.q4.urgency.hours48")}</span>
+                            <span>{t("curtain.q4.urgency.nextWeek")}</span>
                           </div>
                           <p className="text-center font-medium text-cyan-600 dark:text-cyan-400">
-                            {curtainAnswers.urgency === 0 && "Today"}
-                            {curtainAnswers.urgency === 1 && "48 hours"}
-                            {curtainAnswers.urgency === 2 && "Next week"}
+                            {curtainAnswers.urgency === 0 && t("curtain.q4.urgency.today")}
+                            {curtainAnswers.urgency === 1 && t("curtain.q4.urgency.hours48")}
+                            {curtainAnswers.urgency === 2 && t("curtain.q4.urgency.nextWeek")}
                           </p>
                         </div>
 
@@ -1374,14 +1371,14 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                             onClick={() => setCurtainStep(2)}
                             data-testid="button-curtain-back-3"
                           >
-                            <ArrowLeft className="mr-2 w-4 h-4" /> Back
+                            <ArrowLeft className="mr-2 w-4 h-4" /> {t("curtain.back")}
                           </Button>
                           <Button
                             onClick={() => setCurtainStep(4)}
                             className="flex-1 bg-cyan-600 dark:bg-cyan-500 text-white"
                             data-testid="button-curtain-next-3"
                           >
-                            Next <ArrowRight className="ml-2 w-4 h-4" />
+                            {t("curtain.next")} <ArrowRight className="ml-2 w-4 h-4" />
                           </Button>
                         </div>
                       </div>
@@ -1390,19 +1387,19 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                     {curtainStep === 4 && (
                       <div className="space-y-6">
                         <div>
-                          <h3 className="text-3xl font-bold mb-2 text-gray-900 dark:text-white">
-                            Where can we reach you?
+                          <h3 className="text-3xl font-bold mb-2 text-foreground">
+                            {t("curtain.q5.title")}
                           </h3>
                         </div>
                         
                         <div className="space-y-4">
                           <div>
-                            <label className="text-sm font-semibold mb-2 block text-gray-700 dark:text-gray-200">
-                              Email
+                            <label className="text-sm font-semibold mb-2 block text-foreground">
+                              {t("curtain.q5.emailLabel")}
                             </label>
                             <Input
                               type="email"
-                              placeholder="jane@example.com"
+                              placeholder={t("curtain.q5.emailPlaceholder")}
                               value={curtainAnswers.email || ""}
                               onChange={(e) => setCurtainAnswers({ ...curtainAnswers, email: e.target.value })}
                               className="h-12"
@@ -1411,12 +1408,12 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                           </div>
                           
                           <div>
-                            <label className="text-sm font-semibold mb-2 block text-gray-700 dark:text-gray-200">
-                              Phone (Optional)
+                            <label className="text-sm font-semibold mb-2 block text-foreground">
+                              {t("curtain.q5.phoneLabel")}
                             </label>
                             <Input
                               type="tel"
-                              placeholder="+1 (555) 000-0000"
+                              placeholder={t("curtain.q5.phonePlaceholder")}
                               value={curtainAnswers.phone || ""}
                               onChange={(e) => setCurtainAnswers({ ...curtainAnswers, phone: e.target.value })}
                               className="h-12"
@@ -1424,9 +1421,9 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                             />
                           </div>
                           
-                          <p className="text-xs text-gray-500 dark:text-gray-400">
+                          <p className="text-xs text-muted-foreground">
                             <Shield className="w-3 h-3 inline mr-1" />
-                            Your data stays yours. No spam, ever.
+                            {t("curtain.q5.privacy")}
                           </p>
                         </div>
 
@@ -1436,7 +1433,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                             onClick={() => setCurtainStep(3)}
                             data-testid="button-curtain-back-4"
                           >
-                            <ArrowLeft className="mr-2 w-4 h-4" /> Back
+                            <ArrowLeft className="mr-2 w-4 h-4" /> {t("curtain.back")}
                           </Button>
                           <Button
                             onClick={() => setCurtainStep(5)}
@@ -1444,7 +1441,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                             className="flex-1 bg-cyan-600 dark:bg-cyan-500 text-white"
                             data-testid="button-curtain-next-4"
                           >
-                            Next <ArrowRight className="ml-2 w-4 h-4" />
+                            {t("curtain.next")} <ArrowRight className="ml-2 w-4 h-4" />
                           </Button>
                         </div>
                       </div>
@@ -2366,11 +2363,11 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
           <div className="grid md:grid-cols-3 gap-12 mb-8">
             {/* Left */}
             <div>
-              <h3 className="text-3xl font-bold mb-3 text-gray-900 dark:text-white">
-                Medicoz Infosystems
+              <h3 className="text-3xl font-bold mb-3 text-foreground">
+                {t("footer.title")}
               </h3>
               <HandwrittenText 
-                text="Connection begins with care"
+                text={t("footer.tagline")}
                 delay={0.5}
                 duration={2}
                 color="cyan"
@@ -2380,22 +2377,22 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
             
             {/* Middle - Links */}
             <div>
-              <nav className="flex flex-wrap gap-4 text-gray-600 dark:text-gray-400">
-                <a href="#about" className="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors" data-testid="link-about">About</a>
+              <nav className="flex flex-wrap gap-4 text-muted-foreground">
+                <a href="#about" className="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors" data-testid="link-about">{t("footer.links.about")}</a>
                 <span>•</span>
-                <a href="#services" className="hover:text-pink-600 dark:hover:text-pink-400 transition-colors" data-testid="link-services">Services</a>
+                <a href="#services" className="hover:text-pink-600 dark:hover:text-pink-400 transition-colors" data-testid="link-services">{t("footer.links.services")}</a>
                 <span>•</span>
-                <a href="#xxperiment" className="hover:text-violet-600 dark:hover:text-violet-400 transition-colors" data-testid="link-xxperiment">The XXperiment</a>
+                <a href="#xxperiment" className="hover:text-violet-600 dark:hover:text-violet-400 transition-colors" data-testid="link-xxperiment">{t("footer.links.xxperiment")}</a>
                 <span>•</span>
-                <a href="#careers" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors" data-testid="link-careers">Careers</a>
+                <a href="#careers" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors" data-testid="link-careers">{t("footer.links.careers")}</a>
                 <span>•</span>
-                <a href="#privacy" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors" data-testid="link-privacy">Privacy</a>
+                <a href="#privacy" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors" data-testid="link-privacy">{t("footer.links.privacy")}</a>
               </nav>
             </div>
             
             {/* Right - Social Icons with Pulse Glow */}
             <div className="space-y-3">
-              <p className="text-gray-600 dark:text-gray-400">hello@medicoz.com</p>
+              <p className="text-muted-foreground">{t("footer.contact.email")}</p>
               <div className="flex gap-4">
                 <motion.div
                   animate={{
@@ -2408,7 +2405,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                   <Button 
                     size="icon" 
                     variant="ghost" 
-                    className="text-gray-600 dark:text-gray-400"
+                    className="text-muted-foreground"
                     data-testid="button-mail"
                   >
                     <Mail className="w-5 h-5" />
@@ -2425,7 +2422,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                   <Button 
                     size="icon" 
                     variant="ghost" 
-                    className="text-gray-600 dark:text-gray-400"
+                    className="text-muted-foreground"
                     data-testid="button-linkedin"
                   >
                     <Linkedin className="w-5 h-5" />
@@ -2442,7 +2439,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                   <Button 
                     size="icon" 
                     variant="ghost" 
-                    className="text-gray-600 dark:text-gray-400"
+                    className="text-muted-foreground"
                     data-testid="button-youtube"
                   >
                     <Youtube className="w-5 h-5" />
@@ -2453,8 +2450,8 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
           </div>
           
           {/* Bottom */}
-          <div className="pt-8 border-t border-gray-200 dark:border-gray-800 text-center">
-            <p className="text-gray-500 dark:text-gray-500 text-xs">© 2025 Medicoz Infosystems</p>
+          <div className="pt-8 border-t border-border text-center">
+            <p className="text-muted-foreground text-xs">{t("footer.copyright")}</p>
           </div>
         </div>
       </footer>
