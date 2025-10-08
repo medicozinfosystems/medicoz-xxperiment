@@ -100,7 +100,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
         clearInterval(interval);
         if (!isCompleted) {
           setIsCompleted(true);
-          setTimeout(() => onComplete(), 800);
+          setTimeout(() => onComplete(), 400);
         }
       }
     }, 50);

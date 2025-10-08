@@ -1,14 +1,28 @@
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 interface HandwrittenTextProps {
   text: string;
   delay?: number;
   duration?: number;
   className?: string;
+  color?: string;
 }
 
-export default function HandwrittenText({ text, delay = 0, duration = 3, className = "" }: HandwrittenTextProps) {
+export default function HandwrittenText({ text, delay = 0, duration = 3, className = "", color = "cyan" }: HandwrittenTextProps) {
   const [startAnimation, setStartAnimation] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  // Color mapping from palette
+  const colorMap: Record<string, string> = {
+    cyan: "#0891B2",
+    violet: "#7C3AED", 
+    pink: "#DB2777",
+    emerald: "#059669",
+    blue: "#3B82F6"
+  };
+
+  const selectedColor = colorMap[color] || colorMap.cyan;
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -18,49 +32,47 @@ export default function HandwrittenText({ text, delay = 0, duration = 3, classNa
     return () => clearTimeout(timer);
   }, [delay]);
 
-  const strokeDashLength = 1000;
+  // Character-by-character reveal for handwriting effect
+  useEffect(() => {
+    if (!startAnimation) return;
+    
+    const charDelay = (duration * 1000) / text.length;
+    const interval = setInterval(() => {
+      setCurrentIndex(prev => {
+        if (prev >= text.length) {
+          clearInterval(interval);
+          return prev;
+        }
+        return prev + 1;
+      });
+    }, charDelay);
+
+    return () => clearInterval(interval);
+  }, [startAnimation, text.length, duration]);
   
   return (
-    <div className={`relative ${className}`}>
-      <svg 
-        viewBox="0 0 800 100" 
-        className="w-full max-w-4xl h-20 md:h-24"
-        style={{ fontFamily: "'Caveat', cursive" }}
+    <div className={`relative ${className}`} style={{ fontFamily: "'Caveat', cursive" }}>
+      <motion.div
+        className="text-4xl md:text-5xl lg:text-6xl font-semibold"
+        style={{ color: selectedColor }}
       >
-        {/* Stroke animation layer */}
-        <text
-          x="50%"
-          y="50%"
-          textAnchor="middle"
-          dominantBaseline="middle"
-          className="text-4xl md:text-5xl lg:text-6xl fill-none stroke-violet-600 dark:stroke-violet-400"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          style={{
-            strokeDasharray: strokeDashLength,
-            strokeDashoffset: startAnimation ? 0 : strokeDashLength,
-            transition: `stroke-dashoffset ${duration}s linear`
-          }}
-        >
-          {text}
-        </text>
-        
-        {/* Fill layer that appears after stroke */}
-        <text
-          x="50%"
-          y="50%"
-          textAnchor="middle"
-          dominantBaseline="middle"
-          className="text-4xl md:text-5xl lg:text-6xl fill-violet-600 dark:fill-violet-400"
-          style={{
-            opacity: startAnimation ? 1 : 0,
-            transition: `opacity 0.3s ease-in ${duration}s`
-          }}
-        >
-          {text}
-        </text>
-      </svg>
+        {startAnimation ? (
+          <>
+            {text.split('').map((char, i) => (
+              <motion.span
+                key={i}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: i < currentIndex ? 1 : 0 }}
+                transition={{ duration: 0.05 }}
+              >
+                {char}
+              </motion.span>
+            ))}
+          </>
+        ) : (
+          <span className="opacity-0">{text}</span>
+        )}
+      </motion.div>
     </div>
   );
 }

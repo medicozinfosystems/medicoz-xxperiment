@@ -130,42 +130,43 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
           }}
         />
 
-        {/* ECG Pulse → Data Ribbon */}
-        <svg className="absolute inset-0 w-full h-full opacity-10" preserveAspectRatio="none">
-          <motion.path
-            d="M 0 50 L 100 50 L 120 30 L 140 70 L 160 50 L 180 50 L 200 40 L 220 60 L 240 50 L 400 50"
-            stroke="#0891B2"
-            strokeWidth="2"
-            fill="none"
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={{ duration: 3, ease: "easeInOut", repeat: Infinity, repeatDelay: 1 }}
-            vectorEffect="non-scaling-stroke"
-          />
-        </svg>
-
-        {/* Flowing Data Ribbon */}
-        <motion.svg 
-          className="absolute inset-0 w-full h-full opacity-20 pointer-events-none"
-          style={{ y: ribbonY }}
+        {/* Flowing Data Ribbon - Clickable to scroll to next section */}
+        <motion.div
+          className="absolute bottom-24 left-1/2 transform -translate-x-1/2 cursor-pointer group z-20"
+          onClick={() => servicesRef.current?.scrollIntoView({ behavior: 'smooth' })}
+          whileHover={{ scale: 1.05 }}
+          data-testid="ribbon-scroll"
         >
-          <motion.path
-            d="M 0 100 Q 200 80, 400 100 T 800 100 T 1200 100"
-            stroke="url(#ribbonGradient)"
-            strokeWidth="3"
-            fill="none"
-            initial={{ pathLength: 0, opacity: 0 }}
-            animate={{ pathLength: 1, opacity: 1 }}
-            transition={{ duration: 2, delay: 1.5 }}
-          />
-          <defs>
-            <linearGradient id="ribbonGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#0891B2" />
-              <stop offset="50%" stopColor="#7C3AED" />
-              <stop offset="100%" stopColor="#DB2777" />
-            </linearGradient>
-          </defs>
-        </motion.svg>
+          <svg 
+            className="w-96 h-20 opacity-40 group-hover:opacity-60 transition-opacity"
+            viewBox="0 0 400 80"
+          >
+            <motion.path
+              d="M 0 40 Q 100 20, 200 40 T 400 40"
+              stroke="url(#ribbonGradient)"
+              strokeWidth="4"
+              fill="none"
+              initial={{ pathLength: 0, opacity: 0 }}
+              animate={{ pathLength: 1, opacity: 1 }}
+              transition={{ duration: 2, delay: 1.5 }}
+            />
+            <defs>
+              <linearGradient id="ribbonGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#0891B2" />
+                <stop offset="50%" stopColor="#7C3AED" />
+                <stop offset="100%" stopColor="#DB2777" />
+              </linearGradient>
+            </defs>
+          </svg>
+          <motion.div
+            className="text-center text-sm font-medium text-cyan-600 dark:text-cyan-400 mt-1"
+            initial={{ opacity: 0, y: -5 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 3, duration: 0.5 }}
+          >
+            Explore our solutions ↓
+          </motion.div>
+        </motion.div>
 
         <motion.div 
           className="max-w-6xl mx-auto px-6 text-center relative z-10"
@@ -197,7 +198,8 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
           <HandwrittenText 
             text="Technology that cares"
             delay={0.8}
-            duration={3}
+            duration={2.5}
+            color="cyan"
             className="mb-12"
           />
 
@@ -446,18 +448,10 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
               </div>
             </motion.div>
 
-            {/* Orbit Rings */}
+            {/* Orbit Rings - Static */}
             <div className="absolute inset-0 flex items-center justify-center">
-              <motion.div 
-                className="absolute w-96 h-96 rounded-full border border-gray-200 dark:border-gray-800"
-                animate={{ rotate: 360 }}
-                transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-              />
-              <motion.div 
-                className="absolute w-[500px] h-[500px] rounded-full border border-gray-100 dark:border-gray-900"
-                animate={{ rotate: -360 }}
-                transition={{ duration: 80, repeat: Infinity, ease: "linear" }}
-              />
+              <div className="absolute w-96 h-96 rounded-full border border-gray-200 dark:border-gray-800" />
+              <div className="absolute w-[500px] h-[500px] rounded-full border border-gray-100 dark:border-gray-900" />
             </div>
 
             {/* Team Members Orbiting */}
@@ -533,64 +527,6 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
             })}
           </div>
 
-          {/* Values */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="mt-32"
-          >
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {[
-                {
-                  icon: Heart,
-                  title: "Empathy in every interface",
-                  description: "We measure success by felt relief.",
-                  color: "#DB2777"
-                },
-                {
-                  icon: Lock,
-                  title: "Privacy by default",
-                  description: "Your data belongs to you.",
-                  color: "#7C3AED"
-                },
-                {
-                  icon: Brain,
-                  title: "Intelligence that empowers",
-                  description: "Augmenting clinicians, not replacing them.",
-                  color: "#0891B2"
-                },
-                {
-                  icon: Leaf,
-                  title: "Sustainable innovation",
-                  description: "Long-term health, not hype.",
-                  color: "#059669"
-                }
-              ].map((value, index) => (
-                <motion.div
-                  key={value.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                >
-                  <Card className="text-center hover-elevate bg-white dark:bg-gray-800 border-0 shadow-md" data-testid={`card-value-${value.title.toLowerCase().replace(/\s+/g, '-')}`}>
-                    <CardContent className="pt-8">
-                      <div 
-                        className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center"
-                        style={{ backgroundColor: `${value.color}20` }}
-                      >
-                        <value.icon className="w-8 h-8" style={{ color: value.color }} />
-                      </div>
-                      <h3 className="font-bold text-lg mb-2 text-gray-900 dark:text-white">{value.title}</h3>
-                      <p className="text-sm text-gray-600 dark:text-gray-300">{value.description}</p>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
         </div>
       </section>
 
