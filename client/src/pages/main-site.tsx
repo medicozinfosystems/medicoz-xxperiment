@@ -949,40 +949,98 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
         </div>
       </section>
 
-      {/* Contact Section V2 - Conversation Curtain */}
-      <section className="relative min-h-screen bg-gradient-to-br from-white via-blue-50/30 to-cyan-50/20 dark:from-gray-950 dark:via-gray-900 dark:to-cyan-950/10 overflow-hidden">
-        {/* Neural glow effect that reacts to input */}
-        <motion.div 
-          className="absolute inset-0 opacity-20 pointer-events-none"
-          animate={{
-            background: curtainOpen 
-              ? [
-                  "radial-gradient(circle at 30% 30%, rgba(8, 145, 178, 0.3) 0%, transparent 50%)",
-                  "radial-gradient(circle at 70% 70%, rgba(124, 58, 237, 0.3) 0%, transparent 50%)",
-                  "radial-gradient(circle at 30% 30%, rgba(8, 145, 178, 0.3) 0%, transparent 50%)",
-                ]
-              : "radial-gradient(circle at 50% 50%, transparent 0%, transparent 100%)"
-          }}
-          transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
-        />
+      {/* Contact Section V2 - REALISTIC BLUE VELVET CURTAIN */}
+      <section className="relative min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 overflow-hidden">
+        {/* Stage lighting */}
+        <div className="absolute top-0 left-1/4 w-48 h-48 bg-amber-400/20 blur-3xl" />
+        <div className="absolute top-0 right-1/4 w-48 h-48 bg-amber-400/20 blur-3xl" />
+        
+        {/* Wooden stage floor */}
+        <div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-amber-900/30 to-transparent" style={{
+          backgroundImage: 'repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(0,0,0,0.1) 80px, rgba(0,0,0,0.1) 82px)'
+        }} />
 
-        {/* Full-bleed curtain panel */}
+        {/* REAL BLUE VELVET CURTAINS - Parting from center */}
         <AnimatePresence>
-          {curtainOpen && (
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-br from-gray-50 via-blue-50 to-cyan-50/40 dark:from-gray-900 dark:via-blue-950/30 dark:to-cyan-950/20 z-20"
-              initial={{ y: "-100%" }}
-              animate={{ y: 0 }}
-              exit={{ y: "-100%" }}
-              transition={{ 
-                duration: 0.52, 
-                ease: [0.2, 0.8, 0.2, 1]
-              }}
-            />
+          {!curtainOpen && (
+            <>
+              {/* Left Curtain Panel */}
+              <motion.div
+                className="absolute inset-y-0 left-0 w-1/2 z-20"
+                initial={{ x: 0 }}
+                exit={{ x: "-100%" }}
+                transition={{ duration: 1.4, ease: [0.65, 0, 0.35, 1] }}
+              >
+                {/* Velvet fabric with realistic folds */}
+                <div className="relative w-full h-full bg-gradient-to-r from-blue-950 via-blue-900 to-blue-800 shadow-2xl">
+                  {/* Vertical pleats/folds */}
+                  {[...Array(14)].map((_, i) => (
+                    <div
+                      key={i}
+                      className="absolute inset-y-0"
+                      style={{
+                        left: `${i * 7.14}%`,
+                        width: '7.14%',
+                        background: i % 2 === 0
+                          ? 'linear-gradient(90deg, rgba(0,0,0,0.5) 0%, transparent 30%, rgba(255,255,255,0.15) 70%, transparent 100%)'
+                          : 'linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.4) 40%, transparent 60%, rgba(0,0,0,0.3) 100%)',
+                        opacity: 0.7
+                      }}
+                    />
+                  ))}
+                  {/* Velvet texture */}
+                  <div className="absolute inset-0 opacity-30 mix-blend-soft-light" style={{
+                    backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(255,255,255,0.05) 1px, rgba(255,255,255,0.05) 2px), repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(255,255,255,0.03) 1px, rgba(255,255,255,0.03) 2px)'
+                  }} />
+                  {/* Deep shadow on right edge */}
+                  <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-black/70 via-black/40 to-transparent" />
+                  {/* Top gather rod shadow */}
+                  <div className="absolute top-0 inset-x-0 h-16 bg-gradient-to-b from-black/60 to-transparent" />
+                  {/* Sheen highlight */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-400/10 via-transparent to-transparent opacity-40" />
+                </div>
+              </motion.div>
+
+              {/* Right Curtain Panel */}
+              <motion.div
+                className="absolute inset-y-0 right-0 w-1/2 z-20"
+                initial={{ x: 0 }}
+                exit={{ x: "100%" }}
+                transition={{ duration: 1.4, ease: [0.65, 0, 0.35, 1] }}
+              >
+                <div className="relative w-full h-full bg-gradient-to-l from-blue-950 via-blue-900 to-blue-800 shadow-2xl">
+                  {[...Array(14)].map((_, i) => (
+                    <div
+                      key={i}
+                      className="absolute inset-y-0"
+                      style={{
+                        left: `${i * 7.14}%`,
+                        width: '7.14%',
+                        background: i % 2 === 0
+                          ? 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.15) 30%, transparent 70%, rgba(0,0,0,0.5) 100%)'
+                          : 'linear-gradient(90deg, rgba(0,0,0,0.3) 0%, transparent 40%, rgba(0,0,0,0.4) 60%, transparent 100%)',
+                        opacity: 0.7
+                      }}
+                    />
+                  ))}
+                  <div className="absolute inset-0 opacity-30 mix-blend-soft-light" style={{
+                    backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(255,255,255,0.05) 1px, rgba(255,255,255,0.05) 2px), repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(255,255,255,0.03) 1px, rgba(255,255,255,0.03) 2px)'
+                  }} />
+                  <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
+                  <div className="absolute top-0 inset-x-0 h-16 bg-gradient-to-b from-black/60 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-bl from-blue-400/10 via-transparent to-transparent opacity-40" />
+                </div>
+              </motion.div>
+
+              {/* Center seam with heavy shadow */}
+              <div className="absolute inset-y-0 left-1/2 w-4 -ml-2 bg-black/90 z-21 shadow-2xl" style={{
+                boxShadow: '0 0 30px rgba(0,0,0,0.8), inset 0 0 10px rgba(0,0,0,0.9)'
+              }} />
+            </>
           )}
         </AnimatePresence>
 
-        <div className="relative z-30 flex items-center justify-center min-h-screen p-6">
+        <div className="relative z-30 flex items-center justify-center min-h-screen px-4 sm:px-6 py-12 sm:py-20">
           {!curtainOpen ? (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -990,29 +1048,49 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
               viewport={{ once: true }}
               className="text-center"
             >
-              <h2 className="text-5xl md:text-6xl font-bold mb-6 text-gray-900 dark:text-white">
+              <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 sm:mb-6 text-white drop-shadow-lg">
                 Let's build what care deserves
               </h2>
-              <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
+              <p className="text-base sm:text-xl text-gray-200 mb-6 sm:mb-8 max-w-2xl mx-auto px-4">
                 A guided conversation, one thoughtful question at a time
               </p>
               <Button
                 size="lg"
                 onClick={() => setCurtainOpen(true)}
-                className="bg-cyan-600 dark:bg-cyan-500 text-white text-lg h-14 px-8"
+                className="bg-cyan-600 hover:bg-cyan-700 dark:bg-cyan-500 text-white text-base sm:text-lg h-12 sm:h-14 px-6 sm:px-8 shadow-xl shadow-cyan-900/50"
                 data-testid="button-open-curtain"
               >
-                Start Conversation →
+                Open Curtain →
               </Button>
             </motion.div>
           ) : (
             <AnimatePresence mode="wait">
+              {/* PAGE TURNING EFFECT - 3D Card Flip */}
               <motion.div
                 key={curtainStep}
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -24 }}
-                transition={{ duration: 0.32, ease: "easeOut" }}
+                initial={{ 
+                  rotateY: -90,
+                  opacity: 0,
+                  scale: 0.8
+                }}
+                animate={{ 
+                  rotateY: 0,
+                  opacity: 1,
+                  scale: 1
+                }}
+                exit={{ 
+                  rotateY: 90,
+                  opacity: 0,
+                  scale: 0.8
+                }}
+                transition={{ 
+                  duration: 0.6,
+                  ease: [0.25, 0.46, 0.45, 0.94]
+                }}
+                style={{
+                  transformStyle: "preserve-3d",
+                  perspective: "1000px"
+                }}
                 className="w-full max-w-3xl space-y-4"
               >
                 {/* Paper strip answer log */}
@@ -1639,31 +1717,58 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
         </div>
       </section>
 
-      {/* Contact Section V3 - Elevator to Humans */}
-      <section className="relative min-h-screen bg-gradient-to-br from-white via-gray-50 to-cyan-50/20 dark:from-gray-950 dark:via-gray-900 dark:to-cyan-950/10 py-20 px-6">
+      {/* Contact Section V3 - ULTRA REALISTIC ELEVATOR */}
+      <section className="relative min-h-screen bg-gradient-to-b from-slate-200 via-slate-100 to-slate-200 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 py-12 sm:py-20 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-12"
+            className="text-center mb-8 sm:mb-12"
           >
-            <h2 className="text-5xl md:text-6xl font-bold mb-4 text-gray-900 dark:text-white">
-              Choose Your Floor
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-3 sm:mb-4 text-gray-900 dark:text-white">
+              Elevator to Humans
             </h2>
-            <p className="text-xl text-gray-600 dark:text-gray-300">
-              We'll open the right door and keep you moving
+            <p className="text-base sm:text-xl text-gray-600 dark:text-gray-300 px-4">
+              Select your floor — we'll take you there
             </p>
           </motion.div>
 
-          <div className="grid lg:grid-cols-5 gap-8">
-            {/* Elevator Shaft */}
+          <div className="grid lg:grid-cols-5 gap-6 sm:gap-8">
+            {/* REALISTIC ELEVATOR CAR */}
             <div className="lg:col-span-2">
               <div className="sticky top-24">
-                <div className="bg-gray-900 dark:bg-gray-950 rounded-2xl p-6 border-2 border-gray-800">
-                  {/* Dot matrix floor indicator */}
-                  <div className="text-center mb-6">
-                    <div className="bg-black rounded-lg p-4 mb-3 border border-gray-800">
+                {/* Elevator shaft housing - brushed metal */}
+                <div className="bg-gradient-to-br from-gray-800 via-gray-700 to-gray-800 rounded-xl p-1 shadow-2xl" style={{
+                  boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.5), 0 10px 40px rgba(0,0,0,0.3)'
+                }}>
+                  {/* Metal panel with rivets */}
+                  <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-lg p-4 sm:p-6 relative" style={{
+                    backgroundImage: 'repeating-linear-gradient(90deg, transparent, transparent 30px, rgba(0,0,0,0.1) 30px, rgba(0,0,0,0.1) 31px), repeating-linear-gradient(0deg, transparent, transparent 30px, rgba(0,0,0,0.1) 30px, rgba(0,0,0,0.1) 31px)'
+                  }}>
+                    {/* Corner rivets */}
+                    {[[8, 8], [8, null], [null, 8], [null, null]].map(([top, left], i) => (
+                      <div
+                        key={i}
+                        className="absolute w-3 h-3 rounded-full bg-gray-600 shadow-inner"
+                        style={{
+                          top: top ? `${top}px` : 'auto',
+                          bottom: top === null ? '8px' : 'auto',
+                          left: left ? `${left}px` : 'auto',
+                          right: left === null ? '8px' : 'auto',
+                          boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.8)'
+                        }}
+                      />
+                    ))}
+
+                    {/* Visible cable mechanism */}
+                    <div className="absolute -top-4 left-1/2 -ml-0.5 w-1 h-4 bg-gradient-to-b from-gray-600 to-gray-700" style={{
+                      boxShadow: '0 0 10px rgba(0,0,0,0.5)'
+                    }} />
+
+                    {/* Dot matrix floor indicator */}
+                    <div className="text-center mb-6">
+                      <div className="bg-black rounded-lg p-4 mb-3 border border-gray-800">
                       <motion.div
                         className="font-mono text-6xl font-bold tracking-widest"
                         key={currentFloor}
@@ -1703,6 +1808,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                       {currentFloor === 5 && "⬚ PRODUCT ⬚"}
                       {currentFloor === 6 && "⬚ CAREERS ⬚"}
                     </motion.p>
+                  </div>
                   </div>
 
                   {/* Mini directory - next floors */}
