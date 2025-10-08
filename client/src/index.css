@@ -238,6 +238,54 @@
   --destructive-border: hsl(from hsl(var(--destructive)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
 }
 
+/* OCEAN THEME - Deep blues and teals */
+.theme-ocean {
+  --background: 210 100% 97%;
+  --foreground: 210 50% 15%;
+  --card: 210 40% 95%;
+  --card-foreground: 210 50% 15%;
+  --primary: 195 85% 45%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 210 40% 60%;
+  --secondary-foreground: 0 0% 100%;
+  --accent: 185 70% 50%;
+  --accent-foreground: 0 0% 100%;
+  --border: 210 30% 85%;
+  --ring: 195 85% 45%;
+}
+
+/* SUNSET THEME - Warm oranges and purples */
+.theme-sunset {
+  --background: 30 40% 96%;
+  --foreground: 20 50% 20%;
+  --card: 30 35% 94%;
+  --card-foreground: 20 50% 20%;
+  --primary: 25 90% 55%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 280 60% 55%;
+  --secondary-foreground: 0 0% 100%;
+  --accent: 340 75% 55%;
+  --accent-foreground: 0 0% 100%;
+  --border: 30 25% 88%;
+  --ring: 25 90% 55%;
+}
+
+/* FOREST THEME - Rich greens and browns */
+.theme-forest {
+  --background: 120 20% 96%;
+  --foreground: 140 50% 20%;
+  --card: 120 15% 94%;
+  --card-foreground: 140 50% 20%;
+  --primary: 140 60% 40%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 35 45% 50%;
+  --secondary-foreground: 0 0% 100%;
+  --accent: 160 50% 45%;
+  --accent-foreground: 0 0% 100%;
+  --border: 120 15% 86%;
+  --ring: 140 60% 40%;
+}
+
 @layer base {
   * {
     @apply border-border;

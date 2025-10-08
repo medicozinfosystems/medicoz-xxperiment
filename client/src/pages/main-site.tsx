@@ -11,12 +11,14 @@ import { useRef, useState, useEffect } from "react";
 import HandwrittenText from "@/components/HandwrittenText";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { LanguageToggle } from "@/components/LanguageToggle";
+import { useTranslation } from "@/contexts/TranslationContext";
 
 interface MainSiteProps {
   showButtonsImmediately?: boolean;
 }
 
 export default function MainSite({ showButtonsImmediately = false }: MainSiteProps) {
+  const { t } = useTranslation();
   const heroRef = useRef<HTMLDivElement>(null);
   const servicesRef = useRef<HTMLDivElement>(null);
   const teamRef = useRef<HTMLDivElement>(null);
@@ -152,13 +154,13 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
   }, []);
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950">
+    <div className="min-h-screen bg-background">
       {/* Fixed Header with Theme and Language Toggles */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-950/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Activity className="w-6 h-6 text-cyan-600 dark:text-cyan-400" />
-            <span className="text-lg font-bold text-gray-900 dark:text-white">Medicoz</span>
+            <Activity className="w-6 h-6 text-primary" />
+            <span className="text-lg font-bold text-foreground">{t("header.brand")}</span>
           </div>
           <div className="flex items-center gap-3">
             <LanguageToggle />
@@ -1065,10 +1067,10 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
               className="text-center"
             >
               <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 sm:mb-6 text-white drop-shadow-lg">
-                Let's build what care deserves
+                {t("curtain.title")}
               </h2>
               <p className="text-base sm:text-xl text-gray-200 mb-6 sm:mb-8 max-w-2xl mx-auto px-4">
-                A guided conversation, one thoughtful question at a time
+                {t("curtain.subtitle")}
               </p>
               <Button
                 size="lg"
@@ -1076,7 +1078,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                 className="bg-cyan-600 hover:bg-cyan-700 dark:bg-cyan-500 text-white text-base sm:text-lg h-12 sm:h-14 px-6 sm:px-8 shadow-xl shadow-cyan-900/50"
                 data-testid="button-start-conversation"
               >
-                Open Curtain →
+                {t("curtain.openButton")} →
               </Button>
             </motion.div>
           ) : (
@@ -1158,9 +1160,9 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                       <div className="space-y-6">
                         <div>
                           <h3 className="text-3xl font-bold mb-2 text-gray-900 dark:text-white">
-                            What brings you here?
+                            {t("curtain.q1.title")}
                           </h3>
-                          <p className="text-gray-600 dark:text-gray-400">We'll tailor the next steps</p>
+                          <p className="text-gray-600 dark:text-gray-400">{t("curtain.q1.subtitle")}</p>
                           
                           {/* Intent-specific helper copy */}
                           <AnimatePresence mode="wait">
@@ -1183,26 +1185,32 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                         </div>
                         
                         <div className="grid gap-3">
-                          {["Partnership", "Pilot project", "Sponsorship", "Careers", "Other"].map((intent) => (
+                          {[
+                            { key: "Partnership", label: t("curtain.q1.partnership") },
+                            { key: "Pilot project", label: t("curtain.q1.pilot") },
+                            { key: "Sponsorship", label: t("curtain.q1.sponsorship") },
+                            { key: "Careers", label: t("curtain.q1.careers") },
+                            { key: "Other", label: t("curtain.q1.other") }
+                          ].map(({ key, label }) => (
                             <motion.button
-                              key={intent}
+                              key={key}
                               onClick={() => {
-                                setCurtainAnswers({ ...curtainAnswers, intent });
+                                setCurtainAnswers({ ...curtainAnswers, intent: key });
                               }}
                               className={`p-4 rounded-xl border-2 text-left transition-all ${
-                                curtainAnswers.intent === intent
+                                curtainAnswers.intent === key
                                   ? "bg-cyan-50 dark:bg-cyan-950/30 border-cyan-600 dark:border-cyan-400"
                                   : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:border-cyan-300 dark:hover:border-cyan-700"
                               }`}
                               whileHover={{ x: 4 }}
-                              data-testid={`chip-curtain-${intent.toLowerCase().replace(" ", "-")}`}
+                              data-testid={`chip-curtain-${key.toLowerCase().replace(" ", "-")}`}
                             >
                               <span className={`font-semibold ${
-                                curtainAnswers.intent === intent
+                                curtainAnswers.intent === key
                                   ? "text-cyan-600 dark:text-cyan-400"
                                   : "text-gray-900 dark:text-white"
                               }`}>
-                                {intent}
+                                {label}
                               </span>
                             </motion.button>
                           ))}
@@ -1743,10 +1751,10 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
             className="text-center mb-8 sm:mb-12"
           >
             <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-3 sm:mb-4 text-gray-900 dark:text-white">
-              Elevator to Humans
+              {t("elevator.title")}
             </h2>
             <p className="text-base sm:text-xl text-gray-600 dark:text-gray-300 px-4">
-              Select your floor — we'll take you there
+              {t("elevator.subtitle")}
             </p>
           </motion.div>
 

@@ -1,37 +1,64 @@
-import { Moon, Sun } from "lucide-react";
+import { Palette } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 
+type Theme = "light" | "dark" | "ocean" | "sunset" | "forest";
+
+const themes: Theme[] = ["light", "dark", "ocean", "sunset", "forest"];
+const themeLabels: Record<Theme, string> = {
+  light: "Light",
+  dark: "Dark",
+  ocean: "Ocean",
+  sunset: "Sunset",
+  forest: "Forest"
+};
+
 export function ThemeToggle() {
-  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [theme, setTheme] = useState<Theme>("light");
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem("theme") as "light" | "dark" | null;
+    const savedTheme = localStorage.getItem("theme") as Theme | null;
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
     const initialTheme = savedTheme || (prefersDark ? "dark" : "light");
     
     setTheme(initialTheme);
-    document.documentElement.classList.toggle("dark", initialTheme === "dark");
+    applyTheme(initialTheme);
   }, []);
 
-  const toggleTheme = () => {
-    const newTheme = theme === "light" ? "dark" : "light";
+  const applyTheme = (newTheme: Theme) => {
+    document.documentElement.classList.remove("dark", "theme-ocean", "theme-sunset", "theme-forest");
+    
+    if (newTheme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else if (newTheme === "ocean") {
+      document.documentElement.classList.add("theme-ocean");
+    } else if (newTheme === "sunset") {
+      document.documentElement.classList.add("theme-sunset");
+    } else if (newTheme === "forest") {
+      document.documentElement.classList.add("theme-forest");
+    }
+  };
+
+  const cycleTheme = () => {
+    const currentIndex = themes.indexOf(theme);
+    const nextIndex = (currentIndex + 1) % themes.length;
+    const newTheme = themes[nextIndex];
+    
     setTheme(newTheme);
     localStorage.setItem("theme", newTheme);
-    document.documentElement.classList.toggle("dark", newTheme === "dark");
+    applyTheme(newTheme);
   };
 
   return (
     <Button
       variant="outline"
-      size="icon"
-      onClick={toggleTheme}
+      size="default"
+      onClick={cycleTheme}
       data-testid="button-theme-toggle"
-      className="relative"
+      className="gap-2"
     >
-      <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-      <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-      <span className="sr-only">Toggle theme</span>
+      <Palette className="h-4 w-4" />
+      <span className="font-medium">{themeLabels[theme]}</span>
     </Button>
   );
 }
