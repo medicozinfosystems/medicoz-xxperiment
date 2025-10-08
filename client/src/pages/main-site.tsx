@@ -4,7 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useMemo } from "react";
 
-export default function MainSite() {
+interface MainSiteProps {
+  showButtonsImmediately?: boolean;
+}
+
+export default function MainSite({ showButtonsImmediately = false }: MainSiteProps) {
   // Pre-compute stable particle positions
   const heroParticles = useMemo(() => 
     [...Array(15)].map(() => ({
@@ -130,14 +134,22 @@ export default function MainSite() {
               that put patients first. From real-time communication to global connectivity,
               we bridge the gap between care and technology.
             </p>
-            <div className="flex gap-4 justify-center flex-wrap">
+            <motion.div 
+              className="flex gap-4 justify-center flex-wrap"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ 
+                duration: 0.6,
+                delay: showButtonsImmediately ? 0 : 1.2 
+              }}
+            >
               <Button size="lg" className="text-lg px-8" data-testid="button-get-started">
                 Get Started
               </Button>
               <Button size="lg" variant="outline" className="text-lg px-8" data-testid="button-learn-more">
                 Learn More
               </Button>
-            </div>
+            </motion.div>
           </motion.div>
         </div>
       </section>
