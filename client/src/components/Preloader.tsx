@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { Button } from "@/components/ui/button";
 
 const frames = [
   { 
@@ -51,10 +52,11 @@ const frames = [
     id: 6, 
     text: "Medicoz Infosystems", 
     subtitle: "technology that cares",
-    duration: 2500,
+    description: "Empowering healthcare providers with intelligent, empathetic technology solutions that put patients first. From real-time communication to global connectivity, we bridge the gap between care and technology.",
+    duration: 3000,
     layout: "finale",
-    color: "#1E40AF", // blue-800
-    bgGradient: "from-blue-600/20 via-indigo-600/10 to-blue-800/20"
+    color: "#06B6D4", // cyan-500 to match hero particles
+    bgGradient: "from-white via-cyan-50/30 to-violet-50/20" // Match hero background
   },
 ];
 
@@ -67,6 +69,18 @@ export default function Preloader({ onComplete }: PreloaderProps) {
   const [progress, setProgress] = useState(0);
 
   const totalDuration = frames.reduce((sum, frame) => sum + frame.duration, 0);
+
+  // Pre-compute stable particle positions
+  const particles = useMemo(() => 
+    [...Array(20)].map(() => ({
+      left: Math.random() * 100,
+      top: Math.random() * 100,
+      xOffset: Math.random() * 50 - 25,
+      duration: 3 + Math.random() * 2,
+      delay: Math.random() * 2,
+    })),
+    []
+  );
 
   useEffect(() => {
     let elapsedTime = 0;
@@ -255,43 +269,8 @@ export default function Preloader({ onComplete }: PreloaderProps) {
           </svg>
         );
       
-      case 5: // Finale - Logo mark
-        return (
-          <motion.div
-            className="w-32 h-32 mx-auto"
-            initial={{ scale: 0, rotate: -180 }}
-            animate={{ scale: 1, rotate: 0 }}
-            transition={{ type: "spring", stiffness: 200, damping: 20 }}
-          >
-            <svg viewBox="0 0 100 100">
-              <defs>
-                <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#0891B2" />
-                  <stop offset="50%" stopColor="#7C3AED" />
-                  <stop offset="100%" stopColor="#DB2777" />
-                </linearGradient>
-              </defs>
-              <motion.path
-                d="M 50 20 L 50 50 M 50 50 L 80 50 M 50 50 L 50 80 M 50 50 L 20 50"
-                stroke="url(#logoGrad)"
-                strokeWidth="8"
-                strokeLinecap="round"
-                initial={{ pathLength: 0 }}
-                animate={{ pathLength: 1 }}
-                transition={{ duration: 1.5 }}
-              />
-              <motion.circle
-                cx="50"
-                cy="50"
-                r="8"
-                fill="url(#logoGrad)"
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 0.8, type: "spring" }}
-              />
-            </svg>
-          </motion.div>
-        );
+      case 5: // Finale - no visual here, orbs rendered separately to match hero structure
+        return null;
       
       default:
         return null;
@@ -347,61 +326,195 @@ export default function Preloader({ onComplete }: PreloaderProps) {
           </motion.div>
 
           {/* Text Content */}
-          <div className={currentFrame === 5 ? "space-y-4" : "space-y-3"}>
+          <div className={currentFrame === 5 ? "space-y-6 max-w-4xl mx-auto" : "space-y-3"}>
             {currentFrame === 5 ? (
-              <motion.h1
-                className="text-5xl md:text-7xl font-bold"
-                style={{
-                  background: `linear-gradient(135deg, #0891B2, #7C3AED, #DB2777)`,
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
-              >
-                {currentFrameData.text}
-              </motion.h1>
+              <>
+                <motion.h1
+                  className="text-6xl md:text-7xl lg:text-8xl font-bold"
+                  style={{
+                    background: `linear-gradient(135deg, #0891B2, #7C3AED, #DB2777)`,
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text",
+                    filter: "drop-shadow(0 0 30px rgba(8, 145, 178, 0.3))",
+                  }}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4, duration: 0.8 }}
+                >
+                  {currentFrameData.text}
+                </motion.h1>
+                <motion.p
+                  className="text-2xl md:text-3xl text-blue-800 font-light tracking-wide"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.6 }}
+                >
+                  {currentFrameData.subtitle}
+                </motion.p>
+                <motion.p
+                  className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.8 }}
+                >
+                  {currentFrameData.description}
+                </motion.p>
+                <motion.div
+                  className="flex gap-4 justify-center flex-wrap pt-4"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1, duration: 0.6 }}
+                >
+                  <Button size="lg" className="text-lg px-8" data-testid="button-preloader-get-started">
+                    Get Started
+                  </Button>
+                  <Button size="lg" variant="outline" className="text-lg px-8" data-testid="button-preloader-learn-more">
+                    Learn More
+                  </Button>
+                </motion.div>
+              </>
             ) : (
-              <motion.h2
-                className="text-4xl md:text-6xl font-light"
-                style={{ color: currentFrameData.color }}
-                initial={{ opacity: 0, x: currentFrameData.layout === 'left' ? -30 : currentFrameData.layout === 'right' ? 30 : 0 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.4 }}
-              >
-                {currentFrameData.text}
-              </motion.h2>
+              <>
+                <motion.h2
+                  className="text-4xl md:text-6xl font-light"
+                  style={{ color: currentFrameData.color }}
+                  initial={{ opacity: 0, x: currentFrameData.layout === 'left' ? -30 : currentFrameData.layout === 'right' ? 30 : 0 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.4 }}
+                >
+                  {currentFrameData.text}
+                </motion.h2>
+                <motion.p
+                  className="text-lg md:text-xl font-light text-foreground/70"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.6 }}
+                >
+                  {currentFrameData.subtitle}
+                </motion.p>
+              </>
             )}
-            
-            <motion.p
-              className={`${currentFrame === 5 ? 'text-xl md:text-2xl' : 'text-lg md:text-xl'} font-light text-foreground/70`}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.6 }}
-            >
-              {currentFrameData.subtitle}
-            </motion.p>
           </div>
         </motion.div>
       </AnimatePresence>
     );
   };
 
+  // Hero-style particles for finale frame (exact match)
+  const finaleParticles = useMemo(() => 
+    [...Array(15)].map(() => ({
+      left: Math.random() * 100,
+      top: Math.random() * 100,
+      xOffset: Math.random() * 40 - 20,
+      duration: 4 + Math.random() * 2,
+      delay: Math.random() * 3,
+    })),
+    []
+  );
+
+  const activeParticles = currentFrame === 5 ? finaleParticles : particles;
+  const particleYTravel = currentFrame === 5 ? -80 : -100;
+
   return (
     <div className={`fixed inset-0 z-50 bg-gradient-to-br ${currentFrameData.bgGradient} backdrop-blur-sm flex items-center justify-center overflow-hidden transition-all duration-1000`}>
-      {/* Dynamic gradient orbs */}
-      <motion.div
-        className="absolute w-[800px] h-[800px] rounded-full blur-3xl"
-        animate={{
-          background: `radial-gradient(circle, ${currentFrameData.color}30, transparent)`,
-          x: currentFrame % 2 === 0 ? 300 : -300,
-          y: currentFrame % 3 === 0 ? -200 : 200,
-          scale: [1, 1.2, 1],
-        }}
-        transition={{ duration: 3, ease: "easeInOut" }}
-      />
+      {/* Floating particles */}
+      {activeParticles.map((particle, i) => (
+        <motion.div
+          key={i}
+          className="absolute w-1 h-1 rounded-full"
+          style={{
+            background: currentFrameData.color,
+            left: `${particle.left}%`,
+            top: `${particle.top}%`,
+          }}
+          animate={{
+            y: [0, particleYTravel, 0],
+            x: [0, particle.xOffset, 0],
+            opacity: [0, currentFrame === 5 ? 0.5 : 0.6, 0],
+            scale: [0, 1, 0],
+          }}
+          transition={{
+            duration: particle.duration,
+            repeat: Infinity,
+            delay: particle.delay,
+            ease: "easeInOut",
+          }}
+        />
+      ))}
+
+      {/* Dynamic gradient orbs - hide on finale frame to match hero exactly */}
+      {currentFrame !== 5 && (
+        <>
+          <motion.div
+            className="absolute w-[800px] h-[800px] rounded-full blur-3xl"
+            animate={{
+              background: `radial-gradient(circle, ${currentFrameData.color}30, transparent)`,
+              x: currentFrame % 2 === 0 ? 300 : -300,
+              y: currentFrame % 3 === 0 ? -200 : 200,
+              scale: [1, 1.2, 1],
+            }}
+            transition={{ duration: 3, ease: "easeInOut" }}
+          />
+          
+          {/* Secondary orb for depth */}
+          <motion.div
+            className="absolute w-[600px] h-[600px] rounded-full blur-3xl"
+            animate={{
+              background: `radial-gradient(circle, ${currentFrameData.color}20, transparent)`,
+              x: currentFrame % 2 === 0 ? -250 : 250,
+              y: currentFrame % 3 === 0 ? 150 : -150,
+              scale: [1.2, 1, 1.2],
+            }}
+            transition={{ duration: 4, ease: "easeInOut" }}
+          />
+        </>
+      )}
+
+      {/* Finale ambient orbs - exact match to hero structure */}
+      {currentFrame === 5 && (
+        <div className="absolute inset-0 opacity-40">
+          <motion.div 
+            className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl"
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{
+              scale: [1, 1.2, 1],
+              opacity: [0.3, 0.5, 0.3],
+            }}
+            transition={{
+              duration: 4,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+          <motion.div 
+            className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-violet-500/20 rounded-full blur-3xl"
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{
+              scale: [1.2, 1, 1.2],
+              opacity: [0.5, 0.3, 0.5],
+            }}
+            transition={{
+              duration: 5,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+          <motion.div 
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-pink-500/15 rounded-full blur-2xl"
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{
+              scale: [1, 1.3, 1],
+              opacity: [0.2, 0.4, 0.2],
+            }}
+            transition={{
+              duration: 6,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+        </div>
+      )}
 
       <div className="max-w-6xl mx-auto px-6 w-full relative z-10 min-h-screen flex flex-col justify-between py-16">
         {/* Main Content */}
@@ -412,17 +525,18 @@ export default function Preloader({ onComplete }: PreloaderProps) {
         {/* Progress Section */}
         <div className="w-full max-w-2xl mx-auto space-y-6">
           {/* Enhanced Progress Bar */}
-          <div className="relative h-2 bg-foreground/5 rounded-full overflow-hidden backdrop-blur-sm">
+          <div className="relative h-3 bg-foreground/5 rounded-full overflow-hidden backdrop-blur-sm border border-foreground/10">
             <motion.div
-              className="absolute inset-0"
+              className="absolute inset-0 shadow-lg"
               style={{ 
                 width: `${progress}%`,
                 background: `linear-gradient(90deg, #0891B2, #7C3AED, #DB2777, #059669)`,
+                boxShadow: `0 0 20px ${currentFrameData.color}60`,
               }}
               transition={{ duration: 0.05 }}
             />
             <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-40"
+              className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-50"
               animate={{
                 x: ["-100%", "200%"]
               }}
@@ -431,6 +545,15 @@ export default function Preloader({ onComplete }: PreloaderProps) {
                 repeat: Infinity,
                 ease: "linear"
               }}
+            />
+            {/* Glow effect */}
+            <motion.div
+              className="absolute -top-1 -bottom-1 right-0 w-8 blur-xl"
+              style={{
+                background: `radial-gradient(circle, ${currentFrameData.color}, transparent)`,
+                width: `${Math.min(progress + 5, 100)}%`,
+              }}
+              transition={{ duration: 0.05 }}
             />
           </div>
           
