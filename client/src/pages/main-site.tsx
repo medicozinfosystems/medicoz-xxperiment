@@ -950,7 +950,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
       </section>
 
       {/* Contact Section V2 - REALISTIC BLUE VELVET CURTAIN */}
-      <section className="relative min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 overflow-hidden">
+      <section className="relative min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 overflow-hidden" data-testid="section-conversation-curtain">
         {/* Stage lighting */}
         <div className="absolute top-0 left-1/4 w-48 h-48 bg-amber-400/20 blur-3xl" />
         <div className="absolute top-0 right-1/4 w-48 h-48 bg-amber-400/20 blur-3xl" />
@@ -1058,7 +1058,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                 size="lg"
                 onClick={() => setCurtainOpen(true)}
                 className="bg-cyan-600 hover:bg-cyan-700 dark:bg-cyan-500 text-white text-base sm:text-lg h-12 sm:h-14 px-6 sm:px-8 shadow-xl shadow-cyan-900/50"
-                data-testid="button-open-curtain"
+                data-testid="button-start-conversation"
               >
                 Open Curtain →
               </Button>
@@ -1718,7 +1718,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
       </section>
 
       {/* Contact Section V3 - ULTRA REALISTIC ELEVATOR */}
-      <section className="relative min-h-screen bg-gradient-to-b from-slate-200 via-slate-100 to-slate-200 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 py-12 sm:py-20 px-4 sm:px-6">
+      <section className="relative min-h-screen bg-gradient-to-b from-slate-200 via-slate-100 to-slate-200 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 py-12 sm:py-20 px-4 sm:px-6" data-testid="section-elevator">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
