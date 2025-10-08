@@ -1,0 +1,275 @@
+1) Conversation Curtain — one-question-at-a-time “stage”
+Purpose
+
+Turn contact into a calm, cinematic mini-conversation that feels human and premium.
+
+Visual layout
+
+Full-bleed curtain panel (off-white → soft blue gradient), slides down from top.
+
+Center stage card (760px max; 24px radius; soft shadow).
+
+“Paper strip” answer log stacks under each asked question.
+
+Subtle background neural glow reacts to inputs.
+
+Motion system
+
+Curtain open: 520ms, cubic-bezier(.2,.8,.2,1) (ease-out).
+
+Question in/out: 320ms fade/slide (24px Y).
+
+Paper strip attach: 180ms scale-in + 1° rotation “thump.”
+
+Submit pulse: 700ms single ECG-style sweep across the bottom edge.
+
+Reduced motion: replace slides with opacity + color shifts only.
+
+Flow (desktop & mobile identical)
+
+Q0. Intent chips (single select)
+
+Chips: Partnership • Pilot project • Sponsorship • Careers • Other
+
+Helper text: “We’ll tailor the next steps.”
+
+Next appears only after a selection.
+
+Q1. Who are you?
+
+Fields: Full name (required) + Role (dropdown)
+
+Micro-copy: “So we can say hello properly.”
+
+Q2. How can we help?
+
+Large textarea (min 3 lines), placeholder:
+“Goals, audience, timelines, constraints—whatever helps us help you.”
+
+Q3. How fast do you need us?
+
+Slider: Today • 48 hours • Next week
+
+Note: “We’ll match your pace.”
+
+Q4. Where can we reach you?
+
+Email (required) + Optional phone
+
+Privacy micro-promise under field: “Your data stays yours. No spam, ever.”
+
+Q5. Optional add-ons (inline toggles)
+
+Attach deck/link
+
+Add 30-sec voice note (auto-captions appear to edit)
+
+Confidential mode (instant NDA link + plain-language summary)
+
+Review sheet
+
+Collapsible summary of answers (editable inline).
+
+CTA: Send with care (hold 1s to confirm).
+
+Success state
+
+Title: “Message received.”
+
+Subtext: “Pulse ID #MX-42A • Reply within 48 hours.”
+
+Optional: Book a 20-min intro (inline calendar sheet).
+
+Secondary CTA: Copy confirmation link
+
+Copy deck (swap per intent)
+
+Header (fixed): “Let’s build what care deserves.”
+
+Intent helper:
+
+Partnership: “Tell us who you serve and how we can move the needle.”
+
+Pilot: “Scope, timeline, and what ‘success’ looks like.”
+
+Sponsorship: “Which topics, geographies, and outcomes matter most?”
+
+Careers: “Link work you’re proud of—we review every note.”
+
+Other: “We’re listening.”
+
+Hold-to-send helper: “Press and hold to send with care.”
+
+Validation & errors
+
+Required fields: intent, name, email, message.
+
+Errors slide in under the field (no shakes); copy: “Let’s get this one right.”
+
+Save draft locally after each answer commit.
+
+Accessibility
+
+All steps focus-managed (one main control per screen).
+
+WCAG AA+ contrast; visible focus rings; Esc closes curtain (with confirmation if unsent).
+
+Voice note has live captions (editable).
+
+Keyboard: Arrow keys move chips/slider; Enter advances.
+
+Analytics (lightweight)
+
+Funnel timings per step
+
+Drop-off step
+
+Chosen intent, pace (no PII in analytics)
+
+2) Elevator to Humans — department “floors” metaphor
+Purpose
+
+Make routing transparent and delightful; show where the request goes.
+
+Visual layout
+
+Left 40%: Tall elevator shaft with floors labeled:
+LOBBY • Partnerships (3) • Clinical (4) • Product (5) • Careers (6)
+
+Right 60%: Door panels that “open” to reveal a tailored intake for that floor.
+
+Mini directory above buttons: “Floors you might visit next.”
+
+Motion system
+
+Call elevator (Lobby→Floor): 640ms; dot matrix “Floor 3” ticks up.
+
+Doors open: 420ms slide with a soft ding (muted by default).
+
+Form in: 280ms fade/slide.
+
+Progress indicator: tiny light animates across visited floors (120ms per hop).
+
+Reduced motion: replace door slides with cross-fade + counter change.
+
+Flow
+
+Lobby
+
+Title: “Choose your floor.”
+
+Buttons (big, stacked): Partnerships • Clinical • Product • Careers • Sponsorship • Other
+
+Copy: “We’ll open the right door and keep you moving.”
+
+Floor examples
+
+3 — Partnerships
+
+Subhead: “Collabs that improve real outcomes.”
+
+Fields: Organization • Region • Problem statement • Desired outcome • Timeline
+
+Toggle: “Priority initiative” (shows ethics note)
+
+CTA: Ride to next → suggests Clinical or Product next based on content.
+
+4 — Clinical (Pilots)
+
+Subhead: “Pilot design that respects clinicians and patients.”
+
+Fields: Setting (Hospital/Clinic/Remote) • Population • Measures of success • IRB/Compliance status
+
+Toggle: Confidential Mode (NDA)
+
+CTA: Ride to Product (or back to Partnerships)
+
+5 — Product (Medicoz App)
+
+Subhead: “From idea to useful.”
+
+Fields: Use case • Integrations • Languages • Constraints (budget/infra)
+
+Option: “Join the waitlist”
+
+CTA: Ride to Lobby (summary) or Book intro
+
+6 — Careers
+
+Subhead: “Mission-first builders welcome.”
+
+Fields: Name • Email • Portfolio/LinkedIn • Role • Why Medicoz?
+
+Toggles: Open to contract • Remote
+
+CTA: Send application
+
+Sponsorship (alt floor)
+
+Subhead: “Sponsor voices that matter.”
+
+Fields: Brand • Audience • Episodes/topics • Regions • Budget range
+
+CTA: Send proposal
+
+Summary Lobby (auto on final)
+
+Directory shows visited floors with green lights.
+
+Collapsed summary cards from each floor (editable).
+
+Pace slider: Today • 48 hours • Next week
+
+CTA primary: Send with care (hold 1s)
+
+CTA secondary: Book 20-min intro
+
+Success state
+
+“Thanks—your elevator is on its way to humans.”
+
+Pulse ID; ETA; copy confirmation link.
+
+Copy tone
+
+Playful but professional:
+
+“Doors opening to Partnerships.”
+
+“Mind the gap—add an email so we can reply.”
+
+“This pilot deserves clear success measures—what are yours?”
+
+Routing logic (smart hints)
+
+If “hospital” + “pilot” → suggest Clinical next.
+
+If “multilingual” + “integrations” → suggest Product next.
+
+If “brand” + “episodes” → suggest Sponsorship next.
+
+Validation & errors
+
+Per-floor required minimal set (don’t block early).
+
+Missing essentials flagged in lobby summary.
+
+Never lose data when switching floors (persist per floor).
+
+Accessibility
+
+Floors are real buttons with ARIA states (“selected”, “visited”).
+
+Doors have descriptive labels: “Clinical intake panel.”
+
+Keyboard: arrows move floors; Enter opens; Tab cycles fields.
+
+Color-agnostic visited state (icons + labels).
+
+Light tracking
+
+Floor entry/exit events
+
+Paths taken between floors
+
+Conversion by entry floor

@@ -34,6 +34,8 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
   const [curtainAnswers, setCurtainAnswers] = useState<Record<string, any>>({});
   const [curtainSubmitted, setCurtainSubmitted] = useState(false);
   const [holdProgress, setHoldProgress] = useState(0);
+  const [isHolding, setIsHolding] = useState(false);
+  const holdIntervalRef = useRef<NodeJS.Timeout | null>(null);
   
   // Elevator state
   const [currentFloor, setCurrentFloor] = useState(0);
@@ -41,6 +43,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
   const [floorData, setFloorData] = useState<Record<number, any>>({});
   const [elevatorSubmitted, setElevatorSubmitted] = useState(false);
   const [elevatorMoving, setElevatorMoving] = useState(false);
+  const [showSummaryLobby, setShowSummaryLobby] = useState(false);
   
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -1064,6 +1067,25 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                             What brings you here?
                           </h3>
                           <p className="text-gray-600 dark:text-gray-400">We'll tailor the next steps</p>
+                          
+                          {/* Intent-specific helper copy */}
+                          <AnimatePresence mode="wait">
+                            {curtainAnswers.intent && (
+                              <motion.p
+                                key={curtainAnswers.intent}
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
+                                className="mt-3 text-cyan-600 dark:text-cyan-400 font-medium"
+                              >
+                                {curtainAnswers.intent === "Partnership" && "Tell us who you serve and how we can move the needle."}
+                                {curtainAnswers.intent === "Pilot project" && "Scope, timeline, and what 'success' looks like."}
+                                {curtainAnswers.intent === "Sponsorship" && "Which topics, geographies, and outcomes matter most?"}
+                                {curtainAnswers.intent === "Careers" && "Link work you're proud of—we review every note."}
+                                {curtainAnswers.intent === "Other" && "We're listening."}
+                              </motion.p>
+                            )}
+                          </AnimatePresence>
                         </div>
                         
                         <div className="grid gap-3">
@@ -1320,31 +1342,155 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                             className="flex-1 bg-cyan-600 dark:bg-cyan-500 text-white"
                             data-testid="button-curtain-next-4"
                           >
-                            Review <ChevronRight className="ml-2 w-4 h-4" />
+                            Next <ArrowRight className="ml-2 w-4 h-4" />
                           </Button>
                         </div>
                       </div>
                     )}
 
-                    {curtainStep === 5 && !curtainSubmitted && (
+                    {curtainStep === 5 && (
+                      <div className="space-y-6">
+                        <div>
+                          <h3 className="text-3xl font-bold mb-2 text-gray-900 dark:text-white">
+                            Optional add-ons
+                          </h3>
+                          <p className="text-gray-600 dark:text-gray-400">Enhance your request</p>
+                        </div>
+                        
+                        <div className="space-y-3">
+                          <label className="flex items-center gap-3 p-4 border-2 border-gray-200 dark:border-gray-700 rounded-xl cursor-pointer hover:border-cyan-300 dark:hover:border-cyan-700 transition-colors">
+                            <input
+                              type="checkbox"
+                              checked={curtainAnswers.attachDeck || false}
+                              onChange={(e) => setCurtainAnswers({ ...curtainAnswers, attachDeck: e.target.checked })}
+                              className="w-5 h-5 text-cyan-600"
+                              data-testid="toggle-attach-deck"
+                            />
+                            <Upload className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+                            <div className="flex-1">
+                              <p className="font-semibold text-gray-900 dark:text-white">Attach deck/link</p>
+                              <p className="text-sm text-gray-600 dark:text-gray-400">Share supporting materials</p>
+                            </div>
+                          </label>
+
+                          <label className="flex items-center gap-3 p-4 border-2 border-gray-200 dark:border-gray-700 rounded-xl cursor-pointer hover:border-cyan-300 dark:hover:border-cyan-700 transition-colors">
+                            <input
+                              type="checkbox"
+                              checked={curtainAnswers.voiceNote || false}
+                              onChange={(e) => setCurtainAnswers({ ...curtainAnswers, voiceNote: e.target.checked })}
+                              className="w-5 h-5 text-cyan-600"
+                              data-testid="toggle-voice-note"
+                            />
+                            <Mic className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+                            <div className="flex-1">
+                              <p className="font-semibold text-gray-900 dark:text-white">Add 30-sec voice note</p>
+                              <p className="text-sm text-gray-600 dark:text-gray-400">Auto-captions appear to edit</p>
+                            </div>
+                          </label>
+
+                          <label className="flex items-center gap-3 p-4 border-2 border-gray-200 dark:border-gray-700 rounded-xl cursor-pointer hover:border-cyan-300 dark:hover:border-cyan-700 transition-colors">
+                            <input
+                              type="checkbox"
+                              checked={curtainAnswers.confidential || false}
+                              onChange={(e) => setCurtainAnswers({ ...curtainAnswers, confidential: e.target.checked })}
+                              className="w-5 h-5 text-cyan-600"
+                              data-testid="toggle-confidential"
+                            />
+                            <Lock className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+                            <div className="flex-1">
+                              <p className="font-semibold text-gray-900 dark:text-white">Confidential mode</p>
+                              <p className="text-sm text-gray-600 dark:text-gray-400">Instant NDA link + plain-language summary</p>
+                            </div>
+                          </label>
+                        </div>
+
+                        <div className="flex gap-3">
+                          <Button
+                            variant="outline"
+                            onClick={() => setCurtainStep(4)}
+                            data-testid="button-curtain-back-5"
+                          >
+                            <ArrowLeft className="mr-2 w-4 h-4" /> Back
+                          </Button>
+                          <Button
+                            onClick={() => setCurtainStep(6)}
+                            className="flex-1 bg-cyan-600 dark:bg-cyan-500 text-white"
+                            data-testid="button-curtain-next-5"
+                          >
+                            Review <ArrowRight className="ml-2 w-4 h-4" />
+                          </Button>
+                        </div>
+                      </div>
+                    )}
+
+                    {curtainStep === 6 && !curtainSubmitted && (
                       <div className="space-y-6">
                         <h3 className="text-3xl font-bold mb-4 text-gray-900 dark:text-white">
                           Review your message
                         </h3>
                         
-                        <div className="space-y-3 bg-gray-50 dark:bg-gray-900 rounded-xl p-6">
-                          <div className="flex justify-between items-center">
-                            <span className="text-sm text-gray-600 dark:text-gray-400">Intent:</span>
-                            <span className="font-semibold text-gray-900 dark:text-white">{curtainAnswers.intent}</span>
-                          </div>
-                          <div className="flex justify-between items-center">
-                            <span className="text-sm text-gray-600 dark:text-gray-400">Name:</span>
-                            <span className="font-semibold text-gray-900 dark:text-white">{curtainAnswers.name}</span>
-                          </div>
-                          <div className="flex justify-between items-center">
-                            <span className="text-sm text-gray-600 dark:text-gray-400">Email:</span>
-                            <span className="font-semibold text-gray-900 dark:text-white">{curtainAnswers.email}</span>
-                          </div>
+                        {/* Collapsible summary with inline editing */}
+                        <div className="space-y-3">
+                          <details open className="bg-gray-50 dark:bg-gray-900 rounded-xl p-6">
+                            <summary className="cursor-pointer font-semibold text-gray-900 dark:text-white mb-4">
+                              Your answers (click to edit inline)
+                            </summary>
+                            <div className="space-y-4">
+                              <div>
+                                <label className="text-xs text-gray-600 dark:text-gray-400">Intent</label>
+                                <p className="font-medium text-gray-900 dark:text-white">{curtainAnswers.intent}</p>
+                              </div>
+                              <div>
+                                <label className="text-xs text-gray-600 dark:text-gray-400">Name</label>
+                                <Input
+                                  value={curtainAnswers.name || ""}
+                                  onChange={(e) => setCurtainAnswers({ ...curtainAnswers, name: e.target.value })}
+                                  className="mt-1 h-10"
+                                />
+                              </div>
+                              <div>
+                                <label className="text-xs text-gray-600 dark:text-gray-400">Role</label>
+                                <p className="font-medium text-gray-900 dark:text-white capitalize">{curtainAnswers.role}</p>
+                              </div>
+                              <div>
+                                <label className="text-xs text-gray-600 dark:text-gray-400">Message</label>
+                                <Textarea
+                                  value={curtainAnswers.message || ""}
+                                  onChange={(e) => setCurtainAnswers({ ...curtainAnswers, message: e.target.value })}
+                                  rows={3}
+                                  className="mt-1"
+                                />
+                              </div>
+                              <div>
+                                <label className="text-xs text-gray-600 dark:text-gray-400">Urgency</label>
+                                <p className="font-medium text-gray-900 dark:text-white">
+                                  {curtainAnswers.urgency === 0 && "Today"}
+                                  {curtainAnswers.urgency === 1 && "48 hours"}
+                                  {curtainAnswers.urgency === 2 && "Next week"}
+                                </p>
+                              </div>
+                              <div>
+                                <label className="text-xs text-gray-600 dark:text-gray-400">Email</label>
+                                <Input
+                                  type="email"
+                                  value={curtainAnswers.email || ""}
+                                  onChange={(e) => setCurtainAnswers({ ...curtainAnswers, email: e.target.value })}
+                                  className="mt-1 h-10"
+                                />
+                              </div>
+                              {curtainAnswers.phone && (
+                                <div>
+                                  <label className="text-xs text-gray-600 dark:text-gray-400">Phone</label>
+                                  <Input
+                                    type="tel"
+                                    value={curtainAnswers.phone || ""}
+                                    onChange={(e) => setCurtainAnswers({ ...curtainAnswers, phone: e.target.value })}
+                                    className="mt-1 h-10"
+                                  />
+                                </div>
+                              )}
+                            </div>
+                          </details>
                         </div>
 
                         <div className="relative">
@@ -1357,11 +1503,10 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                             <motion.svg
                               className="w-full h-full"
                               viewBox="0 0 400 10"
-                              initial={{ x: -400 }}
-                              animate={{ x: holdProgress > 0 ? 400 : -400 }}
+                              animate={{ x: holdProgress >= 100 ? [0, 400] : 0 }}
                               transition={{ duration: 0.7, ease: "linear" }}
                             >
-                              <motion.path
+                              <path
                                 d="M 0 5 L 20 5 L 25 2 L 30 8 L 35 5 L 50 5"
                                 stroke="#0891B2"
                                 strokeWidth="2"
@@ -1383,31 +1528,62 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                           <div className="flex gap-3">
                             <Button
                               variant="outline"
-                              onClick={() => setCurtainStep(4)}
-                              data-testid="button-curtain-back-5"
-                              disabled={holdProgress > 0}
+                              onClick={() => setCurtainStep(5)}
+                              data-testid="button-curtain-back-6"
+                              disabled={isHolding}
                             >
                               <ArrowLeft className="mr-2 w-4 h-4" /> Back
                             </Button>
                             <Button
-                              onClick={() => {
-                                setHoldProgress(1);
-                                setTimeout(() => {
-                                  setCurtainSubmitted(true);
-                                  setHoldProgress(0);
-                                  setTimeout(() => {
-                                    setCurtainSubmitted(false);
-                                    setCurtainOpen(false);
-                                    setCurtainStep(0);
-                                    setCurtainAnswers({});
-                                  }, 4000);
-                                }, 700);
+                              onMouseDown={() => {
+                                setIsHolding(true);
+                                if (holdIntervalRef.current) clearInterval(holdIntervalRef.current);
+                                const interval = setInterval(() => {
+                                  setHoldProgress(prev => {
+                                    if (prev >= 100) {
+                                      clearInterval(interval);
+                                      setCurtainSubmitted(true);
+                                      setHoldProgress(0);
+                                      setIsHolding(false);
+                                      setTimeout(() => {
+                                        setCurtainSubmitted(false);
+                                        setCurtainOpen(false);
+                                        setCurtainStep(0);
+                                        setCurtainAnswers({});
+                                      }, 4000);
+                                      return 100;
+                                    }
+                                    return prev + 10;
+                                  });
+                                }, 100);
+                                holdIntervalRef.current = interval;
                               }}
-                              disabled={holdProgress > 0}
-                              className="flex-1 bg-cyan-600 dark:bg-cyan-500 text-white"
+                              onMouseUp={() => {
+                                setIsHolding(false);
+                                if (holdIntervalRef.current) {
+                                  clearInterval(holdIntervalRef.current);
+                                  setHoldProgress(0);
+                                }
+                              }}
+                              onMouseLeave={() => {
+                                setIsHolding(false);
+                                if (holdIntervalRef.current) {
+                                  clearInterval(holdIntervalRef.current);
+                                  setHoldProgress(0);
+                                }
+                              }}
+                              className="flex-1 bg-cyan-600 dark:bg-cyan-500 text-white relative overflow-hidden"
                               data-testid="button-curtain-submit"
                             >
-                              {holdProgress > 0 ? "Sending..." : "Send with care"}
+                              <motion.div
+                                className="absolute inset-0 bg-cyan-700 dark:bg-cyan-600"
+                                initial={{ width: "0%" }}
+                                animate={{ width: `${holdProgress}%` }}
+                                transition={{ duration: 0.1 }}
+                              />
+                              <span className="relative z-10">
+                                {holdProgress > 0 ? `Sending... ${holdProgress}%` : "Press and hold to send with care"}
+                              </span>
                             </Button>
                           </div>
                         </div>
@@ -1423,10 +1599,20 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                         <div className="w-16 h-16 bg-emerald-100 dark:bg-emerald-950/30 rounded-full flex items-center justify-center mx-auto">
                           <Check className="w-8 h-8 text-emerald-600 dark:text-emerald-400" />
                         </div>
-                        <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Message received</h3>
+                        <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Message received.</h3>
                         <p className="text-gray-600 dark:text-gray-400">
-                          Pulse ID: #{Math.random().toString(36).substring(2, 8).toUpperCase()} • Reply within 48 hours
+                          Pulse ID #MX-{Math.random().toString(36).substring(2, 5).toUpperCase()} • Reply within 48 hours
                         </p>
+                        <Button
+                          variant="outline"
+                          onClick={() => {
+                            navigator.clipboard.writeText(`#MX-${Math.random().toString(36).substring(2, 5).toUpperCase()}`);
+                          }}
+                          className="mt-4"
+                          data-testid="button-copy-confirmation"
+                        >
+                          Copy confirmation link
+                        </Button>
                       </motion.div>
                     )}
                   </CardContent>
@@ -1518,6 +1704,44 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                       {currentFloor === 6 && "⬚ CAREERS ⬚"}
                     </motion.p>
                   </div>
+
+                  {/* Mini directory - next floors */}
+                  <div className="bg-black/50 rounded-lg p-3 mb-4 border border-gray-800">
+                    <p className="text-xs text-gray-500 uppercase tracking-wider mb-2">Directory</p>
+                    <div className="grid grid-cols-2 gap-2 text-xs">
+                      <div className={visitedFloors.includes(3) ? "text-emerald-400" : "text-gray-400"}>3 - Partnerships</div>
+                      <div className={visitedFloors.includes(4) ? "text-emerald-400" : "text-gray-400"}>4 - Clinical</div>
+                      <div className={visitedFloors.includes(5) ? "text-emerald-400" : "text-gray-400"}>5 - Product</div>
+                      <div className={visitedFloors.includes(6) ? "text-emerald-400" : "text-gray-400"}>6 - Careers</div>
+                    </div>
+                  </div>
+
+                  {/* Progress indicator light */}
+                  {visitedFloors.length > 0 && (
+                    <div className="mb-4 flex items-center gap-2">
+                      <div className="flex-1 bg-gray-800 rounded-full h-1 relative overflow-hidden">
+                        <motion.div
+                          className="absolute inset-y-0 left-0 bg-gradient-to-r from-cyan-600 to-emerald-600"
+                          initial={{ width: "0%" }}
+                          animate={{ width: `${(visitedFloors.length / 4) * 100}%` }}
+                          transition={{ duration: 0.5 }}
+                        >
+                          <motion.div
+                            className="absolute right-0 w-2 h-2 bg-emerald-400 rounded-full -top-0.5"
+                            animate={{
+                              boxShadow: [
+                                "0 0 4px rgba(52, 211, 153, 0.8)",
+                                "0 0 12px rgba(52, 211, 153, 1)",
+                                "0 0 4px rgba(52, 211, 153, 0.8)"
+                              ]
+                            }}
+                            transition={{ duration: 1, repeat: Infinity }}
+                          />
+                        </motion.div>
+                      </div>
+                      <span className="text-xs text-gray-400 font-mono">{visitedFloors.length}/4</span>
+                    </div>
+                  )}
 
                   {/* Floor buttons */}
                   <div className="space-y-2">
@@ -1628,73 +1852,240 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                         {currentFloor === 6 && "Careers"}
                       </CardTitle>
                       <CardDescription>
-                        {currentFloor === 0 && "Choose a floor to start your journey"}
-                        {currentFloor === 3 && "Collabs that improve real outcomes"}
-                        {currentFloor === 4 && "Pilot design that respects clinicians and patients"}
-                        {currentFloor === 5 && "From idea to useful"}
-                        {currentFloor === 6 && "Mission-first builders welcome"}
+                        {currentFloor === 0 && visitedFloors.length === 0 && "Choose a floor to start your journey. Mind the gap!"}
+                        {currentFloor === 0 && visitedFloors.length > 0 && "Back to the Lobby - all your inputs preserved"}
+                        {currentFloor === 3 && "Collabs that improve real outcomes. Doors opening to partnerships..."}
+                        {currentFloor === 4 && "Pilot design that respects clinicians and patients. Going up..."}
+                        {currentFloor === 5 && "From idea to useful. Doors sliding open..."}
+                        {currentFloor === 6 && "Mission-first builders welcome. Top floor, everyone out!"}
                       </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4">
-                      {currentFloor === 0 && (
+                      {currentFloor === 0 && visitedFloors.length === 0 && (
                         <div className="text-center py-12">
                           <p className="text-gray-600 dark:text-gray-400 mb-6">
-                            Select a floor above to begin
+                            Select a floor above to begin. Mind the gap!
                           </p>
                           <Building2 className="w-24 h-24 text-cyan-600 dark:text-cyan-400 mx-auto opacity-50" />
                         </div>
                       )}
 
+                      {/* Summary Lobby - auto shows when floors visited */}
+                      {currentFloor === 0 && visitedFloors.length > 0 && (
+                        <div className="space-y-6">
+                          <div className="bg-cyan-50 dark:bg-cyan-950/20 rounded-xl p-6 border-2 border-cyan-200 dark:border-cyan-800">
+                            <h4 className="font-bold text-lg mb-3 text-cyan-900 dark:text-cyan-100">📋 Summary Lobby</h4>
+                            <p className="text-sm text-cyan-800 dark:text-cyan-200 mb-4">
+                              You've visited {visitedFloors.length} floor{visitedFloors.length > 1 ? 's' : ''}. Review your inputs or ride to another floor.
+                            </p>
+                            
+                            {/* Show collected data */}
+                            <div className="space-y-3">
+                              {visitedFloors.map(floor => (
+                                <div key={floor} className="bg-white dark:bg-gray-900 rounded-lg p-3 border border-gray-200 dark:border-gray-800">
+                                  <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">
+                                    Floor {floor} - {floor === 3 && "Partnerships"}{floor === 4 && "Clinical"}{floor === 5 && "Product"}{floor === 6 && "Careers"}
+                                  </p>
+                                  <p className="text-sm text-gray-900 dark:text-white">
+                                    {Object.keys(floorData[floor] || {}).length} field{Object.keys(floorData[floor] || {}).length !== 1 ? 's' : ''} completed
+                                  </p>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* Smart routing hints */}
+                          {visitedFloors.includes(3) && floorData[3]?.org?.toLowerCase().includes('hospital') && (
+                            <div className="bg-violet-50 dark:bg-violet-950/20 rounded-lg p-4 border border-violet-200 dark:border-violet-800">
+                              <p className="text-sm text-violet-900 dark:text-violet-100">
+                                💡 <strong>Hint:</strong> Since you mentioned a hospital, Floor 4 (Clinical Pilots) might be useful.
+                              </p>
+                            </div>
+                          )}
+
+                          {visitedFloors.includes(3) && floorData[3]?.outcome?.toLowerCase().includes('pilot') && !visitedFloors.includes(4) && (
+                            <div className="bg-violet-50 dark:bg-violet-950/20 rounded-lg p-4 border border-violet-200 dark:border-violet-800">
+                              <p className="text-sm text-violet-900 dark:text-violet-100">
+                                💡 <strong>Hint:</strong> You mentioned "pilot" - consider visiting Floor 4 (Clinical).
+                              </p>
+                            </div>
+                          )}
+
+                          <Button
+                            onClick={() => {
+                              setElevatorSubmitted(true);
+                              setTimeout(() => {
+                                setElevatorSubmitted(false);
+                                setCurrentFloor(0);
+                                setVisitedFloors([]);
+                                setFloorData({});
+                              }, 4000);
+                            }}
+                            className="w-full bg-emerald-600 dark:bg-emerald-500 text-white"
+                            data-testid="button-submit-elevator"
+                          >
+                            Submit All Floors
+                          </Button>
+                        </div>
+                      )}
+
                       {currentFloor === 3 && (
                         <div className="space-y-4">
-                          <Input placeholder="Organization" data-testid="input-org" className="h-12" />
-                          <Input placeholder="Region" data-testid="input-region" className="h-12" />
-                          <Textarea placeholder="Problem statement" rows={4} data-testid="textarea-problem" />
-                          <Input placeholder="Desired outcome" data-testid="input-outcome" className="h-12" />
-                          <Button className="w-full bg-cyan-600 dark:bg-cyan-500 text-white" data-testid="button-partnerships-next">
-                            Save & Continue
+                          <Input 
+                            placeholder="Organization" 
+                            data-testid="input-org" 
+                            className="h-12"
+                            value={floorData[3]?.org || ""}
+                            onChange={(e) => setFloorData({ ...floorData, 3: { ...floorData[3], org: e.target.value } })}
+                          />
+                          <Input 
+                            placeholder="Region" 
+                            data-testid="input-region" 
+                            className="h-12"
+                            value={floorData[3]?.region || ""}
+                            onChange={(e) => setFloorData({ ...floorData, 3: { ...floorData[3], region: e.target.value } })}
+                          />
+                          <Textarea 
+                            placeholder="Problem statement (what keeps you up at night?)" 
+                            rows={4} 
+                            data-testid="textarea-problem"
+                            value={floorData[3]?.problem || ""}
+                            onChange={(e) => setFloorData({ ...floorData, 3: { ...floorData[3], problem: e.target.value } })}
+                          />
+                          <Input 
+                            placeholder="Desired outcome (in your words)" 
+                            data-testid="input-outcome" 
+                            className="h-12"
+                            value={floorData[3]?.outcome || ""}
+                            onChange={(e) => setFloorData({ ...floorData, 3: { ...floorData[3], outcome: e.target.value } })}
+                          />
+                          <Button 
+                            onClick={() => setCurrentFloor(0)}
+                            className="w-full bg-cyan-600 dark:bg-cyan-500 text-white" 
+                            data-testid="button-partnerships-next"
+                          >
+                            Back to Lobby →
                           </Button>
                         </div>
                       )}
 
                       {currentFloor === 4 && (
                         <div className="space-y-4">
-                          <Select>
+                          <Select
+                            value={floorData[4]?.setting || ""}
+                            onValueChange={(value) => setFloorData({ ...floorData, 4: { ...floorData[4], setting: value } })}
+                          >
                             <SelectTrigger className="h-12" data-testid="select-setting">
                               <SelectValue placeholder="Setting (Hospital/Clinic/Remote)" />
                             </SelectTrigger>
                             <SelectContent>
                               <SelectItem value="hospital">Hospital</SelectItem>
                               <SelectItem value="clinic">Clinic</SelectItem>
-                              <SelectItem value="remote">Remote</SelectItem>
+                              <SelectItem value="remote">Remote/Telehealth</SelectItem>
+                              <SelectItem value="home">Home care</SelectItem>
                             </SelectContent>
                           </Select>
-                          <Input placeholder="Population" data-testid="input-population" className="h-12" />
-                          <Textarea placeholder="Measures of success" rows={4} data-testid="textarea-measures" />
-                          <Button className="w-full bg-cyan-600 dark:bg-cyan-500 text-white" data-testid="button-clinical-next">
-                            Save & Continue
+                          <Input 
+                            placeholder="Population (who benefits?)" 
+                            data-testid="input-population" 
+                            className="h-12"
+                            value={floorData[4]?.population || ""}
+                            onChange={(e) => setFloorData({ ...floorData, 4: { ...floorData[4], population: e.target.value } })}
+                          />
+                          <Textarea 
+                            placeholder="Measures of success (what gets better?)" 
+                            rows={4} 
+                            data-testid="textarea-measures"
+                            value={floorData[4]?.measures || ""}
+                            onChange={(e) => setFloorData({ ...floorData, 4: { ...floorData[4], measures: e.target.value } })}
+                          />
+                          <div className="flex items-center gap-2">
+                            <input
+                              type="checkbox"
+                              checked={floorData[4]?.irb || false}
+                              onChange={(e) => setFloorData({ ...floorData, 4: { ...floorData[4], irb: e.target.checked } })}
+                              className="w-4 h-4"
+                            />
+                            <label className="text-sm text-gray-700 dark:text-gray-300">IRB approval in place</label>
+                          </div>
+                          <Button 
+                            onClick={() => setCurrentFloor(0)}
+                            className="w-full bg-cyan-600 dark:bg-cyan-500 text-white" 
+                            data-testid="button-clinical-next"
+                          >
+                            Back to Lobby →
                           </Button>
                         </div>
                       )}
 
                       {currentFloor === 5 && (
                         <div className="space-y-4">
-                          <Input placeholder="Use case" data-testid="input-usecase" className="h-12" />
-                          <Input placeholder="Required integrations" data-testid="input-integrations" className="h-12" />
-                          <Input placeholder="Languages needed" data-testid="input-languages" className="h-12" />
-                          <Textarea placeholder="Constraints (budget/infra)" rows={4} data-testid="textarea-constraints" />
-                          <Button className="w-full bg-cyan-600 dark:bg-cyan-500 text-white" data-testid="button-product-next">
-                            Save & Continue
+                          <Input 
+                            placeholder="Use case (what problem are we solving?)" 
+                            data-testid="input-usecase" 
+                            className="h-12"
+                            value={floorData[5]?.usecase || ""}
+                            onChange={(e) => setFloorData({ ...floorData, 5: { ...floorData[5], usecase: e.target.value } })}
+                          />
+                          <Input 
+                            placeholder="Required integrations (EHR, APIs, etc)" 
+                            data-testid="input-integrations" 
+                            className="h-12"
+                            value={floorData[5]?.integrations || ""}
+                            onChange={(e) => setFloorData({ ...floorData, 5: { ...floorData[5], integrations: e.target.value } })}
+                          />
+                          <Input 
+                            placeholder="Languages needed (if applicable)" 
+                            data-testid="input-languages" 
+                            className="h-12"
+                            value={floorData[5]?.languages || ""}
+                            onChange={(e) => setFloorData({ ...floorData, 5: { ...floorData[5], languages: e.target.value } })}
+                          />
+                          <Textarea 
+                            placeholder="Constraints (budget/infra/timeline)" 
+                            rows={4} 
+                            data-testid="textarea-constraints"
+                            value={floorData[5]?.constraints || ""}
+                            onChange={(e) => setFloorData({ ...floorData, 5: { ...floorData[5], constraints: e.target.value } })}
+                          />
+                          <Button 
+                            onClick={() => setCurrentFloor(0)}
+                            className="w-full bg-cyan-600 dark:bg-cyan-500 text-white" 
+                            data-testid="button-product-next"
+                          >
+                            Back to Lobby →
                           </Button>
                         </div>
                       )}
 
                       {currentFloor === 6 && (
                         <div className="space-y-4">
-                          <Input placeholder="Your name" data-testid="input-career-name" className="h-12" />
-                          <Input type="email" placeholder="Email" data-testid="input-career-email" className="h-12" />
-                          <Input placeholder="Portfolio/LinkedIn" data-testid="input-portfolio" className="h-12" />
-                          <Select>
+                          <Input 
+                            placeholder="Your name" 
+                            data-testid="input-career-name" 
+                            className="h-12"
+                            value={floorData[6]?.name || ""}
+                            onChange={(e) => setFloorData({ ...floorData, 6: { ...floorData[6], name: e.target.value } })}
+                          />
+                          <Input 
+                            type="email" 
+                            placeholder="Email" 
+                            data-testid="input-career-email" 
+                            className="h-12"
+                            value={floorData[6]?.email || ""}
+                            onChange={(e) => setFloorData({ ...floorData, 6: { ...floorData[6], email: e.target.value } })}
+                          />
+                          <Input 
+                            placeholder="Portfolio/LinkedIn (link work you're proud of)" 
+                            data-testid="input-portfolio" 
+                            className="h-12"
+                            value={floorData[6]?.portfolio || ""}
+                            onChange={(e) => setFloorData({ ...floorData, 6: { ...floorData[6], portfolio: e.target.value } })}
+                          />
+                          <Select
+                            value={floorData[6]?.role || ""}
+                            onValueChange={(value) => setFloorData({ ...floorData, 6: { ...floorData[6], role: value } })}
+                          >
                             <SelectTrigger className="h-12" data-testid="select-role">
                               <SelectValue placeholder="Role you're interested in" />
                             </SelectTrigger>
@@ -1702,12 +2093,23 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                               <SelectItem value="engineer">Engineer</SelectItem>
                               <SelectItem value="designer">Designer</SelectItem>
                               <SelectItem value="clinical">Clinical</SelectItem>
+                              <SelectItem value="product">Product</SelectItem>
                               <SelectItem value="other">Other</SelectItem>
                             </SelectContent>
                           </Select>
-                          <Textarea placeholder="Why Medicoz?" rows={4} data-testid="textarea-why" />
-                          <Button className="w-full bg-cyan-600 dark:bg-cyan-500 text-white" data-testid="button-career-submit">
-                            Send Application
+                          <Textarea 
+                            placeholder="Why Medicoz? (mission-first builders welcome)" 
+                            rows={4} 
+                            data-testid="textarea-why"
+                            value={floorData[6]?.why || ""}
+                            onChange={(e) => setFloorData({ ...floorData, 6: { ...floorData[6], why: e.target.value } })}
+                          />
+                          <Button 
+                            onClick={() => setCurrentFloor(0)}
+                            className="w-full bg-cyan-600 dark:bg-cyan-500 text-white" 
+                            data-testid="button-career-submit"
+                          >
+                            Back to Lobby →
                           </Button>
                         </div>
                       )}
