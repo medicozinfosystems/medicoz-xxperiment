@@ -1,11 +1,12 @@
-import { motion, useScroll, useTransform } from "framer-motion";
-import { Mic, Smartphone, Mail, Briefcase, MapPin, Phone, Linkedin, Youtube, Heart, Lock, Brain, Leaf, Calendar, Pill, MessageCircle, Activity } from "lucide-react";
+import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
+import { Mic, Smartphone, Mail, Linkedin, Youtube, Heart, Lock, Brain, Leaf, Activity } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
+import HandwrittenText from "@/components/HandwrittenText";
 
 interface MainSiteProps {
   showButtonsImmediately?: boolean;
@@ -15,84 +16,63 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
   const heroRef = useRef<HTMLDivElement>(null);
   const servicesRef = useRef<HTMLDivElement>(null);
   const teamRef = useRef<HTMLDivElement>(null);
+  const footerRef = useRef<HTMLDivElement>(null);
   const [selectedIntent, setSelectedIntent] = useState<string | null>(null);
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [hoveredMember, setHoveredMember] = useState<number | null>(null);
+  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
+  const [pulsePosition, setPulsePosition] = useState(0);
+  const [ecgSpeed, setEcgSpeed] = useState(3);
   
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const springX = useSpring(mouseX, { stiffness: 150, damping: 15 });
+  const springY = useSpring(mouseY, { stiffness: 150, damping: 15 });
+
   const { scrollYProgress: heroScrollProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end start"]
   });
 
-  const { scrollYProgress: servicesScrollProgress } = useScroll({
-    target: servicesRef,
-    offset: ["start end", "end start"]
-  });
-
-  const { scrollYProgress: teamScrollProgress } = useScroll({
-    target: teamRef,
-    offset: ["start end", "end start"]
-  });
-
   const heroY = useTransform(heroScrollProgress, [0, 1], ["0%", "30%"]);
   const heroOpacity = useTransform(heroScrollProgress, [0, 0.5], [1, 0]);
+  const ribbonY = useTransform(heroScrollProgress, [0, 1], [0, 200]);
 
   const teamMembers = [
     {
       name: "Meera Gupta",
       role: "Chief Experience Officer",
-      bio: "Designing interfaces that feel like a conversation.",
-      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Meera"
+      tagline: "Engineer of empathy",
+      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Meera",
+      color: "#DB2777" // pink
     },
     {
       name: "Arjun Khanna",
       role: "Head of Engineering",
-      bio: "Reliability you can feel. Speed you can't notice.",
-      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Arjun"
+      tagline: "Building care into code",
+      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Arjun",
+      color: "#0891B2" // cyan
     },
     {
       name: "Veda Raman",
       role: "Clinical Partnerships",
-      bio: "Care pathways that meet people where they are.",
-      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Veda"
+      tagline: "Bridging health and tech",
+      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Veda",
+      color: "#7C3AED" // violet
     },
     {
       name: "Harshiv Gajjar",
       role: "Product & Platforms",
-      bio: "Turning empathy into infrastructure.",
-      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Harshiv"
+      tagline: "Designing technology that feels human",
+      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Harshiv",
+      color: "#059669" // emerald
     },
     {
       name: "Mitra Vanshita",
       role: "Strategy & Growth",
-      bio: "Scaling trust across cultures.",
-      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Mitra"
-    }
-  ];
-
-  const values = [
-    {
-      icon: Heart,
-      title: "Empathy in every interface",
-      description: "We measure success by felt relief.",
-      color: "#DB2777" // pink
-    },
-    {
-      icon: Lock,
-      title: "Privacy by default",
-      description: "Your data belongs to you.",
-      color: "#7C3AED" // violet
-    },
-    {
-      icon: Brain,
-      title: "Intelligence that empowers",
-      description: "Augmenting clinicians, not replacing them.",
-      color: "#0891B2" // cyan
-    },
-    {
-      icon: Leaf,
-      title: "Sustainable innovation",
-      description: "Long-term health, not hype.",
-      color: "#059669" // emerald
+      tagline: "Scaling trust globally",
+      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Mitra",
+      color: "#3B82F6" // blue
     }
   ];
 
@@ -104,21 +84,58 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
     setTimeout(() => setFormSubmitted(false), 4000);
   };
 
+  // Cursor ripple effect
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (heroRef.current) {
+        const rect = heroRef.current.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        mouseX.set(x);
+        mouseY.set(y);
+        setCursorPosition({ x, y });
+      }
+    };
+
+    const heroElement = heroRef.current;
+    if (heroElement) {
+      heroElement.addEventListener('mousemove', handleMouseMove);
+      return () => heroElement.removeEventListener('mousemove', handleMouseMove);
+    }
+  }, [mouseX, mouseY]);
+
+  // Footer ECG pulse animation
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setPulsePosition(0);
+      setTimeout(() => setPulsePosition(100), 50);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950">
-      {/* Hero Section - Seamless from Preloader */}
+      {/* Hero Section */}
       <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-white via-cyan-50/20 to-violet-50/10 dark:from-gray-950 dark:via-cyan-950/20 dark:to-violet-950/10">
-        <motion.div 
-          className="absolute inset-0"
-          style={{ y: heroY }}
+        
+        {/* Cursor Ripple Effect */}
+        <motion.div
+          className="absolute w-64 h-64 rounded-full pointer-events-none"
+          style={{
+            background: `radial-gradient(circle, rgba(8, 145, 178, 0.15) 0%, transparent 70%)`,
+            left: springX,
+            top: springY,
+            x: "-50%",
+            y: "-50%"
+          }}
         />
 
-        {/* Real ECG Pattern */}
+        {/* ECG Pulse → Data Ribbon */}
         <svg className="absolute inset-0 w-full h-full opacity-10" preserveAspectRatio="none">
           <motion.path
-            d="M 0 50 L 100 50 L 120 30 L 140 70 L 160 50 L 180 50 L 200 40 L 220 60 L 240 50 L 300 50 L 320 20 L 340 80 L 360 50 L 500 50"
+            d="M 0 50 L 100 50 L 120 30 L 140 70 L 160 50 L 180 50 L 200 40 L 220 60 L 240 50 L 400 50"
             stroke="#0891B2"
-            strokeWidth="1.5"
+            strokeWidth="2"
             fill="none"
             initial={{ pathLength: 0 }}
             animate={{ pathLength: 1 }}
@@ -126,6 +143,29 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
             vectorEffect="non-scaling-stroke"
           />
         </svg>
+
+        {/* Flowing Data Ribbon */}
+        <motion.svg 
+          className="absolute inset-0 w-full h-full opacity-20 pointer-events-none"
+          style={{ y: ribbonY }}
+        >
+          <motion.path
+            d="M 0 100 Q 200 80, 400 100 T 800 100 T 1200 100"
+            stroke="url(#ribbonGradient)"
+            strokeWidth="3"
+            fill="none"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ pathLength: 1, opacity: 1 }}
+            transition={{ duration: 2, delay: 1.5 }}
+          />
+          <defs>
+            <linearGradient id="ribbonGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#0891B2" />
+              <stop offset="50%" stopColor="#7C3AED" />
+              <stop offset="100%" stopColor="#DB2777" />
+            </linearGradient>
+          </defs>
+        </motion.svg>
 
         <motion.div 
           className="max-w-6xl mx-auto px-6 text-center relative z-10"
@@ -153,18 +193,13 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
             Medicoz Infosystems
           </motion.h1>
 
-          {/* Handwritten Tagline */}
-          <motion.p 
-            className="text-4xl md:text-5xl lg:text-6xl mb-12 text-violet-600 dark:text-violet-400 font-semibold"
-            style={{ 
-              fontFamily: "'Caveat', cursive"
-            }}
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.8, duration: 1, ease: "easeOut" }}
-          >
-            Technology that cares
-          </motion.p>
+          {/* Handwritten Tagline with Writing Animation */}
+          <HandwrittenText 
+            text="Technology that cares"
+            delay={0.8}
+            duration={3}
+            className="mb-12"
+          />
 
           {/* Support Text */}
           <motion.p 
@@ -225,8 +260,8 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
               <Card className="h-full border-l-4 border-l-pink-600 hover-elevate bg-white dark:bg-gray-800 dark:border-l-pink-400" data-testid="card-xxperiment">
                 <CardHeader className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <Badge className="bg-pink-100 text-pink-700 border-0">Podcast</Badge>
-                    <div className="p-3 rounded-xl bg-pink-600">
+                    <Badge className="bg-pink-100 text-pink-700 dark:bg-pink-950/30 dark:text-pink-400 border-0">Podcast</Badge>
+                    <div className="p-3 rounded-xl bg-pink-600 dark:bg-pink-500">
                       <Mic className="w-6 h-6 text-white" />
                     </div>
                   </div>
@@ -242,24 +277,52 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                     Women's health, stories, science, and strength. Where voices become change.
                   </CardDescription>
                   
-                  {/* Real waveform visualization */}
-                  <div className="flex gap-1 items-end h-20 mb-6 bg-pink-50 dark:bg-pink-950/30 rounded-lg p-4">
-                    {[...Array(30)].map((_, i) => (
-                      <motion.div
-                        key={i}
-                        className="flex-1 bg-pink-600 dark:bg-pink-400 rounded-full"
-                        initial={{ height: "20%" }}
-                        animate={{ 
-                          height: `${20 + Math.sin(i * 0.5) * 40 + Math.random() * 20}%`,
-                        }}
-                        transition={{
-                          duration: 0.8 + Math.random() * 0.4,
-                          repeat: Infinity,
-                          repeatType: "reverse",
-                          ease: "easeInOut"
-                        }}
-                      />
-                    ))}
+                  {/* Realistic Audio Waveform */}
+                  <div className="relative h-24 mb-6 bg-pink-50 dark:bg-pink-950/30 rounded-lg p-4 overflow-hidden">
+                    <div className="flex items-end justify-center gap-1 h-full">
+                      {[...Array(50)].map((_, i) => {
+                        const height = Math.abs(Math.sin((i * Math.PI) / 12) * 70 + Math.random() * 20);
+                        return (
+                          <motion.div
+                            key={i}
+                            className="flex-1 bg-pink-600 dark:bg-pink-400 rounded-full"
+                            initial={{ height: "10%" }}
+                            animate={{ 
+                              height: `${height}%`,
+                            }}
+                            transition={{
+                              duration: 0.3 + Math.random() * 0.2,
+                              repeat: Infinity,
+                              repeatType: "reverse",
+                              ease: "easeInOut",
+                              delay: i * 0.02
+                            }}
+                          />
+                        );
+                      })}
+                    </div>
+                    {/* Playing indicator */}
+                    <motion.div 
+                      className="absolute top-2 left-2 flex gap-1"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.5 }}
+                    >
+                      {[0, 0.1, 0.2].map((delay, i) => (
+                        <motion.div
+                          key={i}
+                          className="w-1 bg-pink-600 dark:bg-pink-400 rounded-full"
+                          animate={{ 
+                            height: ["8px", "16px", "8px"],
+                          }}
+                          transition={{
+                            duration: 0.6,
+                            repeat: Infinity,
+                            delay
+                          }}
+                        />
+                      ))}
+                    </motion.div>
                   </div>
 
                   <Button 
@@ -284,8 +347,8 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
               <Card className="h-full border-l-4 border-l-cyan-600 hover-elevate bg-white dark:bg-gray-800 dark:border-l-cyan-400" data-testid="card-medicoz-app">
                 <CardHeader className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <Badge className="bg-blue-100 text-blue-700 border-0">Coming Soon</Badge>
-                    <div className="p-3 rounded-xl bg-cyan-600">
+                    <Badge className="bg-blue-100 text-blue-700 dark:bg-blue-950/30 dark:text-blue-400 border-0">Coming Soon</Badge>
+                    <div className="p-3 rounded-xl bg-cyan-600 dark:bg-cyan-500">
                       <Smartphone className="w-6 h-6 text-white" />
                     </div>
                   </div>
@@ -341,7 +404,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
         </div>
       </section>
 
-      {/* About & Team Section */}
+      {/* About & Team Section - Orbit Design */}
       <section ref={teamRef} className="relative py-32 px-6 bg-white dark:bg-gray-950">
         <div className="max-w-7xl mx-auto relative z-10">
           <motion.div
@@ -355,30 +418,85 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
               People Behind the Pulse
             </h2>
             <p className="text-2xl font-semibold text-cyan-600 dark:text-cyan-400 mb-4">
-              People-first. Science-backed. Design-led.
-            </p>
-            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-4xl mx-auto leading-relaxed">
-              We build healthcare technology that listens, learns, and supports—without getting in the way. 
-              Our team blends clinical insight, data science, and craft-level design to serve patients and professionals alike.
+              Everyone revolves around the same purpose: care
             </p>
           </motion.div>
 
-          {/* Team Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-20">
-            {teamMembers.map((member, index) => (
-              <motion.div
-                key={member.name}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1, duration: 0.6 }}
-                viewport={{ once: true, margin: "-100px" }}
-                whileHover={{ y: -10 }}
-              >
-                <Card className="text-center hover-elevate bg-white dark:bg-gray-800 border-0 shadow-md" data-testid={`card-team-${member.name.toLowerCase().replace(' ', '-')}`}>
-                  <CardContent className="pt-8">
-                    <motion.div 
-                      className="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden border-4 border-cyan-100"
-                      whileHover={{ scale: 1.05, borderColor: "#0891B2" }}
+          {/* Orbit System */}
+          <div className="relative w-full max-w-5xl mx-auto h-[600px] flex items-center justify-center">
+            {/* Center - Our Purpose */}
+            <motion.div
+              className="absolute z-20 w-40 h-40 rounded-full flex items-center justify-center"
+              style={{
+                background: "radial-gradient(circle, rgba(8, 145, 178, 0.2) 0%, rgba(8, 145, 178, 0.05) 100%)",
+                boxShadow: "0 0 60px rgba(8, 145, 178, 0.3)"
+              }}
+              animate={{
+                boxShadow: [
+                  "0 0 60px rgba(8, 145, 178, 0.3)",
+                  "0 0 80px rgba(8, 145, 178, 0.5)",
+                  "0 0 60px rgba(8, 145, 178, 0.3)"
+                ]
+              }}
+              transition={{ duration: 3, repeat: Infinity }}
+            >
+              <div className="text-center">
+                <Heart className="w-8 h-8 text-cyan-600 dark:text-cyan-400 mx-auto mb-2" />
+                <p className="text-sm font-bold text-gray-900 dark:text-white">Our Purpose</p>
+              </div>
+            </motion.div>
+
+            {/* Orbit Rings */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <motion.div 
+                className="absolute w-96 h-96 rounded-full border border-gray-200 dark:border-gray-800"
+                animate={{ rotate: 360 }}
+                transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+              />
+              <motion.div 
+                className="absolute w-[500px] h-[500px] rounded-full border border-gray-100 dark:border-gray-900"
+                animate={{ rotate: -360 }}
+                transition={{ duration: 80, repeat: Infinity, ease: "linear" }}
+              />
+            </div>
+
+            {/* Team Members Orbiting */}
+            {teamMembers.map((member, index) => {
+              const angle = (index * 360) / teamMembers.length;
+              const radius = 220;
+              const x = Math.cos((angle * Math.PI) / 180) * radius;
+              const y = Math.sin((angle * Math.PI) / 180) * radius;
+              const isHovered = hoveredMember === index;
+
+              return (
+                <motion.div
+                  key={member.name}
+                  className="absolute"
+                  initial={{ x, y }}
+                  animate={{
+                    x: isHovered ? x * 0.9 : x,
+                    y: isHovered ? y * 0.9 : y,
+                    rotate: isHovered ? 0 : -angle
+                  }}
+                  transition={{ 
+                    type: "spring", 
+                    stiffness: 100, 
+                    damping: 15,
+                    rotate: { duration: 0.3 }
+                  }}
+                  onHoverStart={() => setHoveredMember(index)}
+                  onHoverEnd={() => setHoveredMember(null)}
+                  data-testid={`orbit-member-${member.name.toLowerCase().replace(' ', '-')}`}
+                >
+                  <div className="relative">
+                    {/* Profile Image */}
+                    <motion.div
+                      className="w-24 h-24 rounded-full overflow-hidden border-4 cursor-pointer"
+                      style={{ 
+                        borderColor: isHovered ? member.color : "#e5e7eb",
+                        boxShadow: isHovered ? `0 0 30px ${member.color}50` : "none"
+                      }}
+                      whileHover={{ scale: 1.1 }}
                     >
                       <img 
                         src={member.image} 
@@ -386,13 +504,33 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                         className="w-full h-full object-cover"
                       />
                     </motion.div>
-                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{member.name}</h3>
-                    <p className="text-sm text-violet-600 dark:text-violet-400 font-medium mb-3">{member.role}</p>
-                    <p className="text-xs text-gray-600 dark:text-gray-300">{member.bio}</p>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
+
+                    {/* Info Card */}
+                    <motion.div
+                      className="absolute left-32 top-0 bg-white dark:bg-gray-800 rounded-lg p-4 shadow-2xl border-2 w-64"
+                      style={{ borderColor: member.color }}
+                      initial={{ opacity: 0, x: -20, scale: 0.8 }}
+                      animate={{
+                        opacity: isHovered ? 1 : 0,
+                        x: isHovered ? 0 : -20,
+                        scale: isHovered ? 1 : 0.8,
+                        pointerEvents: isHovered ? "auto" : "none"
+                      }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">{member.name}</h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">{member.role}</p>
+                      <p 
+                        className="text-sm font-medium italic"
+                        style={{ color: member.color }}
+                      >
+                        "{member.tagline}"
+                      </p>
+                    </motion.div>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
 
           {/* Values */}
@@ -400,10 +538,36 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            viewport={{ once: true, margin: "-100px" }}
+            viewport={{ once: true }}
+            className="mt-32"
           >
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {values.map((value, index) => (
+              {[
+                {
+                  icon: Heart,
+                  title: "Empathy in every interface",
+                  description: "We measure success by felt relief.",
+                  color: "#DB2777"
+                },
+                {
+                  icon: Lock,
+                  title: "Privacy by default",
+                  description: "Your data belongs to you.",
+                  color: "#7C3AED"
+                },
+                {
+                  icon: Brain,
+                  title: "Intelligence that empowers",
+                  description: "Augmenting clinicians, not replacing them.",
+                  color: "#0891B2"
+                },
+                {
+                  icon: Leaf,
+                  title: "Sustainable innovation",
+                  description: "Long-term health, not hype.",
+                  color: "#059669"
+                }
+              ].map((value, index) => (
                 <motion.div
                   key={value.title}
                   initial={{ opacity: 0, y: 20 }}
@@ -495,7 +659,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                     <label className="text-sm font-semibold mb-2 block text-gray-700 dark:text-gray-200">Who are you?</label>
                     <Input 
                       placeholder="Full name" 
-                      className="h-12 border-gray-300"
+                      className="h-12 border-gray-300 dark:border-gray-600"
                       data-testid="input-name"
                       required
                     />
@@ -506,7 +670,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                     <Input 
                       placeholder="Email address" 
                       type="email"
-                      className="h-12 border-gray-300"
+                      className="h-12 border-gray-300 dark:border-gray-600"
                       data-testid="input-email"
                       required
                     />
@@ -517,7 +681,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                     <Textarea 
                       placeholder="Tell us your goals, constraints, and timeline..." 
                       rows={6}
-                      className="border-gray-300"
+                      className="border-gray-300 dark:border-gray-600"
                       data-testid="textarea-message"
                       required
                     />
@@ -530,7 +694,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                     <Input 
                       placeholder="https://..." 
                       type="url"
-                      className="h-12 border-gray-300"
+                      className="h-12 border-gray-300 dark:border-gray-600"
                       data-testid="input-attachment"
                     />
                   </div>
@@ -569,57 +733,126 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="relative bg-gray-900 dark:bg-black text-white py-16 px-6">
-        {/* Subtle ECG line */}
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-50" />
+      {/* Footer - "A Quiet Pulse" */}
+      <footer 
+        ref={footerRef}
+        className="relative bg-white dark:bg-gray-950 py-16 px-6 overflow-hidden"
+        onMouseEnter={() => setEcgSpeed(1.5)}
+        onMouseLeave={() => setEcgSpeed(3)}
+      >
+        {/* Animated ECG Line */}
+        <div className="absolute top-0 left-0 w-full h-px overflow-hidden">
+          <svg className="w-full h-8" preserveAspectRatio="none" viewBox="0 0 1200 30">
+            {/* Base ECG Line */}
+            <path
+              d="M 0 15 L 300 15 L 320 5 L 340 25 L 360 15 L 1200 15"
+              stroke="#0891B2"
+              strokeWidth="2"
+              fill="none"
+              opacity="0.3"
+            />
+            
+            {/* Traveling Pulse */}
+            <motion.path
+              d="M 0 15 L 20 15 L 25 5 L 30 25 L 35 15 L 50 15"
+              stroke="#0891B2"
+              strokeWidth="3"
+              fill="none"
+              initial={{ x: -50, opacity: 0 }}
+              animate={{ 
+                x: pulsePosition === 100 ? 1200 : -50,
+                opacity: pulsePosition === 100 ? [0, 1, 1, 0] : 0
+              }}
+              transition={{ 
+                duration: ecgSpeed,
+                ease: "linear"
+              }}
+              filter="url(#glow)"
+            />
+            
+            <defs>
+              <filter id="glow">
+                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                <feMerge>
+                  <feMergeNode in="coloredBlur"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+            </defs>
+          </svg>
+        </div>
 
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto relative z-10">
           <div className="grid md:grid-cols-3 gap-12 mb-12">
             {/* Left */}
             <div>
-              <h3 className="text-3xl font-bold mb-3 text-white">
+              <h3 className="text-3xl font-bold mb-3 text-gray-900 dark:text-white">
                 Medicoz Infosystems
               </h3>
-              <p className="text-gray-400 dark:text-gray-500 text-lg mb-4">
+              <p className="text-gray-600 dark:text-gray-400 text-lg mb-4">
                 Technology that cares.
               </p>
             </div>
             
             {/* Middle - Links */}
             <div>
-              <nav className="flex flex-wrap gap-4 text-gray-400 dark:text-gray-500">
-                <a href="#about" className="hover:text-cyan-400 dark:hover:text-cyan-300 transition-colors" data-testid="link-about">About</a>
+              <nav className="flex flex-wrap gap-4 text-gray-600 dark:text-gray-400">
+                <a href="#about" className="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors" data-testid="link-about">About</a>
                 <span>•</span>
-                <a href="#services" className="hover:text-pink-400 dark:hover:text-pink-300 transition-colors" data-testid="link-services">Services</a>
+                <a href="#services" className="hover:text-pink-600 dark:hover:text-pink-400 transition-colors" data-testid="link-services">Services</a>
                 <span>•</span>
-                <a href="#xxperiment" className="hover:text-violet-400 dark:hover:text-violet-300 transition-colors" data-testid="link-xxperiment">The XXperiment</a>
+                <a href="#xxperiment" className="hover:text-violet-600 dark:hover:text-violet-400 transition-colors" data-testid="link-xxperiment">The XXperiment</a>
                 <span>•</span>
-                <a href="#careers" className="hover:text-emerald-400 dark:hover:text-emerald-300 transition-colors" data-testid="link-careers">Careers</a>
+                <a href="#careers" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors" data-testid="link-careers">Careers</a>
                 <span>•</span>
-                <a href="#privacy" className="hover:text-blue-400 dark:hover:text-blue-300 transition-colors" data-testid="link-privacy">Privacy</a>
+                <a href="#privacy" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors" data-testid="link-privacy">Privacy</a>
               </nav>
             </div>
             
-            {/* Right - Contact */}
+            {/* Right - Social Icons with Pulse Interaction */}
             <div className="space-y-3">
-              <p className="text-gray-400 dark:text-gray-500">hello@medicoz.com</p>
+              <p className="text-gray-600 dark:text-gray-400">hello@medicoz.com</p>
               <div className="flex gap-4">
-                <motion.div whileHover={{ scale: 1.1 }}>
+                <motion.div
+                  animate={{
+                    scale: pulsePosition > 80 && pulsePosition < 100 ? [1, 1.2, 1] : 1,
+                  }}
+                  transition={{ duration: 0.3 }}
+                >
                   <Button 
                     size="icon" 
                     variant="ghost" 
-                    className="text-white hover:text-cyan-400"
+                    className="text-gray-600 dark:text-gray-400 hover:text-cyan-600 dark:hover:text-cyan-400"
                     data-testid="button-linkedin"
                   >
                     <Linkedin className="w-5 h-5" />
                   </Button>
                 </motion.div>
-                <motion.div whileHover={{ scale: 1.1 }}>
+                <motion.div
+                  animate={{
+                    scale: pulsePosition > 85 && pulsePosition < 100 ? [1, 1.2, 1] : 1,
+                  }}
+                  transition={{ duration: 0.3 }}
+                >
                   <Button 
                     size="icon" 
                     variant="ghost" 
-                    className="text-white hover:text-pink-400"
+                    className="text-gray-600 dark:text-gray-400 hover:text-pink-600 dark:hover:text-pink-400"
+                    data-testid="button-mail"
+                  >
+                    <Mail className="w-5 h-5" />
+                  </Button>
+                </motion.div>
+                <motion.div
+                  animate={{
+                    scale: pulsePosition > 90 && pulsePosition < 100 ? [1, 1.2, 1] : 1,
+                  }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Button 
+                    size="icon" 
+                    variant="ghost" 
+                    className="text-gray-600 dark:text-gray-400 hover:text-violet-600 dark:hover:text-violet-400"
                     data-testid="button-youtube"
                   >
                     <Youtube className="w-5 h-5" />
@@ -630,11 +863,11 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
           </div>
           
           {/* Bottom */}
-          <div className="pt-8 border-t border-gray-800 text-center">
-            <p className="text-gray-500 dark:text-gray-600 text-sm mb-2" style={{ fontFamily: "'Caveat', cursive", fontSize: "1.1rem" }}>
+          <div className="pt-8 border-t border-gray-200 dark:border-gray-800 text-center">
+            <p className="text-gray-600 dark:text-gray-400 text-sm mb-2" style={{ fontFamily: "'Caveat', cursive", fontSize: "1.1rem" }}>
               Connection begins with care.
             </p>
-            <p className="text-gray-600 dark:text-gray-700 text-xs">© 2025 Medicoz Infosystems</p>
+            <p className="text-gray-500 dark:text-gray-500 text-xs">© 2025 Medicoz Infosystems</p>
           </div>
         </div>
       </footer>

@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useMemo, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Heart, MessageSquare, Activity, Globe, Radio } from "lucide-react";
+import HandwrittenText from "./HandwrittenText";
 
 const frames = [
   { 
@@ -290,8 +291,15 @@ export default function Preloader({ onComplete }: PreloaderProps) {
           </div>
         );
       
-      case 5: // Finale - matches hero exactly
-        return null;
+      case 5: // Finale - matches hero with handwritten tagline
+        return (
+          <HandwrittenText 
+            text={currentFrameData.subtitle}
+            delay={0}
+            duration={2}
+            className="mb-8"
+          />
+        );
       
       default:
         return null;
@@ -341,13 +349,13 @@ export default function Preloader({ onComplete }: PreloaderProps) {
                   transition={{ duration: 0.6 }}
                   className="mb-6"
                 >
-                  <p className="text-xs font-semibold text-cyan-600 tracking-[0.2em] uppercase">
+                  <p className="text-xs font-semibold text-cyan-600 dark:text-cyan-400 tracking-[0.2em] uppercase">
                     Healthcare • Platforms • AI
                   </p>
                 </motion.div>
                 
                 <motion.h1
-                  className="text-7xl md:text-8xl lg:text-9xl font-bold text-gray-900"
+                  className="text-7xl md:text-8xl lg:text-9xl font-bold text-gray-900 dark:text-white"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2, duration: 0.8 }}
@@ -356,24 +364,10 @@ export default function Preloader({ onComplete }: PreloaderProps) {
                 </motion.h1>
                 
                 <motion.p
-                  className="text-4xl md:text-5xl lg:text-6xl"
-                  style={{ 
-                    fontFamily: "'Caveat', cursive",
-                    color: "#7C3AED",
-                    fontWeight: 600
-                  }}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.6, duration: 1, ease: "easeOut" }}
-                >
-                  {currentFrameData.subtitle}
-                </motion.p>
-                
-                <motion.p
-                  className="text-lg md:text-xl text-gray-600 leading-relaxed max-w-3xl mx-auto"
+                  className="text-lg md:text-xl text-gray-600 dark:text-gray-300 leading-relaxed max-w-3xl mx-auto"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ delay: 1, duration: 0.8 }}
+                  transition={{ delay: 3, duration: 0.8 }}
                 >
                   {currentFrameData.description}
                 </motion.p>
