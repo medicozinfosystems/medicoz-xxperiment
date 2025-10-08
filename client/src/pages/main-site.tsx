@@ -55,32 +55,39 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
   // Team data with stories
   const team = [
     {
-      name: "Dr. Sarah Chen",
-      role: "Chief Medical Officer",
-      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah",
-      story: "Built telehealth dashboards for rural India",
+      name: "Meera Gupta",
+      role: "Chief Experience Officer",
+      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Meera",
+      story: "Designing interfaces that feel like a conversation.",
       angle: 0
     },
     {
-      name: "Michael Rodriguez",
-      role: "Head of Technology",
-      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Michael",
-      story: "Former tech lead at major health platforms",
-      angle: 90
+      name: "Arjun Khanna",
+      role: "Head of Engineering",
+      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Arjun",
+      story: "Reliability you can feel. Speed you can't notice.",
+      angle: 72
     },
     {
-      name: "Priya Sharma",
-      role: "Product Director",
-      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Priya",
-      story: "User-centered design advocate",
-      angle: 180
+      name: "Veda Raman",
+      role: "Clinical Partnerships",
+      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Veda",
+      story: "Care pathways that meet people where they are.",
+      angle: 144
     },
     {
-      name: "James Wilson",
-      role: "Operations Lead",
-      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=James",
-      story: "Healthcare operations specialist",
-      angle: 270
+      name: "Harshiv Gajjar",
+      role: "Product & Platforms",
+      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Harshiv",
+      story: "Turning empathy into infrastructure.",
+      angle: 216
+    },
+    {
+      name: "Mitra Vanshita",
+      role: "Strategy & Growth",
+      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Mitra",
+      story: "Scaling trust across cultures.",
+      angle: 288
     }
   ];
 
@@ -475,13 +482,24 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
       <section className="relative py-32 px-6 overflow-hidden">
         <div className="max-w-7xl mx-auto">
           <motion.h2
-            className="text-5xl md:text-6xl font-bold mb-20 text-center text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 via-blue-600 to-emerald-600"
+            className="text-5xl md:text-6xl font-bold mb-8 text-center text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 via-blue-600 to-emerald-600"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            People Behind the Pulse
+            People-first. Science-backed. Design-led.
           </motion.h2>
+          
+          <motion.p
+            className="text-lg md:text-xl text-center text-muted-foreground max-w-4xl mx-auto mb-20"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+          >
+            We build healthcare technology that listens, learns, and supports—without getting in the way. 
+            Our team blends clinical insight, data science, and craft-level design to serve patients and professionals alike.
+          </motion.p>
 
           <div className="relative w-full max-w-4xl mx-auto h-[600px] flex items-center justify-center">
             {/* Central glowing core */}
@@ -579,6 +597,54 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
               );
             })}
           </div>
+
+          {/* Values Section */}
+          <motion.div
+            className="mt-32 grid md:grid-cols-2 gap-8 max-w-5xl mx-auto"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <Card className="p-6">
+              <div className="flex items-start gap-4">
+                <div className="text-4xl">🤍</div>
+                <div>
+                  <h4 className="text-xl font-bold mb-2">Empathy in every interface</h4>
+                  <p className="text-muted-foreground">We measure success by felt relief.</p>
+                </div>
+              </div>
+            </Card>
+            
+            <Card className="p-6">
+              <div className="flex items-start gap-4">
+                <div className="text-4xl">🔒</div>
+                <div>
+                  <h4 className="text-xl font-bold mb-2">Privacy by default</h4>
+                  <p className="text-muted-foreground">Your data belongs to you.</p>
+                </div>
+              </div>
+            </Card>
+            
+            <Card className="p-6">
+              <div className="flex items-start gap-4">
+                <div className="text-4xl">🧠</div>
+                <div>
+                  <h4 className="text-xl font-bold mb-2">Intelligence that empowers</h4>
+                  <p className="text-muted-foreground">Augmenting clinicians, not replacing them.</p>
+                </div>
+              </div>
+            </Card>
+            
+            <Card className="p-6">
+              <div className="flex items-start gap-4">
+                <div className="text-4xl">🌱</div>
+                <div>
+                  <h4 className="text-xl font-bold mb-2">Sustainable innovation</h4>
+                  <p className="text-muted-foreground">Long-term health, not hype.</p>
+                </div>
+              </div>
+            </Card>
+          </motion.div>
         </div>
       </section>
 
