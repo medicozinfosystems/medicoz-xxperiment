@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
-import { Mic, Smartphone, Mail, Linkedin, Youtube, Heart, Lock, Brain, Leaf, Activity } from "lucide-react";
+import { Mic, Smartphone, Mail, Linkedin, Youtube, Heart, Lock, Brain, Leaf, Activity, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -235,8 +235,8 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
         </motion.div>
       </section>
 
-      {/* Services Section */}
-      <section ref={servicesRef} className="relative py-32 px-6 bg-gray-50 dark:bg-gray-900">
+      {/* Services Section - Innovated */}
+      <section ref={servicesRef} className="relative py-32 px-6 bg-white dark:bg-gray-950">
         <div className="max-w-7xl mx-auto relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -246,161 +246,217 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
             className="text-center mb-20"
           >
             <h2 className="text-5xl md:text-6xl font-bold mb-6 text-gray-900 dark:text-white">
-              Two Ways We Make Care More Human
+              Making Healthcare More Human
             </h2>
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+              Through conversations and technology, we're reshaping how care feels
+            </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 gap-12">
-            {/* The XXperiment Podcast */}
+          <div className="grid lg:grid-cols-2 gap-16">
+            {/* The XXperiment Podcast - Enhanced Player */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
-              viewport={{ once: true, margin: "-100px" }}
-              whileHover={{ y: -5 }}
+              viewport={{ once: true }}
             >
-              <Card className="h-full border-l-4 border-l-pink-600 hover-elevate bg-white dark:bg-gray-800 dark:border-l-pink-400" data-testid="card-xxperiment">
-                <CardHeader className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <Badge className="bg-pink-100 text-pink-700 dark:bg-pink-950/30 dark:text-pink-400 border-0">Podcast</Badge>
-                    <div className="p-3 rounded-xl bg-pink-600 dark:bg-pink-500">
-                      <Mic className="w-6 h-6 text-white" />
+              <div className="relative" data-testid="card-xxperiment">
+                {/* Podcast Header */}
+                <div className="mb-6">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="p-4 rounded-2xl bg-gradient-to-br from-pink-600 to-pink-500 dark:from-pink-500 dark:to-pink-400">
+                      <Mic className="w-8 h-8 text-white" />
+                    </div>
+                    <div>
+                      <Badge className="bg-pink-100 text-pink-700 dark:bg-pink-950/30 dark:text-pink-400 border-0 mb-2">Podcast</Badge>
+                      <h3 className="text-3xl font-bold text-gray-900 dark:text-white">The XXperiment</h3>
                     </div>
                   </div>
-                  <CardTitle className="text-3xl text-gray-900 dark:text-white">
-                    The XXperiment
-                  </CardTitle>
-                  <p className="text-lg font-medium text-pink-600 dark:text-pink-400">
-                    Conversations that care
+                  <p className="text-lg text-pink-600 dark:text-pink-400 font-medium mb-2">
+                    Conversations That Care
                   </p>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription className="text-base leading-relaxed mb-6 text-gray-600 dark:text-gray-300">
+                  <p className="text-gray-600 dark:text-gray-300">
                     Women's health, stories, science, and strength. Where voices become change.
-                  </CardDescription>
-                  
-                  {/* Realistic Audio Waveform */}
-                  <div className="relative h-24 mb-6 bg-pink-50 dark:bg-pink-950/30 rounded-lg p-4 overflow-hidden">
-                    <div className="flex items-end justify-center gap-1 h-full">
-                      {[...Array(50)].map((_, i) => {
-                        const height = Math.abs(Math.sin((i * Math.PI) / 12) * 70 + Math.random() * 20);
+                  </p>
+                </div>
+
+                {/* Enhanced Audio Player */}
+                <div className="bg-gradient-to-br from-pink-50 to-pink-100/50 dark:from-pink-950/30 dark:to-pink-900/20 rounded-2xl p-6 border border-pink-200 dark:border-pink-800">
+                  {/* Episode Info */}
+                  <div className="mb-4">
+                    <p className="text-sm font-semibold text-pink-900 dark:text-pink-300">Now Playing</p>
+                    <p className="text-xs text-pink-700 dark:text-pink-400">Ep. 12: Breaking the Silence</p>
+                  </div>
+
+                  {/* Waveform Visualization */}
+                  <div className="relative h-32 mb-4 bg-white/50 dark:bg-black/20 rounded-xl p-4 overflow-hidden">
+                    <div className="flex items-end justify-center gap-0.5 h-full">
+                      {[...Array(60)].map((_, i) => {
+                        const height = Math.abs(Math.sin((i * Math.PI) / 15) * 80 + Math.random() * 15);
                         return (
                           <motion.div
                             key={i}
-                            className="flex-1 bg-pink-600 dark:bg-pink-400 rounded-full"
-                            initial={{ height: "10%" }}
+                            className="flex-1 bg-gradient-to-t from-pink-600 to-pink-400 dark:from-pink-500 dark:to-pink-300 rounded-full min-w-[2px]"
+                            initial={{ height: "20%" }}
                             animate={{ 
                               height: `${height}%`,
                             }}
                             transition={{
-                              duration: 0.3 + Math.random() * 0.2,
+                              duration: 0.4 + Math.random() * 0.3,
                               repeat: Infinity,
                               repeatType: "reverse",
                               ease: "easeInOut",
-                              delay: i * 0.02
+                              delay: i * 0.015
                             }}
                           />
                         );
                       })}
                     </div>
-                    {/* Playing indicator */}
-                    <motion.div 
-                      className="absolute top-2 left-2 flex gap-1"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.5 }}
-                    >
-                      {[0, 0.1, 0.2].map((delay, i) => (
-                        <motion.div
-                          key={i}
-                          className="w-1 bg-pink-600 dark:bg-pink-400 rounded-full"
-                          animate={{ 
-                            height: ["8px", "16px", "8px"],
-                          }}
-                          transition={{
-                            duration: 0.6,
-                            repeat: Infinity,
-                            delay
-                          }}
-                        />
-                      ))}
-                    </motion.div>
                   </div>
 
-                  <Button 
-                    size="lg" 
-                    className="w-full bg-pink-600 hover:bg-pink-700 dark:bg-pink-500 dark:hover:bg-pink-600 text-white"
-                    data-testid="button-xxperiment"
-                  >
-                    Go to The XXperiment
-                  </Button>
-                </CardContent>
-              </Card>
+                  {/* Progress Bar */}
+                  <div className="mb-4">
+                    <div className="h-1.5 bg-pink-200 dark:bg-pink-900 rounded-full overflow-hidden">
+                      <motion.div
+                        className="h-full bg-pink-600 dark:bg-pink-400"
+                        initial={{ width: "0%" }}
+                        animate={{ width: "45%" }}
+                        transition={{ duration: 2, ease: "easeOut" }}
+                      />
+                    </div>
+                    <div className="flex justify-between text-xs text-pink-700 dark:text-pink-400 mt-1">
+                      <span>12:34</span>
+                      <span>28:15</span>
+                    </div>
+                  </div>
+
+                  {/* Play Controls */}
+                  <div className="flex items-center justify-center gap-4">
+                    <Button 
+                      size="icon" 
+                      variant="ghost" 
+                      className="text-pink-600 dark:text-pink-400 hover:bg-pink-200 dark:hover:bg-pink-900"
+                    >
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M6 6h2v12H6zm10 0h2v12h-2z"/>
+                      </svg>
+                    </Button>
+                    <Button 
+                      size="icon"
+                      className="w-14 h-14 bg-pink-600 hover:bg-pink-700 dark:bg-pink-500 dark:hover:bg-pink-600 text-white rounded-full"
+                      data-testid="button-play"
+                    >
+                      <Play className="w-6 h-6 ml-0.5" fill="currentColor" />
+                    </Button>
+                    <Button 
+                      size="icon" 
+                      variant="ghost" 
+                      className="text-pink-600 dark:text-pink-400 hover:bg-pink-200 dark:hover:bg-pink-900"
+                    >
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
+                      </svg>
+                    </Button>
+                  </div>
+                </div>
+
+                <Button 
+                  size="lg" 
+                  className="w-full mt-6 bg-pink-600 hover:bg-pink-700 dark:bg-pink-500 dark:hover:bg-pink-600 text-white"
+                  data-testid="button-xxperiment"
+                >
+                  Listen on The XXperiment
+                </Button>
+              </div>
             </motion.div>
 
             {/* Medicoz App */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true, margin: "-100px" }}
-              whileHover={{ y: -5 }}
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
             >
-              <Card className="h-full border-l-4 border-l-cyan-600 hover-elevate bg-white dark:bg-gray-800 dark:border-l-cyan-400" data-testid="card-medicoz-app">
-                <CardHeader className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <Badge className="bg-blue-100 text-blue-700 dark:bg-blue-950/30 dark:text-blue-400 border-0">Coming Soon</Badge>
-                    <div className="p-3 rounded-xl bg-cyan-600 dark:bg-cyan-500">
-                      <Smartphone className="w-6 h-6 text-white" />
+              <div className="relative h-full" data-testid="card-medicoz-app">
+                <div className="mb-6">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="p-4 rounded-2xl bg-gradient-to-br from-cyan-600 to-cyan-500 dark:from-cyan-500 dark:to-cyan-400">
+                      <Smartphone className="w-8 h-8 text-white" />
+                    </div>
+                    <div>
+                      <Badge className="bg-blue-100 text-blue-700 dark:bg-blue-950/30 dark:text-blue-400 border-0 mb-2">Coming Soon</Badge>
+                      <h3 className="text-3xl font-bold text-gray-900 dark:text-white">Medicoz App</h3>
                     </div>
                   </div>
-                  <CardTitle className="text-3xl text-gray-900 dark:text-white">
-                    Medicoz App
-                  </CardTitle>
-                  <p className="text-lg font-medium text-cyan-600 dark:text-cyan-400">
-                    Care in your pocket
+                  <p className="text-lg text-cyan-600 dark:text-cyan-400 font-medium mb-2">
+                    Care in Your Pocket
                   </p>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription className="text-base leading-relaxed mb-6 text-gray-600 dark:text-gray-300">
-                    Appointments, insights, and support — in one place.
-                  </CardDescription>
-                  
-                  {/* Feature highlights */}
-                  <div className="space-y-3 mb-6">
-                    <div className="flex items-center gap-3 p-3 bg-cyan-50 dark:bg-cyan-950/30 rounded-lg">
-                      <Activity className="w-5 h-5 text-cyan-600 dark:text-cyan-400" />
-                      <span className="text-sm font-medium text-gray-700 dark:text-gray-200">Multilingual support</span>
-                    </div>
-                    <div className="flex items-center gap-3 p-3 bg-blue-50 dark:bg-blue-950/30 rounded-lg">
-                      <Lock className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-                      <span className="text-sm font-medium text-gray-700 dark:text-gray-200">Private by design</span>
-                    </div>
-                    <div className="flex items-center gap-3 p-3 bg-violet-50 dark:bg-violet-950/30 rounded-lg">
-                      <Heart className="w-5 h-5 text-violet-600 dark:text-violet-400" />
-                      <span className="text-sm font-medium text-gray-700 dark:text-gray-200">Clinical-grade UX</span>
-                    </div>
-                  </div>
+                  <p className="text-gray-600 dark:text-gray-300 mb-8">
+                    Appointments, insights, and support — seamlessly integrated in one beautiful experience.
+                  </p>
+                </div>
 
-                  <div className="space-y-3">
-                    <Button 
-                      size="lg" 
-                      className="w-full bg-cyan-600 hover:bg-cyan-700 dark:bg-cyan-500 dark:hover:bg-cyan-600 text-white"
-                      data-testid="button-waitlist"
-                    >
-                      Join the waitlist
-                    </Button>
-                    <Button 
-                      size="lg" 
-                      variant="outline"
-                      className="w-full border-cyan-600 text-cyan-600 hover:bg-cyan-50 dark:border-cyan-400 dark:text-cyan-400 dark:hover:bg-cyan-950"
-                      data-testid="button-notify"
-                    >
-                      Notify me
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+                {/* Feature Pills */}
+                <div className="space-y-4 mb-8">
+                  <motion.div 
+                    className="flex items-center gap-4 p-4 bg-gradient-to-r from-cyan-50 to-blue-50 dark:from-cyan-950/30 dark:to-blue-950/30 rounded-xl border border-cyan-200 dark:border-cyan-800"
+                    whileHover={{ scale: 1.02, x: 5 }}
+                  >
+                    <div className="p-3 rounded-lg bg-cyan-600 dark:bg-cyan-500">
+                      <Activity className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-900 dark:text-white">Multilingual Support</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">Speak your language, get heard</p>
+                    </div>
+                  </motion.div>
+
+                  <motion.div 
+                    className="flex items-center gap-4 p-4 bg-gradient-to-r from-blue-50 to-violet-50 dark:from-blue-950/30 dark:to-violet-950/30 rounded-xl border border-blue-200 dark:border-blue-800"
+                    whileHover={{ scale: 1.02, x: 5 }}
+                  >
+                    <div className="p-3 rounded-lg bg-blue-600 dark:bg-blue-500">
+                      <Lock className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-900 dark:text-white">Private by Design</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">Your data, your control</p>
+                    </div>
+                  </motion.div>
+
+                  <motion.div 
+                    className="flex items-center gap-4 p-4 bg-gradient-to-r from-violet-50 to-pink-50 dark:from-violet-950/30 dark:to-pink-950/30 rounded-xl border border-violet-200 dark:border-violet-800"
+                    whileHover={{ scale: 1.02, x: 5 }}
+                  >
+                    <div className="p-3 rounded-lg bg-violet-600 dark:bg-violet-500">
+                      <Heart className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-900 dark:text-white">Clinical-Grade UX</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">Designed with care, built for trust</p>
+                    </div>
+                  </motion.div>
+                </div>
+
+                <div className="space-y-3">
+                  <Button 
+                    size="lg" 
+                    className="w-full bg-cyan-600 hover:bg-cyan-700 dark:bg-cyan-500 dark:hover:bg-cyan-600 text-white"
+                    data-testid="button-waitlist"
+                  >
+                    Join the Waitlist
+                  </Button>
+                  <Button 
+                    size="lg" 
+                    variant="outline"
+                    className="w-full border-cyan-600 text-cyan-600 hover:bg-cyan-50 dark:border-cyan-400 dark:text-cyan-400 dark:hover:bg-cyan-950"
+                    data-testid="button-notify"
+                  >
+                    Get Notified
+                  </Button>
+                </div>
+              </div>
             </motion.div>
           </div>
         </div>
@@ -530,9 +586,9 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
         </div>
       </section>
 
-      {/* Contact / Hiring Section */}
-      <section className="relative py-32 px-6 bg-gray-50 dark:bg-gray-900">
-        <div className="max-w-4xl mx-auto relative z-10">
+      {/* Contact Section - Innovated */}
+      <section className="relative py-32 px-6 bg-gradient-to-br from-gray-50 via-white to-cyan-50/30 dark:from-gray-900 dark:via-gray-950 dark:to-cyan-950/20">
+        <div className="max-w-6xl mx-auto relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -541,83 +597,109 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
             className="text-center mb-16"
           >
             <h2 className="text-5xl md:text-6xl font-bold mb-6 text-gray-900 dark:text-white">
-              Let's build what care deserves
+              Start a Conversation
             </h2>
-            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-              Have a partnership, pilot, or talent to bring? Tell us how you want to make healthcare more human. 
-              We'll reply within 2 business days.
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+              Whether it's a partnership, pilot, or joining our team—let's build healthcare that cares
             </p>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            <Card className="bg-white dark:bg-gray-800 border-0 shadow-lg">
-              <CardContent className="pt-8 space-y-8">
-                {/* Intent chips */}
-                <div>
-                  <label className="text-sm font-semibold mb-3 block text-gray-700 dark:text-gray-200">What brings you here?</label>
-                  <div className="flex flex-wrap gap-3">
-                    {intents.map((intent) => (
-                      <Badge
+          <div className="grid lg:grid-cols-2 gap-12">
+            {/* Left - Intent Selection */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              className="space-y-6"
+            >
+              <div>
+                <h3 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Choose Your Path</h3>
+                <p className="text-gray-600 dark:text-gray-300 mb-6">Select what brings you here today</p>
+                
+                <div className="space-y-3">
+                  {intents.map((intent, index) => {
+                    const colorMap: Record<string, { bg: string; border: string; text: string; icon: string }> = {
+                      "Partnership": { bg: "bg-cyan-50 dark:bg-cyan-950/30", border: "border-cyan-600 dark:border-cyan-400", text: "text-cyan-600 dark:text-cyan-400", icon: "🤝" },
+                      "Pilot / Demo": { bg: "bg-violet-50 dark:bg-violet-950/30", border: "border-violet-600 dark:border-violet-400", text: "text-violet-600 dark:text-violet-400", icon: "🚀" },
+                      "Careers": { bg: "bg-emerald-50 dark:bg-emerald-950/30", border: "border-emerald-600 dark:border-emerald-400", text: "text-emerald-600 dark:text-emerald-400", icon: "💼" },
+                      "General Inquiry": { bg: "bg-pink-50 dark:bg-pink-950/30", border: "border-pink-600 dark:border-pink-400", text: "text-pink-600 dark:text-pink-400", icon: "💬" }
+                    };
+                    
+                    const colors = colorMap[intent] || colorMap["General Inquiry"];
+
+                    return (
+                      <motion.div
                         key={intent}
-                        className={`cursor-pointer px-4 py-2 text-sm transition-all border-2 ${
-                          selectedIntent === intent
-                            ? "bg-violet-600 text-white border-violet-600 dark:bg-violet-500 dark:border-violet-500"
-                            : "bg-white text-gray-700 border-gray-300 hover:border-violet-400 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600 dark:hover:border-violet-500"
+                        className={`p-4 rounded-xl border-2 cursor-pointer transition-all ${
+                          selectedIntent === intent 
+                            ? `${colors.bg} ${colors.border}` 
+                            : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-600"
                         }`}
                         onClick={() => setSelectedIntent(intent)}
-                        data-testid={`chip-${intent.toLowerCase().replace(" ", "-")}`}
+                        whileHover={{ scale: 1.02, x: 5 }}
+                        data-testid={`chip-${intent.toLowerCase().replace(" ", "-").replace("/", "")}`}
                       >
-                        {intent}
-                      </Badge>
-                    ))}
-                  </div>
+                        <div className="flex items-center gap-3">
+                          <span className="text-2xl">{colors.icon}</span>
+                          <div>
+                            <p className={`font-semibold ${selectedIntent === intent ? colors.text : "text-gray-900 dark:text-white"}`}>
+                              {intent}
+                            </p>
+                            {selectedIntent === intent && intent === "Careers" && (
+                              <motion.p 
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: "auto" }}
+                                className="text-sm text-emerald-700 dark:text-emerald-300 mt-1"
+                              >
+                                Remote-friendly. Mission-first. Healthcare experts welcome.
+                              </motion.p>
+                            )}
+                          </div>
+                        </div>
+                      </motion.div>
+                    );
+                  })}
                 </div>
+              </div>
+            </motion.div>
 
-                {selectedIntent === "Careers" && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    className="bg-emerald-50 dark:bg-emerald-950/30 border-2 border-emerald-200 dark:border-emerald-800 rounded-lg p-4"
-                  >
-                    <p className="text-sm text-emerald-800 dark:text-emerald-300">
-                      We welcome builders from healthcare, design, and engineering. Remote-friendly. Mission-first.
-                    </p>
-                  </motion.div>
-                )}
-
+            {/* Right - Contact Form */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-xl border border-gray-200 dark:border-gray-700">
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
-                    <label className="text-sm font-semibold mb-2 block text-gray-700 dark:text-gray-200">Who are you?</label>
+                    <label className="text-sm font-semibold mb-2 block text-gray-700 dark:text-gray-200">Your Name</label>
                     <Input 
-                      placeholder="Full name" 
-                      className="h-12 border-gray-300 dark:border-gray-600"
+                      placeholder="Jane Doe" 
+                      className="h-12 border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-900"
                       data-testid="input-name"
                       required
                     />
                   </div>
 
                   <div>
-                    <label className="text-sm font-semibold mb-2 block text-gray-700 dark:text-gray-200">Where can we reach you?</label>
+                    <label className="text-sm font-semibold mb-2 block text-gray-700 dark:text-gray-200">Email Address</label>
                     <Input 
-                      placeholder="Email address" 
+                      placeholder="jane@example.com" 
                       type="email"
-                      className="h-12 border-gray-300 dark:border-gray-600"
+                      className="h-12 border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-900"
                       data-testid="input-email"
                       required
                     />
                   </div>
 
                   <div>
-                    <label className="text-sm font-semibold mb-2 block text-gray-700 dark:text-gray-200">How do you want to make healthcare more human?</label>
+                    <label className="text-sm font-semibold mb-2 block text-gray-700 dark:text-gray-200">Your Message</label>
                     <Textarea 
-                      placeholder="Tell us your goals, constraints, and timeline..." 
+                      placeholder="Tell us about your goals, timeline, and how we can help make care more human..." 
                       rows={6}
-                      className="border-gray-300 dark:border-gray-600"
+                      className="border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-900"
                       data-testid="textarea-message"
                       required
                     />
@@ -625,12 +707,12 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
 
                   <div>
                     <label className="text-sm font-semibold mb-2 block text-gray-700 dark:text-gray-200">
-                      Optional — Attach a deck or link to your work
+                      Supporting Links (Optional)
                     </label>
                     <Input 
-                      placeholder="https://..." 
+                      placeholder="Portfolio, deck, or relevant links..." 
                       type="url"
-                      className="h-12 border-gray-300 dark:border-gray-600"
+                      className="h-12 border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-900"
                       data-testid="input-attachment"
                     />
                   </div>
@@ -639,33 +721,36 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                     <motion.div
                       initial={{ scale: 0.9, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
-                      className="bg-emerald-50 dark:bg-emerald-950/30 border-2 border-emerald-200 dark:border-emerald-800 rounded-lg p-6 text-center"
+                      className="bg-emerald-50 dark:bg-emerald-950/30 border-2 border-emerald-200 dark:border-emerald-800 rounded-xl p-6 text-center"
                     >
                       <motion.div
                         animate={{ scale: [1, 1.2, 1] }}
                         transition={{ duration: 0.6 }}
-                        className="text-4xl mb-3 text-emerald-600 dark:text-emerald-400"
+                        className="text-5xl mb-3"
                       >
                         ✓
                       </motion.div>
-                      <p className="text-emerald-800 dark:text-emerald-300 font-medium">
-                        Thank you — you've just made healthcare a little more human.
+                      <p className="text-emerald-800 dark:text-emerald-300 font-semibold text-lg">
+                        Message Received!
+                      </p>
+                      <p className="text-emerald-700 dark:text-emerald-400 text-sm mt-2">
+                        We'll respond within 2 business days
                       </p>
                     </motion.div>
                   ) : (
                     <Button 
                       type="submit"
                       size="lg" 
-                      className="w-full bg-violet-600 hover:bg-violet-700 dark:bg-violet-500 dark:hover:bg-violet-600 text-white text-lg"
+                      className="w-full bg-cyan-600 hover:bg-cyan-700 dark:bg-cyan-500 dark:hover:bg-cyan-600 text-white text-lg h-14"
                       data-testid="button-send-message"
                     >
-                      Send message
+                      Send Message →
                     </Button>
                   )}
                 </form>
-              </CardContent>
-            </Card>
-          </motion.div>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </section>
 
