@@ -947,24 +947,39 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
       </section>
 
       {/* Contact Section V2 - Conversation Curtain */}
-      <section className="relative min-h-screen bg-gradient-to-br from-gray-50 via-cyan-50/30 to-violet-50/20 dark:from-gray-900 dark:via-cyan-950/20 dark:to-violet-950/10 overflow-hidden">
-        {/* Neural glow effect */}
-        <div className="absolute inset-0 opacity-20">
-          <motion.div
-            className="absolute top-1/2 left-1/2 w-96 h-96 bg-cyan-400/30 dark:bg-cyan-600/20 rounded-full blur-3xl"
-            animate={{
-              scale: [1, 1.2, 1],
-              opacity: [0.3, 0.5, 0.3]
-            }}
-            transition={{
-              duration: 4,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          />
-        </div>
+      <section className="relative min-h-screen bg-gradient-to-br from-white via-blue-50/30 to-cyan-50/20 dark:from-gray-950 dark:via-gray-900 dark:to-cyan-950/10 overflow-hidden">
+        {/* Neural glow effect that reacts to input */}
+        <motion.div 
+          className="absolute inset-0 opacity-20 pointer-events-none"
+          animate={{
+            background: curtainOpen 
+              ? [
+                  "radial-gradient(circle at 30% 30%, rgba(8, 145, 178, 0.3) 0%, transparent 50%)",
+                  "radial-gradient(circle at 70% 70%, rgba(124, 58, 237, 0.3) 0%, transparent 50%)",
+                  "radial-gradient(circle at 30% 30%, rgba(8, 145, 178, 0.3) 0%, transparent 50%)",
+                ]
+              : "radial-gradient(circle at 50% 50%, transparent 0%, transparent 100%)"
+          }}
+          transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
+        />
 
-        <div className="relative z-10 flex items-center justify-center min-h-screen p-6">
+        {/* Full-bleed curtain panel */}
+        <AnimatePresence>
+          {curtainOpen && (
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-br from-gray-50 via-blue-50 to-cyan-50/40 dark:from-gray-900 dark:via-blue-950/30 dark:to-cyan-950/20 z-20"
+              initial={{ y: "-100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "-100%" }}
+              transition={{ 
+                duration: 0.52, 
+                ease: [0.2, 0.8, 0.2, 1]
+              }}
+            />
+          )}
+        </AnimatePresence>
+
+        <div className="relative z-30 flex items-center justify-center min-h-screen p-6">
           {!curtainOpen ? (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -995,9 +1010,52 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -24 }}
                 transition={{ duration: 0.32, ease: "easeOut" }}
-                className="w-full max-w-3xl"
+                className="w-full max-w-3xl space-y-4"
               >
-                <Card className="shadow-2xl border-gray-200 dark:border-gray-800">
+                {/* Paper strip answer log */}
+                {curtainStep > 0 && (
+                  <motion.div className="space-y-2">
+                    {curtainAnswers.intent && (
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.9, rotate: -1 }}
+                        animate={{ opacity: 1, scale: 1, rotate: 1 }}
+                        transition={{ duration: 0.18 }}
+                        className="bg-white dark:bg-gray-800 rounded-lg p-3 shadow-md border-l-4 border-cyan-600 dark:border-cyan-400"
+                        style={{ transform: "rotate(0.5deg)" }}
+                      >
+                        <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Intent</p>
+                        <p className="font-semibold text-gray-900 dark:text-white">{curtainAnswers.intent}</p>
+                      </motion.div>
+                    )}
+                    {curtainAnswers.name && curtainStep > 1 && (
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.9, rotate: 1 }}
+                        animate={{ opacity: 1, scale: 1, rotate: -0.5 }}
+                        transition={{ duration: 0.18 }}
+                        className="bg-white dark:bg-gray-800 rounded-lg p-3 shadow-md border-l-4 border-violet-600 dark:border-violet-400"
+                        style={{ transform: "rotate(-0.3deg)" }}
+                      >
+                        <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Name</p>
+                        <p className="font-semibold text-gray-900 dark:text-white">{curtainAnswers.name}</p>
+                      </motion.div>
+                    )}
+                    {curtainAnswers.message && curtainStep > 2 && (
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.9, rotate: -1 }}
+                        animate={{ opacity: 1, scale: 1, rotate: 0.8 }}
+                        transition={{ duration: 0.18 }}
+                        className="bg-white dark:bg-gray-800 rounded-lg p-3 shadow-md border-l-4 border-pink-600 dark:border-pink-400"
+                        style={{ transform: "rotate(0.6deg)" }}
+                      >
+                        <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Message</p>
+                        <p className="font-semibold text-gray-900 dark:text-white line-clamp-2">{curtainAnswers.message}</p>
+                      </motion.div>
+                    )}
+                  </motion.div>
+                )}
+
+                {/* Center stage card */}
+                <Card className="shadow-2xl border-gray-200 dark:border-gray-800 rounded-3xl overflow-hidden">
                   <CardContent className="p-8 md:p-12">
                     {curtainStep === 0 && (
                       <div className="space-y-6">
@@ -1289,49 +1347,69 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                           </div>
                         </div>
 
-                        <div className="flex gap-3">
-                          <Button
-                            variant="outline"
-                            onClick={() => setCurtainStep(4)}
-                            data-testid="button-curtain-back-5"
+                        <div className="relative">
+                          {/* ECG sweep line */}
+                          <motion.div
+                            className="absolute -bottom-2 left-0 w-full h-1 overflow-hidden"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: holdProgress > 0 ? 1 : 0 }}
                           >
-                            <ArrowLeft className="mr-2 w-4 h-4" /> Back
-                          </Button>
-                          <Button
-                            onMouseDown={() => {
-                              const interval = setInterval(() => {
-                                setHoldProgress(prev => {
-                                  if (prev >= 100) {
-                                    clearInterval(interval);
-                                    setCurtainSubmitted(true);
-                                    setTimeout(() => {
-                                      setCurtainSubmitted(false);
-                                      setCurtainOpen(false);
-                                      setCurtainStep(0);
-                                      setCurtainAnswers({});
-                                      setHoldProgress(0);
-                                    }, 4000);
-                                    return 100;
-                                  }
-                                  return prev + 10;
-                                });
-                              }, 100);
-                            }}
-                            onMouseUp={() => setHoldProgress(0)}
-                            onMouseLeave={() => setHoldProgress(0)}
-                            className="flex-1 bg-cyan-600 dark:bg-cyan-500 text-white relative overflow-hidden"
-                            data-testid="button-curtain-submit"
-                          >
-                            <motion.div
-                              className="absolute inset-0 bg-cyan-700 dark:bg-cyan-600"
-                              initial={{ width: "0%" }}
-                              animate={{ width: `${holdProgress}%` }}
-                              transition={{ duration: 0.1 }}
-                            />
-                            <span className="relative z-10">
-                              {holdProgress > 0 ? "Sending..." : "Hold to send with care"}
-                            </span>
-                          </Button>
+                            <motion.svg
+                              className="w-full h-full"
+                              viewBox="0 0 400 10"
+                              initial={{ x: -400 }}
+                              animate={{ x: holdProgress > 0 ? 400 : -400 }}
+                              transition={{ duration: 0.7, ease: "linear" }}
+                            >
+                              <motion.path
+                                d="M 0 5 L 20 5 L 25 2 L 30 8 L 35 5 L 50 5"
+                                stroke="#0891B2"
+                                strokeWidth="2"
+                                fill="none"
+                                filter="url(#curtainGlow)"
+                              />
+                              <defs>
+                                <filter id="curtainGlow">
+                                  <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+                                  <feMerge>
+                                    <feMergeNode in="coloredBlur"/>
+                                    <feMergeNode in="SourceGraphic"/>
+                                  </feMerge>
+                                </filter>
+                              </defs>
+                            </motion.svg>
+                          </motion.div>
+
+                          <div className="flex gap-3">
+                            <Button
+                              variant="outline"
+                              onClick={() => setCurtainStep(4)}
+                              data-testid="button-curtain-back-5"
+                              disabled={holdProgress > 0}
+                            >
+                              <ArrowLeft className="mr-2 w-4 h-4" /> Back
+                            </Button>
+                            <Button
+                              onClick={() => {
+                                setHoldProgress(1);
+                                setTimeout(() => {
+                                  setCurtainSubmitted(true);
+                                  setHoldProgress(0);
+                                  setTimeout(() => {
+                                    setCurtainSubmitted(false);
+                                    setCurtainOpen(false);
+                                    setCurtainStep(0);
+                                    setCurtainAnswers({});
+                                  }, 4000);
+                                }, 700);
+                              }}
+                              disabled={holdProgress > 0}
+                              className="flex-1 bg-cyan-600 dark:bg-cyan-500 text-white"
+                              data-testid="button-curtain-submit"
+                            >
+                              {holdProgress > 0 ? "Sending..." : "Send with care"}
+                            </Button>
+                          </div>
                         </div>
                       </div>
                     )}
@@ -1397,23 +1475,48 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
             <div className="lg:col-span-2">
               <div className="sticky top-24">
                 <div className="bg-gray-900 dark:bg-gray-950 rounded-2xl p-6 border-2 border-gray-800">
-                  {/* Floor indicator */}
+                  {/* Dot matrix floor indicator */}
                   <div className="text-center mb-6">
-                    <motion.div
-                      className="text-6xl font-bold text-cyan-400"
-                      key={currentFloor}
-                      initial={{ opacity: 0, y: -20 }}
-                      animate={{ opacity: 1, y: 0 }}
+                    <div className="bg-black rounded-lg p-4 mb-3 border border-gray-800">
+                      <motion.div
+                        className="font-mono text-6xl font-bold tracking-widest"
+                        key={currentFloor}
+                        initial={{ opacity: 0, filter: "blur(4px)" }}
+                        animate={{ 
+                          opacity: 1, 
+                          filter: "blur(0px)",
+                          textShadow: [
+                            "0 0 10px rgba(8, 145, 178, 0.5)",
+                            "0 0 20px rgba(8, 145, 178, 0.8)",
+                            "0 0 10px rgba(8, 145, 178, 0.5)"
+                          ]
+                        }}
+                        transition={{ 
+                          duration: 0.3,
+                          textShadow: {
+                            duration: 0.5,
+                            repeat: Infinity,
+                            repeatType: "reverse"
+                          }
+                        }}
+                        style={{ color: "#0891B2" }}
+                      >
+                        {currentFloor}
+                      </motion.div>
+                    </div>
+                    <motion.p 
+                      className="text-gray-400 text-xs font-mono tracking-wider"
+                      key={`label-${currentFloor}`}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.2 }}
                     >
-                      {currentFloor}
-                    </motion.div>
-                    <p className="text-gray-400 text-sm mt-2">
-                      {currentFloor === 0 && "LOBBY"}
-                      {currentFloor === 3 && "PARTNERSHIPS"}
-                      {currentFloor === 4 && "CLINICAL"}
-                      {currentFloor === 5 && "PRODUCT"}
-                      {currentFloor === 6 && "CAREERS"}
-                    </p>
+                      {currentFloor === 0 && "⬚ LOBBY ⬚"}
+                      {currentFloor === 3 && "⬚ PARTNERSHIPS ⬚"}
+                      {currentFloor === 4 && "⬚ CLINICAL ⬚"}
+                      {currentFloor === 5 && "⬚ PRODUCT ⬚"}
+                      {currentFloor === 6 && "⬚ CAREERS ⬚"}
+                    </motion.p>
                   </div>
 
                   {/* Floor buttons */}
@@ -1464,16 +1567,58 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
             </div>
 
             {/* Door panels */}
-            <div className="lg:col-span-3">
-              <AnimatePresence mode="wait">
+            <div className="lg:col-span-3 relative">
+              {/* Elevator doors */}
+              <div className="relative overflow-hidden rounded-2xl">
+                {/* Left door */}
                 <motion.div
-                  key={currentFloor}
-                  initial={{ opacity: 0, x: 30 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -30 }}
-                  transition={{ duration: 0.42 }}
-                >
-                  <Card className="shadow-xl">
+                  className="absolute top-0 left-0 h-full w-1/2 bg-gray-800 dark:bg-gray-900 z-10 border-r-2 border-gray-700"
+                  animate={{ 
+                    x: elevatorMoving ? 0 : "-100%"
+                  }}
+                  transition={{ 
+                    duration: 0.42, 
+                    ease: [0.4, 0, 0.2, 1]
+                  }}
+                />
+                {/* Right door */}
+                <motion.div
+                  className="absolute top-0 right-0 h-full w-1/2 bg-gray-800 dark:bg-gray-900 z-10 border-l-2 border-gray-700"
+                  animate={{ 
+                    x: elevatorMoving ? 0 : "100%"
+                  }}
+                  transition={{ 
+                    duration: 0.42,
+                    ease: [0.4, 0, 0.2, 1]
+                  }}
+                />
+
+                {/* Ding indicator */}
+                <AnimatePresence>
+                  {!elevatorMoving && currentFloor > 0 && (
+                    <motion.div
+                      className="absolute top-4 right-4 z-20 flex items-center gap-2 bg-cyan-600/20 backdrop-blur-sm px-3 py-1 rounded-full border border-cyan-600/30"
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.8 }}
+                      transition={{ delay: 0.5 }}
+                    >
+                      <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse" />
+                      <span className="text-xs text-cyan-400 font-mono">DING</span>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                {/* Content inside doors */}
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={currentFloor}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3, delay: elevatorMoving ? 0 : 0.42 }}
+                  >
+                    <Card className="shadow-xl border-0 rounded-2xl">
                     <CardHeader>
                       <CardTitle className="text-3xl">
                         {currentFloor === 0 && "Welcome to the Lobby"}
@@ -1570,6 +1715,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                   </Card>
                 </motion.div>
               </AnimatePresence>
+              </div>
             </div>
           </div>
         </div>
