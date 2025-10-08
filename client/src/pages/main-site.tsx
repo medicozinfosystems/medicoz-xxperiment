@@ -1,10 +1,12 @@
-import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
-import { Mic, Smartphone, Mail, Linkedin, Youtube, Heart, Lock, Brain, Leaf, Activity, Play } from "lucide-react";
+import { motion, useScroll, useTransform, useMotionValue, useSpring, AnimatePresence } from "framer-motion";
+import { Mic, Smartphone, Mail, Linkedin, Youtube, Heart, Lock, Brain, Leaf, Activity, Play, ArrowRight, ArrowLeft, ChevronRight, Check, Phone, Upload, Shield, Calendar, Building2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
+import { Slider } from "@/components/ui/slider";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useRef, useState, useEffect } from "react";
 import HandwrittenText from "@/components/HandwrittenText";
 
@@ -25,6 +27,20 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
   const [selectedConstellation, setSelectedConstellation] = useState<string | null>(null);
   const [hoveredEpisode, setHoveredEpisode] = useState<number | null>(null);
   const [phoneRotation, setPhoneRotation] = useState(0);
+  
+  // Conversation Curtain state
+  const [curtainStep, setCurtainStep] = useState(0);
+  const [curtainOpen, setCurtainOpen] = useState(false);
+  const [curtainAnswers, setCurtainAnswers] = useState<Record<string, any>>({});
+  const [curtainSubmitted, setCurtainSubmitted] = useState(false);
+  const [holdProgress, setHoldProgress] = useState(0);
+  
+  // Elevator state
+  const [currentFloor, setCurrentFloor] = useState(0);
+  const [visitedFloors, setVisitedFloors] = useState<number[]>([]);
+  const [floorData, setFloorData] = useState<Record<number, any>>({});
+  const [elevatorSubmitted, setElevatorSubmitted] = useState(false);
+  const [elevatorMoving, setElevatorMoving] = useState(false);
   
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -926,6 +942,635 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                 </form>
               </div>
             </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section V2 - Conversation Curtain */}
+      <section className="relative min-h-screen bg-gradient-to-br from-gray-50 via-cyan-50/30 to-violet-50/20 dark:from-gray-900 dark:via-cyan-950/20 dark:to-violet-950/10 overflow-hidden">
+        {/* Neural glow effect */}
+        <div className="absolute inset-0 opacity-20">
+          <motion.div
+            className="absolute top-1/2 left-1/2 w-96 h-96 bg-cyan-400/30 dark:bg-cyan-600/20 rounded-full blur-3xl"
+            animate={{
+              scale: [1, 1.2, 1],
+              opacity: [0.3, 0.5, 0.3]
+            }}
+            transition={{
+              duration: 4,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+        </div>
+
+        <div className="relative z-10 flex items-center justify-center min-h-screen p-6">
+          {!curtainOpen ? (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center"
+            >
+              <h2 className="text-5xl md:text-6xl font-bold mb-6 text-gray-900 dark:text-white">
+                Let's build what care deserves
+              </h2>
+              <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
+                A guided conversation, one thoughtful question at a time
+              </p>
+              <Button
+                size="lg"
+                onClick={() => setCurtainOpen(true)}
+                className="bg-cyan-600 dark:bg-cyan-500 text-white text-lg h-14 px-8"
+                data-testid="button-open-curtain"
+              >
+                Start Conversation →
+              </Button>
+            </motion.div>
+          ) : (
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={curtainStep}
+                initial={{ opacity: 0, y: 24 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -24 }}
+                transition={{ duration: 0.32, ease: "easeOut" }}
+                className="w-full max-w-3xl"
+              >
+                <Card className="shadow-2xl border-gray-200 dark:border-gray-800">
+                  <CardContent className="p-8 md:p-12">
+                    {curtainStep === 0 && (
+                      <div className="space-y-6">
+                        <div>
+                          <h3 className="text-3xl font-bold mb-2 text-gray-900 dark:text-white">
+                            What brings you here?
+                          </h3>
+                          <p className="text-gray-600 dark:text-gray-400">We'll tailor the next steps</p>
+                        </div>
+                        
+                        <div className="grid gap-3">
+                          {["Partnership", "Pilot project", "Sponsorship", "Careers", "Other"].map((intent) => (
+                            <motion.button
+                              key={intent}
+                              onClick={() => {
+                                setCurtainAnswers({ ...curtainAnswers, intent });
+                              }}
+                              className={`p-4 rounded-xl border-2 text-left transition-all ${
+                                curtainAnswers.intent === intent
+                                  ? "bg-cyan-50 dark:bg-cyan-950/30 border-cyan-600 dark:border-cyan-400"
+                                  : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 hover:border-cyan-300 dark:hover:border-cyan-700"
+                              }`}
+                              whileHover={{ x: 4 }}
+                              data-testid={`chip-curtain-${intent.toLowerCase().replace(" ", "-")}`}
+                            >
+                              <span className={`font-semibold ${
+                                curtainAnswers.intent === intent
+                                  ? "text-cyan-600 dark:text-cyan-400"
+                                  : "text-gray-900 dark:text-white"
+                              }`}>
+                                {intent}
+                              </span>
+                            </motion.button>
+                          ))}
+                        </div>
+
+                        {curtainAnswers.intent && (
+                          <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                          >
+                            <Button
+                              onClick={() => setCurtainStep(1)}
+                              className="w-full bg-cyan-600 dark:bg-cyan-500 text-white"
+                              data-testid="button-curtain-next-0"
+                            >
+                              Next <ArrowRight className="ml-2 w-4 h-4" />
+                            </Button>
+                          </motion.div>
+                        )}
+                      </div>
+                    )}
+
+                    {curtainStep === 1 && (
+                      <div className="space-y-6">
+                        <div>
+                          <h3 className="text-3xl font-bold mb-2 text-gray-900 dark:text-white">
+                            Who are you?
+                          </h3>
+                          <p className="text-gray-600 dark:text-gray-400">So we can say hello properly</p>
+                        </div>
+                        
+                        <div className="space-y-4">
+                          <div>
+                            <label className="text-sm font-semibold mb-2 block text-gray-700 dark:text-gray-200">
+                              Full Name
+                            </label>
+                            <Input
+                              placeholder="Jane Doe"
+                              value={curtainAnswers.name || ""}
+                              onChange={(e) => setCurtainAnswers({ ...curtainAnswers, name: e.target.value })}
+                              className="h-12"
+                              data-testid="input-curtain-name"
+                            />
+                          </div>
+                          
+                          <div>
+                            <label className="text-sm font-semibold mb-2 block text-gray-700 dark:text-gray-200">
+                              Role
+                            </label>
+                            <Select
+                              value={curtainAnswers.role}
+                              onValueChange={(value) => setCurtainAnswers({ ...curtainAnswers, role: value })}
+                            >
+                              <SelectTrigger className="h-12" data-testid="select-curtain-role">
+                                <SelectValue placeholder="Select your role" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="clinician">Clinician</SelectItem>
+                                <SelectItem value="executive">Executive</SelectItem>
+                                <SelectItem value="developer">Developer</SelectItem>
+                                <SelectItem value="researcher">Researcher</SelectItem>
+                                <SelectItem value="other">Other</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        </div>
+
+                        <div className="flex gap-3">
+                          <Button
+                            variant="outline"
+                            onClick={() => setCurtainStep(0)}
+                            data-testid="button-curtain-back-1"
+                          >
+                            <ArrowLeft className="mr-2 w-4 h-4" /> Back
+                          </Button>
+                          <Button
+                            onClick={() => setCurtainStep(2)}
+                            disabled={!curtainAnswers.name || !curtainAnswers.role}
+                            className="flex-1 bg-cyan-600 dark:bg-cyan-500 text-white"
+                            data-testid="button-curtain-next-1"
+                          >
+                            Next <ArrowRight className="ml-2 w-4 h-4" />
+                          </Button>
+                        </div>
+                      </div>
+                    )}
+
+                    {curtainStep === 2 && (
+                      <div className="space-y-6">
+                        <div>
+                          <h3 className="text-3xl font-bold mb-2 text-gray-900 dark:text-white">
+                            How can we help?
+                          </h3>
+                          <p className="text-gray-600 dark:text-gray-400">
+                            Goals, audience, timelines, constraints—whatever helps us help you
+                          </p>
+                        </div>
+                        
+                        <Textarea
+                          placeholder="Tell us what you're building..."
+                          value={curtainAnswers.message || ""}
+                          onChange={(e) => setCurtainAnswers({ ...curtainAnswers, message: e.target.value })}
+                          rows={6}
+                          data-testid="textarea-curtain-message"
+                        />
+
+                        <div className="flex gap-3">
+                          <Button
+                            variant="outline"
+                            onClick={() => setCurtainStep(1)}
+                            data-testid="button-curtain-back-2"
+                          >
+                            <ArrowLeft className="mr-2 w-4 h-4" /> Back
+                          </Button>
+                          <Button
+                            onClick={() => setCurtainStep(3)}
+                            disabled={!curtainAnswers.message || curtainAnswers.message.length < 10}
+                            className="flex-1 bg-cyan-600 dark:bg-cyan-500 text-white"
+                            data-testid="button-curtain-next-2"
+                          >
+                            Next <ArrowRight className="ml-2 w-4 h-4" />
+                          </Button>
+                        </div>
+                      </div>
+                    )}
+
+                    {curtainStep === 3 && (
+                      <div className="space-y-6">
+                        <div>
+                          <h3 className="text-3xl font-bold mb-2 text-gray-900 dark:text-white">
+                            How fast do you need us?
+                          </h3>
+                          <p className="text-gray-600 dark:text-gray-400">We'll match your pace</p>
+                        </div>
+                        
+                        <div className="space-y-4">
+                          <Slider
+                            value={[curtainAnswers.urgency || 1]}
+                            onValueChange={(value) => setCurtainAnswers({ ...curtainAnswers, urgency: value[0] })}
+                            min={0}
+                            max={2}
+                            step={1}
+                            className="w-full"
+                            data-testid="slider-curtain-urgency"
+                          />
+                          <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
+                            <span>Today</span>
+                            <span>48 hours</span>
+                            <span>Next week</span>
+                          </div>
+                          <p className="text-center font-medium text-cyan-600 dark:text-cyan-400">
+                            {curtainAnswers.urgency === 0 && "Today"}
+                            {curtainAnswers.urgency === 1 && "48 hours"}
+                            {curtainAnswers.urgency === 2 && "Next week"}
+                          </p>
+                        </div>
+
+                        <div className="flex gap-3">
+                          <Button
+                            variant="outline"
+                            onClick={() => setCurtainStep(2)}
+                            data-testid="button-curtain-back-3"
+                          >
+                            <ArrowLeft className="mr-2 w-4 h-4" /> Back
+                          </Button>
+                          <Button
+                            onClick={() => setCurtainStep(4)}
+                            className="flex-1 bg-cyan-600 dark:bg-cyan-500 text-white"
+                            data-testid="button-curtain-next-3"
+                          >
+                            Next <ArrowRight className="ml-2 w-4 h-4" />
+                          </Button>
+                        </div>
+                      </div>
+                    )}
+
+                    {curtainStep === 4 && (
+                      <div className="space-y-6">
+                        <div>
+                          <h3 className="text-3xl font-bold mb-2 text-gray-900 dark:text-white">
+                            Where can we reach you?
+                          </h3>
+                        </div>
+                        
+                        <div className="space-y-4">
+                          <div>
+                            <label className="text-sm font-semibold mb-2 block text-gray-700 dark:text-gray-200">
+                              Email
+                            </label>
+                            <Input
+                              type="email"
+                              placeholder="jane@example.com"
+                              value={curtainAnswers.email || ""}
+                              onChange={(e) => setCurtainAnswers({ ...curtainAnswers, email: e.target.value })}
+                              className="h-12"
+                              data-testid="input-curtain-email"
+                            />
+                          </div>
+                          
+                          <div>
+                            <label className="text-sm font-semibold mb-2 block text-gray-700 dark:text-gray-200">
+                              Phone (Optional)
+                            </label>
+                            <Input
+                              type="tel"
+                              placeholder="+1 (555) 000-0000"
+                              value={curtainAnswers.phone || ""}
+                              onChange={(e) => setCurtainAnswers({ ...curtainAnswers, phone: e.target.value })}
+                              className="h-12"
+                              data-testid="input-curtain-phone"
+                            />
+                          </div>
+                          
+                          <p className="text-xs text-gray-500 dark:text-gray-400">
+                            <Shield className="w-3 h-3 inline mr-1" />
+                            Your data stays yours. No spam, ever.
+                          </p>
+                        </div>
+
+                        <div className="flex gap-3">
+                          <Button
+                            variant="outline"
+                            onClick={() => setCurtainStep(3)}
+                            data-testid="button-curtain-back-4"
+                          >
+                            <ArrowLeft className="mr-2 w-4 h-4" /> Back
+                          </Button>
+                          <Button
+                            onClick={() => setCurtainStep(5)}
+                            disabled={!curtainAnswers.email}
+                            className="flex-1 bg-cyan-600 dark:bg-cyan-500 text-white"
+                            data-testid="button-curtain-next-4"
+                          >
+                            Review <ChevronRight className="ml-2 w-4 h-4" />
+                          </Button>
+                        </div>
+                      </div>
+                    )}
+
+                    {curtainStep === 5 && !curtainSubmitted && (
+                      <div className="space-y-6">
+                        <h3 className="text-3xl font-bold mb-4 text-gray-900 dark:text-white">
+                          Review your message
+                        </h3>
+                        
+                        <div className="space-y-3 bg-gray-50 dark:bg-gray-900 rounded-xl p-6">
+                          <div className="flex justify-between items-center">
+                            <span className="text-sm text-gray-600 dark:text-gray-400">Intent:</span>
+                            <span className="font-semibold text-gray-900 dark:text-white">{curtainAnswers.intent}</span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-sm text-gray-600 dark:text-gray-400">Name:</span>
+                            <span className="font-semibold text-gray-900 dark:text-white">{curtainAnswers.name}</span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-sm text-gray-600 dark:text-gray-400">Email:</span>
+                            <span className="font-semibold text-gray-900 dark:text-white">{curtainAnswers.email}</span>
+                          </div>
+                        </div>
+
+                        <div className="flex gap-3">
+                          <Button
+                            variant="outline"
+                            onClick={() => setCurtainStep(4)}
+                            data-testid="button-curtain-back-5"
+                          >
+                            <ArrowLeft className="mr-2 w-4 h-4" /> Back
+                          </Button>
+                          <Button
+                            onMouseDown={() => {
+                              const interval = setInterval(() => {
+                                setHoldProgress(prev => {
+                                  if (prev >= 100) {
+                                    clearInterval(interval);
+                                    setCurtainSubmitted(true);
+                                    setTimeout(() => {
+                                      setCurtainSubmitted(false);
+                                      setCurtainOpen(false);
+                                      setCurtainStep(0);
+                                      setCurtainAnswers({});
+                                      setHoldProgress(0);
+                                    }, 4000);
+                                    return 100;
+                                  }
+                                  return prev + 10;
+                                });
+                              }, 100);
+                            }}
+                            onMouseUp={() => setHoldProgress(0)}
+                            onMouseLeave={() => setHoldProgress(0)}
+                            className="flex-1 bg-cyan-600 dark:bg-cyan-500 text-white relative overflow-hidden"
+                            data-testid="button-curtain-submit"
+                          >
+                            <motion.div
+                              className="absolute inset-0 bg-cyan-700 dark:bg-cyan-600"
+                              initial={{ width: "0%" }}
+                              animate={{ width: `${holdProgress}%` }}
+                              transition={{ duration: 0.1 }}
+                            />
+                            <span className="relative z-10">
+                              {holdProgress > 0 ? "Sending..." : "Hold to send with care"}
+                            </span>
+                          </Button>
+                        </div>
+                      </div>
+                    )}
+
+                    {curtainSubmitted && (
+                      <motion.div
+                        initial={{ scale: 0.9, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        className="text-center space-y-4"
+                      >
+                        <div className="w-16 h-16 bg-emerald-100 dark:bg-emerald-950/30 rounded-full flex items-center justify-center mx-auto">
+                          <Check className="w-8 h-8 text-emerald-600 dark:text-emerald-400" />
+                        </div>
+                        <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Message received</h3>
+                        <p className="text-gray-600 dark:text-gray-400">
+                          Pulse ID: #{Math.random().toString(36).substring(2, 8).toUpperCase()} • Reply within 48 hours
+                        </p>
+                      </motion.div>
+                    )}
+                  </CardContent>
+                </Card>
+
+                {/* Progress indicator */}
+                {!curtainSubmitted && curtainStep < 5 && (
+                  <div className="flex justify-center gap-2 mt-6">
+                    {[0, 1, 2, 3, 4].map((step) => (
+                      <div
+                        key={step}
+                        className={`h-1 rounded-full transition-all ${
+                          step <= curtainStep
+                            ? "w-8 bg-cyan-600 dark:bg-cyan-400"
+                            : "w-4 bg-gray-300 dark:bg-gray-700"
+                        }`}
+                      />
+                    ))}
+                  </div>
+                )}
+              </motion.div>
+            </AnimatePresence>
+          )}
+        </div>
+      </section>
+
+      {/* Contact Section V3 - Elevator to Humans */}
+      <section className="relative min-h-screen bg-gradient-to-br from-white via-gray-50 to-cyan-50/20 dark:from-gray-950 dark:via-gray-900 dark:to-cyan-950/10 py-20 px-6">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-5xl md:text-6xl font-bold mb-4 text-gray-900 dark:text-white">
+              Choose Your Floor
+            </h2>
+            <p className="text-xl text-gray-600 dark:text-gray-300">
+              We'll open the right door and keep you moving
+            </p>
+          </motion.div>
+
+          <div className="grid lg:grid-cols-5 gap-8">
+            {/* Elevator Shaft */}
+            <div className="lg:col-span-2">
+              <div className="sticky top-24">
+                <div className="bg-gray-900 dark:bg-gray-950 rounded-2xl p-6 border-2 border-gray-800">
+                  {/* Floor indicator */}
+                  <div className="text-center mb-6">
+                    <motion.div
+                      className="text-6xl font-bold text-cyan-400"
+                      key={currentFloor}
+                      initial={{ opacity: 0, y: -20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                    >
+                      {currentFloor}
+                    </motion.div>
+                    <p className="text-gray-400 text-sm mt-2">
+                      {currentFloor === 0 && "LOBBY"}
+                      {currentFloor === 3 && "PARTNERSHIPS"}
+                      {currentFloor === 4 && "CLINICAL"}
+                      {currentFloor === 5 && "PRODUCT"}
+                      {currentFloor === 6 && "CAREERS"}
+                    </p>
+                  </div>
+
+                  {/* Floor buttons */}
+                  <div className="space-y-2">
+                    {[
+                      { floor: 0, label: "Lobby", icon: Building2 },
+                      { floor: 3, label: "Partnerships", icon: Heart },
+                      { floor: 4, label: "Clinical", icon: Activity },
+                      { floor: 5, label: "Product", icon: Smartphone },
+                      { floor: 6, label: "Careers", icon: Mic }
+                    ].map(({ floor, label, icon: Icon }) => (
+                      <motion.button
+                        key={floor}
+                        onClick={() => {
+                          setElevatorMoving(true);
+                          setTimeout(() => {
+                            setCurrentFloor(floor);
+                            if (floor > 0 && !visitedFloors.includes(floor)) {
+                              setVisitedFloors([...visitedFloors, floor]);
+                            }
+                            setElevatorMoving(false);
+                          }, 640);
+                        }}
+                        className={`w-full p-4 rounded-xl border-2 flex items-center gap-3 transition-all ${
+                          currentFloor === floor
+                            ? "bg-cyan-600 border-cyan-600 text-white"
+                            : visitedFloors.includes(floor)
+                            ? "bg-emerald-950/30 border-emerald-600 text-emerald-400"
+                            : "bg-gray-800 border-gray-700 text-gray-400 hover:border-gray-600"
+                        }`}
+                        whileHover={{ x: 4 }}
+                        disabled={elevatorMoving}
+                        data-testid={`button-floor-${floor}`}
+                      >
+                        <Icon className="w-5 h-5" />
+                        <div className="text-left flex-1">
+                          <div className="font-semibold">{label}</div>
+                          <div className="text-xs opacity-75">Floor {floor}</div>
+                        </div>
+                        {visitedFloors.includes(floor) && (
+                          <Check className="w-4 h-4" />
+                        )}
+                      </motion.button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Door panels */}
+            <div className="lg:col-span-3">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentFloor}
+                  initial={{ opacity: 0, x: 30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -30 }}
+                  transition={{ duration: 0.42 }}
+                >
+                  <Card className="shadow-xl">
+                    <CardHeader>
+                      <CardTitle className="text-3xl">
+                        {currentFloor === 0 && "Welcome to the Lobby"}
+                        {currentFloor === 3 && "Partnerships"}
+                        {currentFloor === 4 && "Clinical Pilots"}
+                        {currentFloor === 5 && "Product & Platform"}
+                        {currentFloor === 6 && "Careers"}
+                      </CardTitle>
+                      <CardDescription>
+                        {currentFloor === 0 && "Choose a floor to start your journey"}
+                        {currentFloor === 3 && "Collabs that improve real outcomes"}
+                        {currentFloor === 4 && "Pilot design that respects clinicians and patients"}
+                        {currentFloor === 5 && "From idea to useful"}
+                        {currentFloor === 6 && "Mission-first builders welcome"}
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      {currentFloor === 0 && (
+                        <div className="text-center py-12">
+                          <p className="text-gray-600 dark:text-gray-400 mb-6">
+                            Select a floor above to begin
+                          </p>
+                          <Building2 className="w-24 h-24 text-cyan-600 dark:text-cyan-400 mx-auto opacity-50" />
+                        </div>
+                      )}
+
+                      {currentFloor === 3 && (
+                        <div className="space-y-4">
+                          <Input placeholder="Organization" data-testid="input-org" className="h-12" />
+                          <Input placeholder="Region" data-testid="input-region" className="h-12" />
+                          <Textarea placeholder="Problem statement" rows={4} data-testid="textarea-problem" />
+                          <Input placeholder="Desired outcome" data-testid="input-outcome" className="h-12" />
+                          <Button className="w-full bg-cyan-600 dark:bg-cyan-500 text-white" data-testid="button-partnerships-next">
+                            Save & Continue
+                          </Button>
+                        </div>
+                      )}
+
+                      {currentFloor === 4 && (
+                        <div className="space-y-4">
+                          <Select>
+                            <SelectTrigger className="h-12" data-testid="select-setting">
+                              <SelectValue placeholder="Setting (Hospital/Clinic/Remote)" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="hospital">Hospital</SelectItem>
+                              <SelectItem value="clinic">Clinic</SelectItem>
+                              <SelectItem value="remote">Remote</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <Input placeholder="Population" data-testid="input-population" className="h-12" />
+                          <Textarea placeholder="Measures of success" rows={4} data-testid="textarea-measures" />
+                          <Button className="w-full bg-cyan-600 dark:bg-cyan-500 text-white" data-testid="button-clinical-next">
+                            Save & Continue
+                          </Button>
+                        </div>
+                      )}
+
+                      {currentFloor === 5 && (
+                        <div className="space-y-4">
+                          <Input placeholder="Use case" data-testid="input-usecase" className="h-12" />
+                          <Input placeholder="Required integrations" data-testid="input-integrations" className="h-12" />
+                          <Input placeholder="Languages needed" data-testid="input-languages" className="h-12" />
+                          <Textarea placeholder="Constraints (budget/infra)" rows={4} data-testid="textarea-constraints" />
+                          <Button className="w-full bg-cyan-600 dark:bg-cyan-500 text-white" data-testid="button-product-next">
+                            Save & Continue
+                          </Button>
+                        </div>
+                      )}
+
+                      {currentFloor === 6 && (
+                        <div className="space-y-4">
+                          <Input placeholder="Your name" data-testid="input-career-name" className="h-12" />
+                          <Input type="email" placeholder="Email" data-testid="input-career-email" className="h-12" />
+                          <Input placeholder="Portfolio/LinkedIn" data-testid="input-portfolio" className="h-12" />
+                          <Select>
+                            <SelectTrigger className="h-12" data-testid="select-role">
+                              <SelectValue placeholder="Role you're interested in" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="engineer">Engineer</SelectItem>
+                              <SelectItem value="designer">Designer</SelectItem>
+                              <SelectItem value="clinical">Clinical</SelectItem>
+                              <SelectItem value="other">Other</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <Textarea placeholder="Why Medicoz?" rows={4} data-testid="textarea-why" />
+                          <Button className="w-full bg-cyan-600 dark:bg-cyan-500 text-white" data-testid="button-career-submit">
+                            Send Application
+                          </Button>
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              </AnimatePresence>
+            </div>
           </div>
         </div>
       </section>
