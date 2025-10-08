@@ -1,0 +1,77 @@
+🩺 1. Hero Section — “The Moment of Connection”
+
+Concept: Begin with quiet minimalism that evolves as you scroll.
+
+The glowing ECG line from the intro continues across the screen, transforming into a data ribbon that subtly pulses as users move the mouse.
+
+Tagline floats in and responds to cursor movement — letters gently expand as if “breathing.”
+
+A small micro-animation shows a signal travelling through space, connecting icons of “doctor,” “patient,” “device,” “heart.”
+
+Visual Mood: calm white-blue gradient, depth through motion-parallax, ambient hum.
+Interaction: as users scroll, the ECG morphs into flowing waves that lead them to “Our Services.”
+
+🎙 2. Our Services — Bento Story Grid
+
+Concept: A two-tile diagonal grid like a digital art magazine.
+Each tile moves at a different scroll speed (parallax) and reveals content dynamically.
+
+Tile 1 — The XXperiment
+
+Thumbnail: moving waveform that reacts to cursor hover (like Spotify visualizer).
+
+On hover, sound snippets or quotes animate in floating text.
+
+Click → opens a side-panel (not a page) that plays podcast episodes in a mini-player with transcript highlights.
+
+Tile 2 — Medicoz App (Coming Soon)
+
+Abstract 3D outline of a phone slowly rotating with heartbeat ripples behind it.
+
+Hover text: “Care. Anywhere.”
+
+A “Notify Me” button that ripples out like a touch on water when clicked.
+
+Scroll effect: tiles slightly overlap and swap places as you scroll (so the podcast moves forward, app slides behind — symbolizing layered care).
+
+💡 3. About Section — “People Behind the Pulse”
+
+Concept: Circular “orbit” layout representing synergy of science, design, and empathy.
+
+Each team member profile orbits around a glowing core that says “Our Purpose.”
+
+Hover over a face: the orbit pauses, and the background glows with their highlight story (“Built telehealth dashboards for rural India”, etc.).
+
+Background changes hue subtly as you move — giving a sense of dynamic humanity.
+
+Alternate twist: Instead of photos, use short looping 2-sec video portraits — each team member subtly moves, smiles, looks at camera — makes it feel alive.
+
+🤝 4. Contact / Hiring Section — “Join the Movement”
+
+Concept: Transform a boring form into an interactive timeline of care.
+
+Instead of fields, users scroll through stages:
+
+“Tell us who you are” → type fades in.
+
+“Tell us what drives you” → textarea slides up.
+
+“We’ll get back within 48 hours” → heartbeat pulse animation ends the journey.
+
+Background: minimal black with slow floating particles shaped like hearts or molecules.
+
+Extra idea: When users select “Careers,” small holographic tags appear — Designer, Engineer, Strategist — each clickable to auto-fill message intro.
+
+🌍 5. Footer — “A Quiet Pulse”
+
+Concept: Keep it poetic and interactive.
+
+A continuous ECG line runs along the bottom of the page; every time someone clicks “Contact,” a pulse travels through the footer.
+
+Quote appears: “Connection begins with care.”
+
+Icons (LinkedIn, Mail, etc.) glow gently when the pulse passes through them.
+
+✨ Bonus Experimental Ideas
+
+Scroll-synced narration: subtle voiceover or caption that evolves line by line as you scroll through hero → services → about.
