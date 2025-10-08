@@ -130,42 +130,50 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
           }}
         />
 
-        {/* Flowing Data Ribbon - Clickable to scroll to next section */}
+        {/* ECG Pulse Line at Top */}
+        <div className="absolute top-0 left-0 w-full h-24 overflow-hidden pointer-events-none">
+          <svg className="w-full h-full" preserveAspectRatio="none" viewBox="0 0 1200 100">
+            <motion.path
+              d="M 0 50 L 400 50 L 420 30 L 440 70 L 460 50 L 1200 50"
+              stroke="#0891B2"
+              strokeWidth="2"
+              fill="none"
+              opacity="0.4"
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: 1 }}
+              transition={{ duration: 2, ease: "easeInOut" }}
+            />
+          </svg>
+        </div>
+
+        {/* Flowing Data Ribbon - Decorative */}
         <motion.div
-          className="absolute bottom-24 left-1/2 transform -translate-x-1/2 cursor-pointer group z-20"
-          onClick={() => servicesRef.current?.scrollIntoView({ behavior: 'smooth' })}
-          whileHover={{ scale: 1.05 }}
-          data-testid="ribbon-scroll"
+          className="absolute top-1/3 left-0 w-full pointer-events-none z-0"
+          style={{ y: ribbonY }}
         >
           <svg 
-            className="w-96 h-20 opacity-40 group-hover:opacity-60 transition-opacity"
-            viewBox="0 0 400 80"
+            className="w-full h-32 opacity-20"
+            viewBox="0 0 1200 100"
+            preserveAspectRatio="none"
           >
             <motion.path
-              d="M 0 40 Q 100 20, 200 40 T 400 40"
+              d="M -100 50 Q 100 20, 300 50 T 700 50 Q 900 20, 1100 50 T 1500 50"
               stroke="url(#ribbonGradient)"
-              strokeWidth="4"
+              strokeWidth="3"
               fill="none"
               initial={{ pathLength: 0, opacity: 0 }}
               animate={{ pathLength: 1, opacity: 1 }}
-              transition={{ duration: 2, delay: 1.5 }}
+              transition={{ duration: 3, delay: 1 }}
             />
             <defs>
               <linearGradient id="ribbonGradient" x1="0%" y1="0%" x2="100%" y2="0%">
                 <stop offset="0%" stopColor="#0891B2" />
-                <stop offset="50%" stopColor="#7C3AED" />
-                <stop offset="100%" stopColor="#DB2777" />
+                <stop offset="33%" stopColor="#7C3AED" />
+                <stop offset="66%" stopColor="#DB2777" />
+                <stop offset="100%" stopColor="#059669" />
               </linearGradient>
             </defs>
           </svg>
-          <motion.div
-            className="text-center text-sm font-medium text-cyan-600 dark:text-cyan-400 mt-1"
-            initial={{ opacity: 0, y: -5 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 3, duration: 0.5 }}
-          >
-            Explore our solutions ↓
-          </motion.div>
         </motion.div>
 
         <motion.div 
