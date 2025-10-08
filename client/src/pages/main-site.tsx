@@ -225,10 +225,10 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
               delay: showButtonsImmediately ? 0 : 1.6 
             }}
           >
-            <Button size="lg" className="text-lg px-8 bg-cyan-600 hover:bg-cyan-700 dark:bg-cyan-500 dark:hover:bg-cyan-600" data-testid="button-explore-services">
+            <Button size="lg" className="text-lg px-8 bg-cyan-600 dark:bg-cyan-500" data-testid="button-explore-services">
               Explore our services
             </Button>
-            <Button size="lg" variant="outline" className="text-lg px-8 border-cyan-600 text-cyan-600 hover:bg-cyan-50 dark:border-cyan-400 dark:text-cyan-400 dark:hover:bg-cyan-950" data-testid="button-partner">
+            <Button size="lg" variant="outline" className="text-lg px-8 border-cyan-600 text-cyan-600 dark:border-cyan-400 dark:text-cyan-400" data-testid="button-partner">
               Partner with us
             </Button>
           </motion.div>
@@ -289,7 +289,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                     <p className="text-xs text-pink-700 dark:text-pink-400">Ep. 12: Breaking the Silence</p>
                   </div>
 
-                  {/* Waveform Visualization */}
+                  {/* Waveform Visualization - 60 bars */}
                   <div className="relative h-32 mb-4 bg-white/50 dark:bg-black/20 rounded-xl p-4 overflow-hidden">
                     <div className="flex items-end justify-center gap-0.5 h-full">
                       {[...Array(60)].map((_, i) => {
@@ -297,7 +297,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                         return (
                           <motion.div
                             key={i}
-                            className="flex-1 bg-gradient-to-t from-pink-600 to-pink-400 dark:from-pink-500 dark:to-pink-300 rounded-full min-w-[2px]"
+                            className="flex-1 bg-gradient-to-t from-pink-600 to-pink-400 dark:from-pink-500 dark:to-pink-300 rounded-full min-w-[1px]"
                             initial={{ height: "20%" }}
                             animate={{ 
                               height: `${height}%`,
@@ -315,19 +315,23 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                     </div>
                   </div>
 
-                  {/* Progress Bar */}
+                  {/* Progress Bar - Animated */}
                   <div className="mb-4">
                     <div className="h-1.5 bg-pink-200 dark:bg-pink-900 rounded-full overflow-hidden">
                       <motion.div
                         className="h-full bg-pink-600 dark:bg-pink-400"
                         initial={{ width: "0%" }}
-                        animate={{ width: "45%" }}
-                        transition={{ duration: 2, ease: "easeOut" }}
+                        animate={{ width: ["0%", "100%"] }}
+                        transition={{ 
+                          duration: 28,
+                          ease: "linear",
+                          repeat: Infinity
+                        }}
                       />
                     </div>
                     <div className="flex justify-between text-xs text-pink-700 dark:text-pink-400 mt-1">
-                      <span>12:34</span>
-                      <span>28:15</span>
+                      <span>2:34</span>
+                      <span>45:12</span>
                     </div>
                   </div>
 
@@ -336,7 +340,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                     <Button 
                       size="icon" 
                       variant="ghost" 
-                      className="text-pink-600 dark:text-pink-400 hover:bg-pink-200 dark:hover:bg-pink-900"
+                      className="text-pink-600 dark:text-pink-400"
                     >
                       <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M6 6h2v12H6zm10 0h2v12h-2z"/>
@@ -344,7 +348,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                     </Button>
                     <Button 
                       size="icon"
-                      className="w-14 h-14 bg-pink-600 hover:bg-pink-700 dark:bg-pink-500 dark:hover:bg-pink-600 text-white rounded-full"
+                      className="w-14 h-14 bg-pink-600 dark:bg-pink-500 text-white rounded-full"
                       data-testid="button-play"
                     >
                       <Play className="w-6 h-6 ml-0.5" fill="currentColor" />
@@ -352,7 +356,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                     <Button 
                       size="icon" 
                       variant="ghost" 
-                      className="text-pink-600 dark:text-pink-400 hover:bg-pink-200 dark:hover:bg-pink-900"
+                      className="text-pink-600 dark:text-pink-400"
                     >
                       <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
@@ -363,7 +367,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
 
                 <Button 
                   size="lg" 
-                  className="w-full mt-6 bg-pink-600 hover:bg-pink-700 dark:bg-pink-500 dark:hover:bg-pink-600 text-white"
+                  className="w-full mt-6 bg-pink-600 dark:bg-pink-500 text-white"
                   data-testid="button-xxperiment"
                 >
                   Listen on The XXperiment
@@ -442,7 +446,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                 <div className="space-y-3">
                   <Button 
                     size="lg" 
-                    className="w-full bg-cyan-600 hover:bg-cyan-700 dark:bg-cyan-500 dark:hover:bg-cyan-600 text-white"
+                    className="w-full bg-cyan-600 dark:bg-cyan-500 text-white"
                     data-testid="button-waitlist"
                   >
                     Join the Waitlist
@@ -450,7 +454,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                   <Button 
                     size="lg" 
                     variant="outline"
-                    className="w-full border-cyan-600 text-cyan-600 hover:bg-cyan-50 dark:border-cyan-400 dark:text-cyan-400 dark:hover:bg-cyan-950"
+                    className="w-full border-cyan-600 text-cyan-600 dark:border-cyan-400 dark:text-cyan-400"
                     data-testid="button-notify"
                   >
                     Get Notified
@@ -741,7 +745,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                     <Button 
                       type="submit"
                       size="lg" 
-                      className="w-full bg-cyan-600 hover:bg-cyan-700 dark:bg-cyan-500 dark:hover:bg-cyan-600 text-white text-lg h-14"
+                      className="w-full bg-cyan-600 dark:bg-cyan-500 text-white text-lg h-14"
                       data-testid="button-send-message"
                     >
                       Send Message →
@@ -779,14 +783,14 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
               stroke="#0891B2"
               strokeWidth="3"
               fill="none"
-              initial={{ x: -50, opacity: 0 }}
               animate={{ 
-                x: pulsePosition === 100 ? 1200 : -50,
-                opacity: pulsePosition === 100 ? [0, 1, 1, 0] : 0
+                x: pulsePosition === 100 ? [0, 1200] : 0,
+                opacity: pulsePosition === 100 ? [0, 1, 1, 0.8, 0] : 0
               }}
               transition={{ 
                 duration: ecgSpeed,
-                ease: "linear"
+                ease: "linear",
+                times: pulsePosition === 100 ? [0, 0.1, 0.5, 0.9, 1] : [0]
               }}
               filter="url(#glow)"
             />
