@@ -9,6 +9,8 @@ import { Slider } from "@/components/ui/slider";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useRef, useState, useEffect } from "react";
 import HandwrittenText from "@/components/HandwrittenText";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import { LanguageToggle } from "@/components/LanguageToggle";
 
 interface MainSiteProps {
   showButtonsImmediately?: boolean;
@@ -151,6 +153,20 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-950">
+      {/* Fixed Header with Theme and Language Toggles */}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-950/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Activity className="w-6 h-6 text-cyan-600 dark:text-cyan-400" />
+            <span className="text-lg font-bold text-gray-900 dark:text-white">Medicoz</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <LanguageToggle />
+            <ThemeToggle />
+          </div>
+        </div>
+      </header>
+
       {/* Hero Section */}
       <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-white via-cyan-50/20 to-violet-50/10 dark:from-gray-950 dark:via-cyan-950/20 dark:to-violet-950/10">
         
