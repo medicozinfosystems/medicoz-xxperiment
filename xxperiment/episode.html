@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title id="episode-title">Episode Details — The XXperiment</title>
+
+  <!-- OPTIMIZED FONTS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=DM+Sans:wght@400;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=DM+Sans:wght@400;700&display=swap" rel="stylesheet"></noscript>
+
+  <style>
+    :root{
+      --xx-red: #7f1e16;
+      --xx-cream: #e2d6c7;
+      --xx-ink: #0c0b0b;
+      --xx-warm-gray: #6b5751;
+      --xx-brown: #3d1d19;
+      --smooth: cubic-bezier(0.23, 1, 0.32, 1);
+      --bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      --shadow-soft: 0 10px 30px rgba(0,0,0,.3);
+      --shadow-hard: 0 20px 40px rgba(0,0,0,.5);
+      --blur-bg: blur(20px);
+    }
+
+    *,*::before,*::after{box-sizing:border-box}
+    html{scroll-behavior:smooth; height:100%; font-size:16px}
+    body{
+      margin:0; color:var(--xx-cream); background:var(--xx-red);
+      font-family:"DM Sans", system-ui, sans-serif;
+      overflow-x:hidden; line-height:1.6;
+    }
+
+    /* HEADER */
+    header{
+      position:fixed; top:0; left:0; right:0; z-index:50;
+      backdrop-filter: var(--blur-bg); background: rgba(127,30,22,0.95);
+      border-bottom: 1px solid rgba(226,214,199,0.1);
+    }
+
+    .nav{
+      display:flex; align-items:center; justify-content:space-between; gap:1rem;
+      padding:1rem 2rem; color:var(--xx-cream);
+    }
+
+    .brand{ display:flex; align-items:center; gap:.75rem; text-decoration: none; color: inherit; }
+    .brand .logo{
+      width:40px; aspect-ratio:1; background:var(--xx-cream); color:var(--xx-red);
+      display:grid; place-items:center; border-radius:8px;
+      box-shadow:2px 2px 0 rgba(12,11,11,.6);
+    }
+
+    .back-btn{
+      background:transparent; border:2px solid var(--xx-cream); color:var(--xx-cream);
+      padding:0.5rem 1rem; border-radius:8px; cursor:pointer; transition: all 0.3s var(--smooth);
+      text-decoration: none; font-weight: 700;
+    }
+
+    .back-btn:hover{
+      background:var(--xx-cream); color:var(--xx-red);
+      transform: translateY(-2px);
+    }
+
+    /* MAIN CONTENT */
+    main{
+      padding-top: 6rem;
+      min-height: 100vh;
+    }
+
+    .episode-hero{
+      padding: 2rem;
+      background: linear-gradient(135deg, var(--xx-red) 0%, rgba(127,30,22,0.9) 100%);
+      border-bottom: 3px solid rgba(226,214,199,0.2);
+    }
+
+    .hero-inner{
+      max-width: 1400px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+
+    .episode-info h1{
+      font-family: "Alfa Slab One", serif;
+      font-size: clamp(32px, 5vw, 64px);
+      line-height: 1.1;
+      margin: 0 0 1.5rem;
+      text-shadow: 6px 6px 0 rgba(12,11,11,.6);
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .episode-meta{
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .meta-item{
+      background: rgba(0,0,0,0.3);
+      padding: 0.5rem 1rem;
+      border-radius: 25px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .episode-description{
+      font-size: 1.2rem;
+      line-height: 1.7;
+      margin-bottom: 2rem;
+      color: #f6efe5;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* MAIN CONTENT LAYOUT */
+    .episode-main{
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* HERO VIDEO SECTION */
+    .video-hero {
+      margin: 3rem 0;
+      text-align: center;
+    }
+
+    .video-container {
+      position: relative;
+      max-width: 1000px;
+      margin: 0 auto;
+      background: rgba(0,0,0,0.6);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+      border: 2px solid rgba(226,214,199,0.15);
+    }
+
+    .video-title {
+      font-family: "Alfa Slab One", serif;
+      font-size: 1.8rem;
+      margin: 0 0 1.5rem;
+      color: var(--xx-cream);
+      text-shadow: 3px 3px 0 rgba(12,11,11,.6);
+    }
+
+    /* CONTENT GRID */
+    .content-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 4rem;
+      margin: 4rem 0;
+      align-items: start;
+    }
+
+    .content-main {
+      min-height: 500px;
+    }
+
+    .content-sidebar {
+      position: sticky;
+      top: 6rem;
+      max-height: calc(100vh - 7rem);
+      overflow-y: auto;
+      background: rgba(0,0,0,0.2);
+      border-radius: 20px;
+      padding: 2rem;
+      border: 1px solid rgba(226,214,199,0.1);
+    }
+
+    /* YOUTUBE PLAYER */
+    .youtube-iframe{
+      width: 100%;
+      aspect-ratio: 16/9;
+      border: none;
+      border-radius: 15px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+      background: #000;
+    }
+
+    /* EPISODE METADATA */
+    .episode-metadata {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin: 3rem 0;
+      padding: 2rem;
+      background: rgba(255,255,255,0.05);
+      border-radius: 15px;
+      border: 1px solid rgba(226,214,199,0.1);
+    }
+
+    .metadata-item {
+      text-align: center;
+    }
+
+    .metadata-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--xx-cream);
+      opacity: 0.7;
+      margin-bottom: 0.5rem;
+      font-weight: 700;
+    }
+
+    .metadata-value {
+      font-family: "Alfa Slab One", serif;
+      font-size: 1.2rem;
+      color: var(--xx-cream);
+      text-shadow: 2px 2px 0 rgba(12,11,11,.4);
+    }
+
+    /* PLATFORM LINKS */
+    .platforms{
+      background: rgba(255,255,255,0.08);
+      padding: 1.5rem;
+      border-radius: 15px;
+      margin: 0;
+    }
+
+    .platforms h3{
+      font-family: "Alfa Slab One", serif;
+      font-size: 1.1rem;
+      margin: 0 0 1rem;
+      text-align: center;
+    }
+
+    .platform-grid{
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.5rem;
+    }
+
+    .platform-link{
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.6rem 0.8rem;
+      background: rgba(0,0,0,0.4);
+      border-radius: 6px;
+      text-decoration: none;
+      color: var(--xx-cream);
+      transition: all 0.3s var(--smooth);
+      border: 1px solid transparent;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .platform-link:hover{
+      background: rgba(0,0,0,0.5);
+      transform: translateY(-2px);
+      border-color: rgba(226,214,199,0.3);
+    }
+
+    .platform-icon{
+      width: 24px;
+      height: 24px;
+      background: var(--xx-cream);
+      border-radius: 4px;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      color: var(--xx-red);
+      font-size: 0.8rem;
+    }
+
+    /* EPISODE SECTIONS */
+    .episode-content{
+      padding-bottom: 4rem;
+    }
+
+    .content-section{
+      margin: 3rem 0;
+      padding: 2.5rem;
+      background: rgba(255,255,255,0.03);
+      border-radius: 20px;
+      border: 1px solid rgba(226,214,199,0.1);
+    }
+
+    .sidebar-section{
+      margin: 0 0 2.5rem;
+      padding: 0;
+    }
+
+    .sidebar-section h3{
+      font-family: "Alfa Slab One", serif;
+      font-size: 1.3rem;
+      margin: 0 0 1.5rem;
+      text-shadow: 2px 2px 0 rgba(12,11,11,.6);
+      border-bottom: 2px solid rgba(226,214,199,0.2);
+      padding-bottom: 0.5rem;
+    }
+
+    /* STATS GRID */
+    .episode-stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .stat-item {
+      background: rgba(255,255,255,0.08);
+      padding: 1.5rem;
+      border-radius: 12px;
+      text-align: center;
+      border: 1px solid rgba(226,214,199,0.1);
+    }
+
+    .stat-value {
+      font-family: "Alfa Slab One", serif;
+      font-size: 1.5rem;
+      color: var(--xx-cream);
+      margin-bottom: 0.5rem;
+      text-shadow: 2px 2px 0 rgba(12,11,11,.4);
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--xx-cream);
+      opacity: 0.8;
+      font-weight: 700;
+    }
+
+    .content-section h2{
+      font-family: "Alfa Slab One", serif;
+      font-size: 2rem;
+      margin: 0 0 2rem;
+      text-shadow: 3px 3px 0 rgba(12,11,11,.6);
+    }
+
+    .content-section h3{
+      font-family: "Alfa Slab One", serif;
+      font-size: 1.4rem;
+      margin: 2rem 0 1rem;
+      color: var(--xx-cream);
+    }
+
+    .content-section p{
+      font-size: 1.1rem;
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+      color: #f6efe5;
+    }
+
+    .content-section ul{
+      list-style: none;
+      padding: 0;
+    }
+
+    .content-section li{
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(226,214,199,0.1);
+      font-size: 1rem;
+    }
+
+    .content-section li:before{
+      content: "•";
+      color: var(--xx-cream);
+      font-weight: bold;
+      margin-right: 0.5rem;
+    }
+
+    /* GUEST INFO */
+    .guest-card{
+      padding: 1.5rem;
+      background: rgba(255,255,255,0.08);
+      border-radius: 12px;
+      border: 1px solid rgba(226,214,199,0.15);
+      text-align: center;
+    }
+
+    .guest-photo{
+      width: 60px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--xx-warm-gray), var(--xx-brown));
+      overflow: hidden;
+      box-shadow: var(--shadow-soft);
+      margin: 0 auto 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--xx-cream);
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    .guest-info h4{
+      font-family: "Alfa Slab One", serif;
+      font-size: 1rem;
+      margin: 0 0 0.25rem;
+    }
+
+    .guest-title{
+      font-weight: 600;
+      color: var(--xx-cream);
+      opacity: 0.8;
+      margin-bottom: 0.75rem;
+      font-size: 0.8rem;
+    }
+
+    .guest-links{
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .guest-link{
+      padding: 0.3rem 0.7rem;
+      background: var(--xx-cream);
+      color: var(--xx-red);
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: 700;
+      font-size: 0.7rem;
+      transition: all 0.3s var(--smooth);
+    }
+
+    .guest-link:hover{
+      transform: translateY(-2px);
+      box-shadow: 3px 3px 0 rgba(12,11,11,.6);
+    }
+
+    /* SUBSCRIBE SECTION */
+    .subscribe-section{
+      background: linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.2));
+      text-align: center;
+      padding: 4rem 2rem;
+      margin-top: 4rem;
+    }
+
+    .subscribe-section h2{
+      font-family: "Alfa Slab One", serif;
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .newsletter-form{
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+
+    .newsletter-form input{
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      border: 2px solid var(--xx-cream);
+      background: transparent;
+      color: var(--xx-cream);
+      min-width: 300px;
+      font-size: 1rem;
+    }
+
+    .newsletter-form input::placeholder{
+      color: rgba(226,214,199,0.7);
+    }
+
+    .newsletter-form button{
+      background: var(--xx-cream);
+      color: var(--xx-red);
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: all 0.3s var(--bounce);
+      box-shadow: 4px 4px 0 rgba(12,11,11,.6);
+    }
+
+    .newsletter-form button:hover{
+      transform: translateY(-2px);
+      box-shadow: 6px 6px 0 rgba(12,11,11,.8);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 1200px){
+      .content-grid{
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+
+      .content-sidebar{
+        position: static;
+        max-height: none;
+        margin-top: 2rem;
+      }
+
+      .video-container{
+        padding: 1.5rem;
+      }
+
+      .platform-grid{
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .episode-metadata {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 920px){
+      .platform-grid{
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .newsletter-form{
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .newsletter-form input{
+        min-width: auto;
+        width: 100%;
+        max-width: 400px;
+      }
+
+      .episode-main{
+        padding: 0 1rem;
+      }
+
+      .content-grid{
+        gap: 2rem;
+      }
+
+      .video-container{
+        padding: 1rem;
+      }
+
+      .episode-metadata {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .episode-stats {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px){
+      .nav{
+        padding: 1rem;
+      }
+
+      .episode-hero{
+        padding: 1.5rem 1rem;
+      }
+
+      .hero-inner{
+        text-align: left;
+      }
+
+      .episode-info h1{
+        font-size: clamp(28px, 8vw, 48px);
+        margin-bottom: 1rem;
+      }
+
+      .episode-meta{
+        justify-content: flex-start;
+        margin-bottom: 1rem;
+      }
+
+      .meta-item{
+        font-size: 0.8rem;
+        padding: 0.4rem 0.8rem;
+      }
+
+      .episode-description{
+        font-size: 1rem;
+        text-align: left;
+        margin-bottom: 1.5rem;
+      }
+
+      .video-container{
+        padding: 1rem;
+        margin: 0 -1rem;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+      }
+
+      .video-title{
+        font-size: 1.4rem;
+      }
+
+      .episode-metadata{
+        padding: 1.5rem 1rem;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+      }
+
+      .metadata-label{
+        font-size: 0.7rem;
+      }
+
+      .metadata-value{
+        font-size: 1rem;
+      }
+
+      .content-section{
+        padding: 1.5rem;
+        margin: 2rem 0;
+        border-radius: 15px;
+      }
+
+      .content-section h2{
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .content-section p{
+        font-size: 1rem;
+        line-height: 1.6;
+      }
+
+      .content-sidebar{
+        padding: 1.5rem;
+      }
+
+      .sidebar-section h3{
+        font-size: 1.1rem;
+      }
+
+      .platform-grid{
+        grid-template-columns: 1fr;
+        gap: 0.4rem;
+      }
+
+      .platform-link{
+        font-size: 0.85rem;
+        padding: 0.7rem 1rem;
+      }
+
+      .platform-icon{
+        width: 20px;
+        height: 20px;
+        font-size: 0.7rem;
+      }
+
+      .episode-stats {
+        gap: 0.8rem;
+      }
+
+      .stat-item {
+        padding: 1rem;
+      }
+
+      .stat-value{
+        font-size: 1.2rem;
+      }
+
+      .guest-card{
+        padding: 1.2rem;
+      }
+
+      .guest-photo{
+        width: 50px;
+        font-size: 1rem;
+      }
+
+      .guest-info h4{
+        font-size: 0.9rem;
+      }
+
+      .guest-title{
+        font-size: 0.75rem;
+      }
+
+      .guest-link{
+        font-size: 0.65rem;
+        padding: 0.25rem 0.6rem;
+      }
+
+      .subscribe-section{
+        padding: 3rem 1rem;
+      }
+
+      .subscribe-section h2{
+        font-size: 2rem;
+      }
+    }
+
+    /* EXTRA SMALL SCREENS */
+    @media (max-width: 480px){
+      main{
+        padding-top: 5rem;
+      }
+
+      .episode-hero{
+        padding: 1rem;
+      }
+
+      .episode-info h1{
+        font-size: clamp(24px, 9vw, 36px);
+        line-height: 1.2;
+      }
+
+      .episode-meta{
+        gap: 0.5rem;
+        flex-wrap: wrap;
+      }
+
+      .meta-item{
+        font-size: 0.75rem;
+        padding: 0.3rem 0.6rem;
+      }
+
+      .episode-description{
+        font-size: 0.9rem;
+        line-height: 1.5;
+      }
+
+      .video-container{
+        padding: 0.8rem;
+      }
+
+      .video-title{
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+      }
+
+      .episode-metadata{
+        padding: 1rem;
+        gap: 0.8rem;
+      }
+
+      .episode-main{
+        padding: 0 0.5rem;
+      }
+
+      .content-section{
+        padding: 1.2rem;
+        margin: 1.5rem 0;
+      }
+
+      .content-section h2{
+        font-size: 1.3rem;
+      }
+
+      .content-sidebar{
+        padding: 1.2rem;
+      }
+
+      .sidebar-section{
+        margin-bottom: 2rem;
+      }
+
+      .guest-card{
+        padding: 1rem;
+        text-align: left;
+      }
+
+      .guest-photo{
+        width: 40px;
+        margin: 0 0 0.8rem;
+      }
+
+      .newsletter-form{
+        gap: 0.8rem;
+      }
+
+      .newsletter-form input{
+        padding: 0.8rem 1.2rem;
+        font-size: 0.9rem;
+      }
+
+      .newsletter-form button{
+        padding: 0.8rem 1.5rem;
+        font-size: 0.9rem;
+      }
+    }
+
+    /* LOADING STATE */
+    .loading{
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in{
+      animation: fadeInUp 0.6s var(--smooth) forwards;
+    }
+
+    .sr-only{
+      position:absolute; width:1px; height:1px; margin:-1px;
+      overflow:hidden; clip:rect(0,0,0,0); border:0; white-space:nowrap
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <nav class="nav">
+      <a href="index.html" class="brand">
+        <div class="logo">XX</div>
+        <strong>The XXperiment</strong>
+      </a>
+      <a href="index.html" class="back-btn">← Back to Episodes</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- EPISODE HERO -->
+    <section class="episode-hero">
+      <div class="hero-inner">
+        <div class="episode-info">
+          <h1 id="episode-title-main">Loading Episode...</h1>
+
+          <div class="episode-meta">
+            <span class="meta-item" id="episode-number">EP 01</span>
+            <span class="meta-item" id="episode-duration">42 MIN</span>
+            <span class="meta-item" id="episode-date">NOV 2024</span>
+          </div>
+
+          <p class="episode-description" id="episode-description">
+            Loading episode details...
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- MAIN CONTENT LAYOUT -->
+    <div class="episode-main">
+
+      <!-- VIDEO HERO SECTION -->
+      <section class="video-hero">
+        <div class="video-container">
+          <h2 class="video-title">Watch Episode</h2>
+          <iframe
+            id="youtube-iframe"
+            class="youtube-iframe"
+            src=""
+            title="Episode Video"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen>
+          </iframe>
+        </div>
+      </section>
+
+      <!-- EPISODE METADATA GRID -->
+      <section class="episode-metadata">
+        <div class="metadata-item">
+          <div class="metadata-label">Episode</div>
+          <div class="metadata-value" id="metadata-number">Loading...</div>
+        </div>
+        <div class="metadata-item">
+          <div class="metadata-label">Duration</div>
+          <div class="metadata-value" id="metadata-duration">Loading...</div>
+        </div>
+        <div class="metadata-item">
+          <div class="metadata-label">Season</div>
+          <div class="metadata-value" id="metadata-season">Loading...</div>
+        </div>
+      </section>
+
+      <!-- CONTENT GRID: MAIN CONTENT + SIDEBAR -->
+      <div class="content-grid">
+
+        <!-- MAIN CONTENT COLUMN -->
+        <div class="content-main">
+
+          <!-- EPISODE SUMMARY -->
+          <div class="content-section">
+            <h2>Episode Summary</h2>
+            <div id="episode-summary">
+              <p>Loading episode summary...</p>
+            </div>
+          </div>
+
+          <!-- KEY TOPICS -->
+          <div class="content-section">
+            <h2>Key Topics Discussed</h2>
+            <ul id="key-topics">
+              <li>Loading topics...</li>
+            </ul>
+          </div>
+
+          <!-- RESOURCES -->
+          <div class="content-section">
+            <h2>Resources & Links</h2>
+            <ul id="resources">
+              <li>Loading resources...</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- SIDEBAR CONTENT -->
+        <div class="content-sidebar">
+
+          <!-- EPISODE STATS -->
+          <div class="sidebar-section">
+            <h3>Episode Stats</h3>
+            <div class="episode-stats">
+              <div class="stat-item">
+                <div class="stat-value">NEW</div>
+                <div class="stat-label">Latest</div>
+              </div>
+              <div class="stat-item">
+                <div class="stat-value">HD</div>
+                <div class="stat-label">Quality</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PLATFORM LINKS -->
+          <div class="sidebar-section platforms">
+            <h3>Listen & Subscribe</h3>
+            <div class="platform-grid">
+              <a href="#" class="platform-link" data-platform="spotify">
+                <div class="platform-icon">S</div>
+                <span>Spotify</span>
+              </a>
+              <a href="#" class="platform-link" data-platform="apple">
+                <div class="platform-icon">A</div>
+                <span>Apple</span>
+              </a>
+              <a href="#" class="platform-link" data-platform="google">
+                <div class="platform-icon">G</div>
+                <span>Google</span>
+              </a>
+              <a href="#" class="platform-link" data-platform="youtube">
+                <div class="platform-icon">Y</div>
+                <span>YouTube</span>
+              </a>
+              <a href="#" class="platform-link" data-platform="overcast">
+                <div class="platform-icon">O</div>
+                <span>Overcast</span>
+              </a>
+              <a href="#" class="platform-link" data-platform="pocketcasts">
+                <div class="platform-icon">P</div>
+                <span>Pocket Casts</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- GUEST INFORMATION -->
+          <div class="sidebar-section" id="guest-section">
+            <h3>Featured Guest</h3>
+            <div class="guest-card">
+              <div class="guest-photo" id="guest-photo">
+                <!-- Guest photo will be loaded here -->
+              </div>
+              <div class="guest-info">
+                <h4 id="guest-name">Loading...</h4>
+                <p class="guest-title" id="guest-title">Loading...</p>
+                <p id="guest-bio">Loading guest information...</p>
+                <div class="guest-links" id="guest-links">
+                  <!-- Guest links will be loaded here -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUBSCRIBE SECTION -->
+    <section class="subscribe-section">
+      <h2>Never Miss an Episode</h2>
+      <p>Get notified when new episodes drop, plus exclusive behind-the-scenes content.</p>
+
+      <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Subscribed — welcome to the XX club!');">
+        <input type="email" placeholder="you@thatgirl.com" required>
+        <button type="submit">Subscribe</button>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    // Episode data - this would normally come from a database or API
+    const episodeData = {
+      's1e1-episode-1': {
+        number: 'S1E1',
+        title: 'Episode 1',
+        duration: 'PILOT',
+        date: 'Season 1',
+        description: 'The very first episode! Our introduction to the XXperiment and what we\'re all about.',
+        youtubeId: 'HQFZT62XtCo',
+        guest: {
+          name: 'The Hosts',
+          title: 'Podcast Creators',
+          bio: 'Meet the minds behind The XXperiment as they introduce the show and share their vision.',
+          photo: '',
+          links: [
+            { title: 'Instagram', url: '#' },
+            { title: 'Website', url: '#' }
+          ]
+        },
+        summary: [
+          'Welcome to The XXperiment! In our pilot episode, we introduce ourselves and our mission.',
+          'Learn about the unique approach we take to women\'s health and empowerment.',
+          'Discover what makes this podcast different from everything else out there.',
+          'Get a preview of the topics and guests we\'ll be covering in future episodes.'
+        ],
+        topics: [
+          'Introduction to The XXperiment',
+          'Our approach to women\'s health',
+          'Why we started this podcast',
+          'What to expect in future episodes',
+          'Our mission and values'
+        ],
+        resources: [
+          'Follow us on social media',
+          'Subscribe for new episodes',
+          'Join our community'
+        ],
+        platforms: {
+          spotify: '#',
+          apple: '#',
+          google: '#',
+          youtube: 'https://youtube.com/watch?v=HQFZT62XtCo',
+          overcast: '#',
+          pocketcasts: '#'
+        }
+      },
+      's1e2-episode-2': {
+        number: 'S1E2',
+        title: 'Episode 2',
+        duration: 'Season 1',
+        date: 'Season 1',
+        description: 'Continuing our journey into women\'s health and empowerment.',
+        youtubeId: 'T5bs2CMnUN4',
+        guest: {
+          name: 'Special Guest',
+          title: 'Health Expert',
+          bio: 'Exploring important topics in women\'s health and wellness.',
+          photo: '',
+          links: [
+            { title: 'Instagram', url: '#' }
+          ]
+        },
+        summary: [
+          'Building on our foundation, we dive deeper into key women\'s health topics.',
+          'Expert insights and evidence-based approaches to wellness.',
+          'Practical tips you can implement in your daily life.',
+          'Community stories and experiences that resonate.'
+        ],
+        topics: [
+          'Women\'s health fundamentals',
+          'Evidence-based wellness',
+          'Practical health tips',
+          'Community experiences'
+        ],
+        resources: [
+          'Health tracking apps',
+          'Recommended reading',
+          'Expert resources'
+        ],
+        platforms: {
+          spotify: '#',
+          apple: '#',
+          google: '#',
+          youtube: 'https://youtube.com/watch?v=T5bs2CMnUN4',
+          overcast: '#',
+          pocketcasts: '#'
+        }
+      },
+      's1e3-episode-3': {
+        number: 'S1E3',
+        title: 'Episode 3',
+        duration: 'Season 1',
+        date: 'Season 1',
+        description: 'Exploring the intersection of science, health, and women\'s experiences.',
+        youtubeId: 'M_-DruIjPRU',
+        guest: {
+          name: 'Research Expert',
+          title: 'Women\'s Health Researcher',
+          bio: 'Deep dive into the latest research and scientific findings.',
+          photo: '',
+          links: [
+            { title: 'Research', url: '#' },
+            { title: 'LinkedIn', url: '#' }
+          ]
+        },
+        summary: [
+          'Science meets real-world application in women\'s health.',
+          'Latest research findings that matter to your daily life.',
+          'How to interpret health studies and apply them personally.',
+          'Breaking down complex topics into actionable insights.'
+        ],
+        topics: [
+          'Latest health research',
+          'Science-based approaches',
+          'Research interpretation',
+          'Actionable health insights'
+        ],
+        resources: [
+          'Research databases',
+          'Scientific journals',
+          'Study summaries'
+        ],
+        platforms: {
+          spotify: '#',
+          apple: '#',
+          google: '#',
+          youtube: 'https://youtube.com/watch?v=M_-DruIjPRU',
+          overcast: '#',
+          pocketcasts: '#'
+        }
+      },
+      's1e4-part1-episode-4-part-1': {
+        number: 'S1E4 Part 1',
+        title: 'Episode 4 Part 1',
+        duration: 'Season 1',
+        date: 'Season 1',
+        description: 'Deep dive into women\'s health topics and scientific research.',
+        youtubeId: 'Q_AYhx6zu1E',
+        guest: {
+          name: 'Health Specialist',
+          title: 'Medical Professional',
+          bio: 'Expert guidance on complex health topics affecting women.',
+          photo: '',
+          links: [
+            { title: 'Practice', url: '#' },
+            { title: 'Publications', url: '#' }
+          ]
+        },
+        summary: [
+          'Part 1 of our comprehensive exploration of women\'s health.',
+          'Medical expertise meets practical application.',
+          'Understanding your body and health markers.',
+          'Professional insights into common health concerns.'
+        ],
+        topics: [
+          'Women\'s health fundamentals',
+          'Medical perspectives',
+          'Health markers and testing',
+          'Common health concerns'
+        ],
+        resources: [
+          'Medical resources',
+          'Health testing guides',
+          'Professional directories'
+        ],
+        platforms: {
+          spotify: '#',
+          apple: '#',
+          google: '#',
+          youtube: 'https://youtube.com/watch?v=Q_AYhx6zu1E',
+          overcast: '#',
+          pocketcasts: '#'
+        }
+      },
+      's1e4-part2-episode-4-part-2': {
+        number: 'S1E4 Part 2',
+        title: 'Episode 4 Part 2',
+        duration: 'Season 1',
+        date: 'Season 1',
+        description: 'Continuation of our deep dive into women\'s health topics.',
+        youtubeId: '-iTxQlubk18',
+        guest: {
+          name: 'Health Specialist',
+          title: 'Medical Professional',
+          bio: 'Continuing our expert discussion on women\'s health.',
+          photo: '',
+          links: [
+            { title: 'Practice', url: '#' },
+            { title: 'Publications', url: '#' }
+          ]
+        },
+        summary: [
+          'Part 2 continues where we left off in our health exploration.',
+          'Advanced topics and deeper insights.',
+          'Practical applications of medical knowledge.',
+          'Q&A and community engagement.'
+        ],
+        topics: [
+          'Advanced health topics',
+          'Medical insights continued',
+          'Practical applications',
+          'Community Q&A'
+        ],
+        resources: [
+          'Continued reading',
+          'Advanced resources',
+          'Community support'
+        ],
+        platforms: {
+          spotify: '#',
+          apple: '#',
+          google: '#',
+          youtube: 'https://youtube.com/watch?v=-iTxQlubk18',
+          overcast: '#',
+          pocketcasts: '#'
+        }
+      },
+      's1e5-episode-5': {
+        number: 'S1E5',
+        title: 'Episode 5',
+        duration: 'LATEST',
+        date: 'Season 1',
+        description: 'The latest episode in our first season exploring women\'s health, hormones, and life.',
+        youtubeId: 'LoXnCNC_iBw',
+        guest: {
+          name: 'Featured Expert',
+          title: 'Health & Wellness Specialist',
+          bio: 'Our latest episode features expert insights into women\'s health and wellness topics.',
+          photo: '',
+          links: [
+            { title: 'Instagram', url: '#' },
+            { title: 'Website', url: '#' }
+          ]
+        },
+        summary: [
+          'Our most recent exploration of women\'s health topics.',
+          'Latest insights and expert perspectives.',
+          'Community-driven discussions and real experiences.',
+          'Actionable advice you can implement today.'
+        ],
+        topics: [
+          'Current health trends',
+          'Expert perspectives',
+          'Community insights',
+          'Practical applications',
+          'Latest research findings'
+        ],
+        resources: [
+          'Health tracking tools',
+          'Expert recommendations',
+          'Community resources',
+          'Latest research'
+        ],
+        platforms: {
+          spotify: '#',
+          apple: '#',
+          google: '#',
+          youtube: 'https://youtube.com/watch?v=LoXnCNC_iBw',
+          overcast: '#',
+          pocketcasts: '#'
+        }
+      }
+    };
+
+    // Get episode ID from URL parameters
+    function getEpisodeId() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const episodeId = urlParams.get('id') || 's1e1-episode-1'; // Default to first episode
+      console.log('Episode ID from URL:', episodeId);
+      console.log('Available episodes:', Object.keys(episodeData));
+      return episodeId;
+    }
+
+    // Load episode data
+    function loadEpisode() {
+      const episodeId = getEpisodeId();
+      const episode = episodeData[episodeId];
+
+      if (!episode) {
+        // Handle episode not found
+        console.error('Episode not found for ID:', episodeId);
+        document.getElementById('episode-title-main').textContent = 'Episode Not Found';
+        document.getElementById('episode-description').textContent = `Could not find episode with ID: ${episodeId}`;
+        return;
+      }
+
+      console.log('Loading episode:', episode.title, 'with YouTube ID:', episode.youtubeId);
+
+      // Update page title
+      document.title = `${episode.title} — The XXperiment`;
+
+      // Update episode info
+      document.getElementById('episode-title-main').textContent = episode.title;
+      document.getElementById('episode-number').textContent = episode.number;
+      document.getElementById('episode-duration').textContent = episode.duration;
+      document.getElementById('episode-date').textContent = episode.date;
+      document.getElementById('episode-description').textContent = episode.description;
+
+      // Update metadata grid
+      document.getElementById('metadata-number').textContent = episode.number;
+      document.getElementById('metadata-duration').textContent = episode.duration;
+      document.getElementById('metadata-season').textContent = episode.date;
+
+      // Update YouTube iframe
+      const youtubeIframe = document.getElementById('youtube-iframe');
+      if (episode.youtubeId) {
+        const embedUrl = `https://www.youtube.com/embed/${episode.youtubeId}?rel=0&showinfo=0&modestbranding=1`;
+        youtubeIframe.src = embedUrl;
+      }
+
+      // Update guest info
+      if (episode.guest) {
+        document.getElementById('guest-name').textContent = episode.guest.name;
+        document.getElementById('guest-title').textContent = episode.guest.title;
+        document.getElementById('guest-bio').textContent = episode.guest.bio;
+
+        // Guest links
+        const guestLinksContainer = document.getElementById('guest-links');
+        guestLinksContainer.innerHTML = '';
+        episode.guest.links.forEach(link => {
+          const linkEl = document.createElement('a');
+          linkEl.href = link.url;
+          linkEl.className = 'guest-link';
+          linkEl.textContent = link.title;
+          linkEl.target = '_blank';
+          linkEl.rel = 'noopener noreferrer';
+          guestLinksContainer.appendChild(linkEl);
+        });
+      }
+
+      // Update summary
+      const summaryContainer = document.getElementById('episode-summary');
+      summaryContainer.innerHTML = '';
+      episode.summary.forEach(paragraph => {
+        const p = document.createElement('p');
+        p.textContent = paragraph;
+        summaryContainer.appendChild(p);
+      });
+
+      // Update topics
+      const topicsContainer = document.getElementById('key-topics');
+      topicsContainer.innerHTML = '';
+      episode.topics.forEach(topic => {
+        const li = document.createElement('li');
+        li.textContent = topic;
+        topicsContainer.appendChild(li);
+      });
+
+      // Update resources
+      const resourcesContainer = document.getElementById('resources');
+      resourcesContainer.innerHTML = '';
+      episode.resources.forEach(resource => {
+        const li = document.createElement('li');
+        li.textContent = resource;
+        resourcesContainer.appendChild(li);
+      });
+
+      // Update platform links
+      Object.entries(episode.platforms).forEach(([platform, url]) => {
+        const link = document.querySelector(`[data-platform="${platform}"]`);
+        if (link) {
+          link.href = url;
+          link.target = '_blank';
+          link.rel = 'noopener noreferrer';
+        }
+      });
+    }
+
+
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', () => {
+      loadEpisode();
+
+      // Add fade-in animation
+      setTimeout(() => {
+        document.querySelectorAll('.content-section, .sidebar-section').forEach((section, index) => {
+          setTimeout(() => {
+            section.classList.add('fade-in');
+          }, index * 100);
+        });
+      }, 300);
+    });
+  </script>
+</body>
+</html>

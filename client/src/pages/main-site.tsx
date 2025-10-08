@@ -401,7 +401,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                     asChild
                     data-testid="button-xxperiment"
                   >
-                    <a href="https://thexxperiment.com" target="_blank" rel="noopener noreferrer">
+                    <a href="/xxperiment/" rel="noopener noreferrer">
                       {t("service.xxperiment.cta")}
                     </a>
                   </Button>
@@ -1092,7 +1092,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
               <nav className="flex flex-col gap-3 text-sm">
                 <a href="#about" className="text-muted-foreground hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors" data-testid="link-about">{t("footer.links.about")}</a>
                 <a href="#services" className="text-muted-foreground hover:text-pink-600 dark:hover:text-pink-400 transition-colors" data-testid="link-services">{t("footer.links.services")}</a>
-                <a href="https://thexxperiment.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-violet-600 dark:hover:text-violet-400 transition-colors" data-testid="link-xxperiment">{t("footer.links.xxperiment")}</a>
+                <a href="/xxperiment/" rel="noopener noreferrer" className="text-muted-foreground hover:text-violet-600 dark:hover:text-violet-400 transition-colors" data-testid="link-xxperiment">{t("footer.links.xxperiment")}</a>
                 <a href="#careers" className="text-muted-foreground hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors" data-testid="link-careers">{t("footer.links.careers")}</a>
               </nav>
             </div>

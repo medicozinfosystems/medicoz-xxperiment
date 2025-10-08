@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>XXperiment - Coverflow Episodes</title>
+    <meta name="description" content="Interactive episode carousel with 3D coverflow effect">
+
+    <!-- External Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="grain vignette">
+    <!-- Header -->
+    <header id="header">
+        <nav id="nav" class="nav">
+            <div class="brand">
+                <!-- Logo and brand name removed -->
+            </div>
+            <div style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 1rem
+            ">
+                <!-- Mobile Menu Toggle -->
+                <button
+                    id="mobile-menu-toggle"
+                    style="
+                        background: transparent;
+                        border: none;
+                        color: var(--xx-cream);
+                        font-size: 1.5rem;
+                        cursor: pointer;
+                        padding: 0.5rem
+                    "
+                    class="mobile-menu-toggle"
+                >
+                    ☰
+                </button>
+
+                <!-- Desktop Navigation - Hidden on mobile -->
+                <div style="
+                    display: flex;
+                    align-items: center;
+                    gap: clamp(1rem, 4vw, 2rem)
+                " class="desktop-nav">
+                    <a href="#about" aria-describedby="nav-about" class="nav-link">About</a>
+                    <a href="#episodes" aria-describedby="nav-episodes" class="nav-link">Episodes</a>
+                    <a href="#subscribe" aria-describedby="nav-subscribe" class="nav-link">Subscribe</a>
+                </div>
+
+                <!-- Right Navigation - Hidden on mobile, shown on desktop -->
+                <div style="
+                    display: flex;
+                    align-items: center;
+                    gap: clamp(0.75rem, 3vw, 1.5rem)
+                " class="desktop-nav">
+                    <button id="forum-btn" class="forum-button">Forum</button>
+                    <button id="signin-btn" class="signin-button">Sign In</button>
+                </div>
+            </div>
+
+            <!-- Mobile Navigation Menu -->
+            <div class="mobile-nav" id="mobile-nav">
+                <!-- Close Button -->
+                <div style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 0.5rem
+                ">
+                    <span style="
+                        color: #e2d6c7;
+                        font-size: 1.2rem;
+                        font-weight: 600
+                    ">
+                        Menu
+                    </span>
+                    <button id="mobile-menu-close" class="mobile-menu-close">✕</button>
+                </div>
+
+                <!-- Navigation Links -->
+                <div class="mobile-nav-links">
+                    <a href="#about" class="mobile-nav-link">About</a>
+                    <a href="#episodes" class="mobile-nav-link">Episodes</a>
+                    <a href="#subscribe" class="mobile-nav-link">Subscribe</a>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="mobile-nav-actions">
+                    <button id="mobile-forum-btn" class="mobile-forum-button">Forum</button>
+                    <button id="mobile-signin-btn" class="mobile-signin-button">Sign In</button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero" role="banner" aria-labelledby="hero-title">
+        <div class="hero-bg" aria-hidden="true"></div>
+        <div class="layer paper-top" data-depth="0.08" aria-hidden="true"></div>
+        <div class="layer paper-bottom" data-depth="0.12" aria-hidden="true"></div>
+
+        <div class="stickers" aria-hidden="true">
+            <div class="sticker st-1" data-depth="0.22">Unfiltered</div>
+            <div class="sticker st-2" data-depth="0.18">XX Only</div>
+            <div class="sticker st-3" data-depth="0.28">Retro</div>
+        </div>
+
+        <div class="hero-inner">
+            <span class="kicker" aria-label="Podcast topics">Women • Health • Hormones • Culture</span>
+            <h1 class="hero-title" id="hero-title">The <span class="heart-dot" aria-hidden="true">❤</span>XXperiment</h1>
+            <p class="hero-sub">A bold, unapologetic podcast about all things women — from hormones and health to hustle, heartbreak and being <em>that</em> girl. Retro vibes. Real science. Real talk.</p>
+            <div class="cta-row">
+                <button class="btn magnetic" aria-label="Listen to podcast on Spotify">Listen on Spotify</button>
+                <button class="btn alt magnetic" aria-label="Watch podcast videos on YouTube">Watch on YouTube</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Marquee -->
+    <div class="marquee" aria-hidden="true">
+        <div class="marquee-content">
+            <span>Women • Health • Hormones • Culture</span>
+            <span>Women • Health • Hormones • Culture</span>
+            <span>Women • Health • Hormones • Culture</span>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <section id="about" role="main" aria-labelledby="about-title">
+        <div class="section-inner">
+            <h2 class="section-title" id="about-title">About the Show</h2>
+            <p class="lead">Every week we peel back a layer of the <strong>XX</strong> experience — from cycle-syncing and strength to careers, confidence, and the chaotic brilliance of womanhood. The vibe: <em>vintage magazine meets late-night radio</em>.</p>
+
+            <div class="vinyl-grid" id="xx-vinyl-component">
+                <div class="player" id="player">
+                    <div class="discovery-hint" id="discoveryHint">Click the labels to explore</div>
+
+                    <div class="plinth">
+                        <div class="badge">Model • XX-01</div>
+                        <div class="power-led" aria-hidden="true"></div>
+                    </div>
+
+                    <div class="stages" id="stages">
+                        <div class="platter-shadow"></div>
+                        <div class="strobe"></div>
+
+                        <div class="disc" id="disc" aria-label="Vinyl record">
+                            <div class="disc-plate" id="discPlate"></div>
+                        </div>
+
+                        <div class="arm" id="arm" aria-label="Turntable arm">
+                            <div class="pivot" aria-hidden="true"></div>
+                            <div class="rod"><div class="head" aria-hidden="true"></div></div>
+                        </div>
+                    </div>
+
+                    <div class="labels" id="labels"></div>
+                </div>
+
+                <div class="vinyl-panel" id="vinylPanel">
+                    <div class="vinyl-content">
+                        <h3 id="vinylTitle"></h3>
+                        <p id="vinylCopy"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section-indicator" id="sectionIndicator"></div>
+
+        <div class="vinyl-footer-hint">
+            Explore different aspects of the show by clicking the labels on the vinyl record
+        </div>
+    </section>
+
+    <!-- Episodes Section -->
+    <section id="episodes">
+        <div class="section-inner">
+            <h2 class="section-title">Latest Episodes</h2>
+            <p class="lead">Dive deep into our latest conversations. Click any episode card to explore the full experience with video, guest details, and subscription links.</p>
+
+            <!-- COVERFLOW CAROUSEL -->
+            <div class="xx-coverflow-container" id="coverflowContainer" role="region" aria-label="Episode carousel">
+                <!-- Scroll progress bar -->
+                <div class="xx-scroll-progress" id="scrollProgress">
+                    <div class="xx-scroll-progress-fill" id="episodesProgressFill"></div>
+                </div>
+
+                <div class="xx-coverflow-wrapper">
+                    <div class="xx-coverflow-track" id="coverflowTrack"></div>
+                </div>
+
+                <!-- Navigation arrows -->
+                <button class="xx-coverflow-nav prev" id="prevBtn" aria-label="Previous episode">&lt;</button>
+                <button class="xx-coverflow-nav next" id="nextBtn" aria-label="Next episode">&gt;</button>
+
+                <!-- Navigation indicator -->
+                <div class="xx-scroll-indicator" id="scrollIndicator">
+                    <span>Scroll or Drag to Navigate</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" role="region" aria-labelledby="gallery-title">
+        <div class="section-inner">
+            <h2 class="section-title" id="gallery-title">Studio Polaroids</h2>
+            <p class="lead">Analog snapshots from the sessions. Scratched, stamped, and perfectly imperfect.</p>
+            <div class="gallery" role="group" aria-label="Studio photo gallery">
+                <figure class="polaroid para" style="--r: -4deg" data-depth="0.14" role="img" aria-label="Studio photo: Mic Check">
+                    <div class="ph"></div>
+                    <figcaption>Mic Check</figcaption>
+                </figure>
+                <figure class="polaroid para" style="--r: 3deg" data-depth="0.09" role="img" aria-label="Studio photo: Laugh Break">
+                    <div class="ph"></div>
+                    <figcaption>Laugh Break</figcaption>
+                </figure>
+                <figure class="polaroid para" style="--r: -2deg" data-depth="0.18" role="img" aria-label="Studio photo: Notes & Doodles">
+                    <div class="ph"></div>
+                    <figcaption>Notes & Doodles</figcaption>
+                </figure>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Forum Section -->
+    <section id="community" style="
+        background: linear-gradient(135deg, #f9f0e1 0%, #f5f0e8 100%);
+        padding: 4rem 0;
+        border-top: 2px solid #7f1e16;
+        border-bottom: 2px solid #7f1e16
+    ">
+        <div class="section-inner" style="max-width: 1200px; margin: 0 auto; padding: 0 2rem">
+            <div style="text-align: center; margin-bottom: 3rem">
+                <h2 class="section-title" style="
+                    font-family: 'Alfa Slab One', serif;
+                    font-size: 2.5rem;
+                    color: #7f1e16;
+                    margin-bottom: 1rem;
+                    text-shadow: 2px 2px 0 rgba(0,0,0,0.1)
+                ">
+                    Join the Conversation
+                </h2>
+                <p class="lead" style="
+                    font-size: 1.2rem;
+                    color: #0c0b0b;
+                    max-width: 600px;
+                    margin: 0 auto;
+                    line-height: 1.6
+                ">
+                    Connect with fellow listeners, share your thoughts, and dive deeper into the topics that matter to you.
+                </p>
+            </div>
+
+            <div style="
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 2rem;
+                margin-bottom: 3rem
+            ">
+                <div style="
+                    background: #ffffff;
+                    padding: 2rem;
+                    border-radius: 15px;
+                    border: 2px solid #7f1e16;
+                    box-shadow: 0 10px 30px rgba(127, 30, 22, 0.2);
+                    text-align: center
+                ">
+                    <div style="font-size: 3rem; margin-bottom: 1rem">💬</div>
+                    <h3 style="
+                        font-family: 'Alfa Slab One', serif;
+                        font-size: 1.5rem;
+                        color: #7f1e16;
+                        margin-bottom: 1rem
+                    ">
+                        General Discussion
+                    </h3>
+                    <p style="
+                        color: #0c0b0b;
+                        margin-bottom: 1.5rem;
+                        line-height: 1.6
+                    ">
+                        Share your thoughts on women's health, hormones, and life experiences.
+                    </p>
+                </div>
+
+                <div style="
+                    background: #ffffff;
+                    padding: 2rem;
+                    border-radius: 15px;
+                    border: 2px solid #7f1e16;
+                    box-shadow: 0 10px 30px rgba(127, 30, 22, 0.2);
+                    text-align: center
+                ">
+                    <div style="font-size: 3rem; margin-bottom: 1rem">🎧</div>
+                    <h3 style="
+                        font-family: 'Alfa Slab One', serif;
+                        font-size: 1.5rem;
+                        color: #7f1e16;
+                        margin-bottom: 1rem
+                    ">
+                        Episode Discussions
+                    </h3>
+                    <p style="
+                        color: #0c0b0b;
+                        margin-bottom: 1.5rem;
+                        line-height: 1.6
+                    ">
+                        Dive deeper into specific episodes and connect with other listeners.
+                    </p>
+                </div>
+            </div>
+
+            <div style="text-align: center">
+                <button id="community-forum-btn" class="community-forum-button">
+                    <span>🚀</span>
+                    Enter Community Forum
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Subscribe Section -->
+    <section id="subscribe" role="region" aria-labelledby="subscribe-title">
+        <div class="section-inner">
+            <h2 class="section-title" id="subscribe-title">Get the Drop</h2>
+            <p class="lead">Join our list for episode alerts, behind-the-scenes chaos, and the vintage cuts we can't post.</p>
+            <form class="nl" id="subscribe-form" role="form" aria-labelledby="subscribe-title">
+                <label class="sr-only" for="email">Email address for newsletter subscription</label>
+                <input id="email" type="email" placeholder="you@thatgirl.com" required aria-required="true" aria-describedby="email-desc">
+                <div id="email-desc" class="sr-only">Enter your email address to subscribe to our newsletter</div>
+                <button class="btn magnetic" type="submit" aria-describedby="subscribe-info">Subscribe</button>
+                <div id="subscribe-info" class="sr-only">Subscribe to receive episode updates and exclusive content</div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer role="contentinfo">
+        <div class="foot">
+            <span>© <span id="year"></span> The XXperiment</span>
+            <span aria-label="Podcast tagline">Unfiltered • Bold • Vintage</span>
+        </div>
+    </footer>
+
+    <!-- Episode Modal -->
+    <div id="episode-modal-overlay" class="episode-modal-overlay" style="display: none;">
+        <div class="episode-modal" id="episode-modal">
+            <!-- Modal content will be dynamically inserted here -->
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="app.js"></script>
+</body>
+</html>
