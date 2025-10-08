@@ -3,60 +3,62 @@ import { useState, useEffect, useMemo, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Heart, MessageSquare, Activity, Globe, Radio } from "lucide-react";
 import HandwrittenText from "./HandwrittenText";
-
-const frames = [
-  { 
-    id: 1, 
-    text: "A pulse.", 
-    subtitle: "Every heartbeat tells a story",
-    duration: 2500,
-    layout: "center",
-    color: "#0891B2",
-    icon: Heart
-  },
-  { 
-    id: 2, 
-    text: "A message.", 
-    subtitle: "Connecting those who heal",
-    duration: 2500,
-    layout: "left",
-    color: "#7C3AED",
-    icon: MessageSquare
-  },
-  { 
-    id: 3, 
-    text: "A moment of help.", 
-    subtitle: "When every second counts",
-    duration: 2800,
-    layout: "right",
-    color: "#DB2777",
-    icon: Activity
-  },
-  { 
-    id: 4, 
-    text: "Across miles.", 
-    subtitle: "Healthcare without boundaries",
-    duration: 2800,
-    layout: "split",
-    color: "#059669",
-    icon: Globe
-  },
-  { 
-    id: 5, 
-    text: "Technology that listens.", 
-    subtitle: "Intelligent care, human touch",
-    duration: 3000,
-    layout: "center-large",
-    color: "#3B82F6",
-    icon: Radio
-  },
-];
+import { useTranslation } from "@/contexts/TranslationContext";
 
 interface PreloaderProps {
   onComplete: () => void;
 }
 
 export default function Preloader({ onComplete }: PreloaderProps) {
+  const { t } = useTranslation();
+
+  const frames = [
+    {
+      id: 1,
+      text: t("preloader.frame1.text"),
+      subtitle: t("preloader.frame1.subtitle"),
+      duration: 2500,
+      layout: "center",
+      color: "#0891B2",
+      icon: Heart
+    },
+    {
+      id: 2,
+      text: t("preloader.frame2.text"),
+      subtitle: t("preloader.frame2.subtitle"),
+      duration: 2500,
+      layout: "left",
+      color: "#7C3AED",
+      icon: MessageSquare
+    },
+    {
+      id: 3,
+      text: t("preloader.frame3.text"),
+      subtitle: t("preloader.frame3.subtitle"),
+      duration: 2800,
+      layout: "right",
+      color: "#DB2777",
+      icon: Activity
+    },
+    {
+      id: 4,
+      text: t("preloader.frame4.text"),
+      subtitle: t("preloader.frame4.subtitle"),
+      duration: 2800,
+      layout: "split",
+      color: "#059669",
+      icon: Globe
+    },
+    {
+      id: 5,
+      text: t("preloader.frame5.text"),
+      subtitle: t("preloader.frame5.subtitle"),
+      duration: 3000,
+      layout: "center-large",
+      color: "#3B82F6",
+      icon: Radio
+    },
+  ];
   const [currentFrame, setCurrentFrame] = useState(0);
   const [isCompleted, setIsCompleted] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -351,19 +353,19 @@ export default function Preloader({ onComplete }: PreloaderProps) {
         </div>
 
         {/* Skip Button */}
-        <motion.div 
+        <motion.div
           className="w-full flex justify-end"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1, duration: 0.5 }}
         >
-          <Button 
-            variant="ghost" 
+          <Button
+            variant="ghost"
             onClick={handleSkip}
             className="text-gray-500 hover:text-gray-900"
             data-testid="button-skip-preloader"
           >
-            Skip
+            {t("preloader.skip")}
           </Button>
         </motion.div>
       </div>

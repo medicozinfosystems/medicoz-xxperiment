@@ -152,9 +152,34 @@ const translations: Record<Language, Record<string, string>> = {
     "elevator.submitted": "Submitted! We'll be in touch soon.",
     
     // Footer
+    "footer.title": "Medicoz Infosystems",
     "footer.tagline": "Healthcare deserves technology that cares back",
-    "footer.social": "Follow us",
-    "footer.copyright": "Medicoz Infosystems. Building care into code.",
+    "footer.about": "We're building intelligent healthcare platforms that bridge the gap between care providers and patients. Through The XXperiment podcast and our upcoming Medicoz app, we're making healthcare more accessible, empathetic, and human-centered.",
+    "footer.links.about": "About",
+    "footer.links.services": "Services",
+    "footer.links.xxperiment": "The XXperiment",
+    "footer.links.careers": "Careers",
+    "footer.links.privacy": "Privacy Policy",
+    "footer.links.terms": "Terms of Service",
+    "footer.contact.title": "Get in Touch",
+    "footer.contact.email": "hello@medicoz.com",
+    "footer.contact.phone": "+1 (555) 123-4567",
+    "footer.contact.address": "San Francisco, CA",
+    "footer.social": "Connect With Us",
+    "footer.copyright": "© 2024 Medicoz Infosystems. Building care into code.",
+
+    // Preloader
+    "preloader.frame1.text": "A pulse.",
+    "preloader.frame1.subtitle": "Every heartbeat tells a story",
+    "preloader.frame2.text": "A message.",
+    "preloader.frame2.subtitle": "Connecting those who heal",
+    "preloader.frame3.text": "A moment of help.",
+    "preloader.frame3.subtitle": "When every second counts",
+    "preloader.frame4.text": "Across miles.",
+    "preloader.frame4.subtitle": "Healthcare without boundaries",
+    "preloader.frame5.text": "Technology that listens.",
+    "preloader.frame5.subtitle": "Intelligent care, human touch",
+    "preloader.skip": "Skip",
   },
   hi: {
     // Header
@@ -297,9 +322,34 @@ const translations: Record<Language, Record<string, string>> = {
     "elevator.submitted": "जमा किया गया! हम जल्द ही संपर्क करेंगे।",
     
     // Footer
+    "footer.title": "मेडिकोज इन्फोसिस्टम्स",
     "footer.tagline": "स्वास्थ्य सेवा प्रौद्योगिकी के योग्य है जो वापस परवाह करती है",
-    "footer.social": "हमें फॉलो करें",
-    "footer.copyright": "मेडिकोज इन्फोसिस्टम्स। कोड में देखभाल का निर्माण।",
+    "footer.about": "हम बुद्धिमान स्वास्थ्य प्लेटफ़ॉर्म बना रहे हैं जो देखभाल प्रदाताओं और रोगियों के बीच की खाई को पाटते हैं। द एक्सएक्सपेरिमेंट पॉडकास्ट और हमारे आगामी मेडिकोज ऐप के माध्यम से, हम स्वास्थ्य सेवा को अधिक सुलभ, संवेदनशील और मानव-केंद्रित बना रहे हैं।",
+    "footer.links.about": "हमारे बारे में",
+    "footer.links.services": "सेवाएं",
+    "footer.links.xxperiment": "द एक्सएक्सपेरिमेंट",
+    "footer.links.careers": "करियर",
+    "footer.links.privacy": "गोपनीयता नीति",
+    "footer.links.terms": "सेवा की शर्तें",
+    "footer.contact.title": "संपर्क करें",
+    "footer.contact.email": "hello@medicoz.com",
+    "footer.contact.phone": "+1 (555) 123-4567",
+    "footer.contact.address": "सैन फ्रांसिस्को, CA",
+    "footer.social": "हमसे जुड़ें",
+    "footer.copyright": "© 2024 मेडिकोज इन्फोसिस्टम्स। कोड में देखभाल का निर्माण।",
+
+    // Preloader
+    "preloader.frame1.text": "एक धड़कन।",
+    "preloader.frame1.subtitle": "हर दिल की धड़कन एक कहानी बयान करती है",
+    "preloader.frame2.text": "एक संदेश।",
+    "preloader.frame2.subtitle": "उन लोगों को जोड़ना जो चंगा करते हैं",
+    "preloader.frame3.text": "मदद का एक पल।",
+    "preloader.frame3.subtitle": "जब हर पल मायने रखता है",
+    "preloader.frame4.text": "मीलों के पार।",
+    "preloader.frame4.subtitle": "बिना सीमाओं के स्वास्थ्य सेवा",
+    "preloader.frame5.text": "प्रौद्योगिकी जो सुनती है।",
+    "preloader.frame5.subtitle": "बुद्धिमान देखभाल, मानवीय स्पर्श",
+    "preloader.skip": "छोड़ें",
   }
 };
 

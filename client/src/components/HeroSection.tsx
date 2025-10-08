@@ -23,10 +23,10 @@ export default function HeroSection({ heroImage }: HeroSectionProps) {
   };
 
   return (
-    <div ref={ref} className="relative h-screen overflow-hidden">
+    <div ref={ref} className="relative h-screen overflow-hidden pt-16">
       <motion.div
         style={{ y }}
-        className="absolute inset-0 z-0"
+        className="absolute inset-0 z-0 -mt-16"
       >
         <img
           src={heroImage}

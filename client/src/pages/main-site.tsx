@@ -65,37 +65,37 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
 
   const teamMembers = [
     {
-      name: "Meera Gupta",
-      role: "Chief Experience Officer",
-      tagline: "Engineer of empathy",
+      name: t("team.member1.name"),
+      role: t("team.member1.role"),
+      tagline: t("team.member1.tagline"),
       image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Meera",
       color: "#DB2777" // pink
     },
     {
-      name: "Arjun Khanna",
-      role: "Head of Engineering",
-      tagline: "Building care into code",
+      name: t("team.member2.name"),
+      role: t("team.member2.role"),
+      tagline: t("team.member2.tagline"),
       image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Arjun",
       color: "#0891B2" // cyan
     },
     {
-      name: "Veda Raman",
-      role: "Clinical Partnerships",
-      tagline: "Bridging health and tech",
+      name: t("team.member3.name"),
+      role: t("team.member3.role"),
+      tagline: t("team.member3.tagline"),
       image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Veda",
       color: "#7C3AED" // violet
     },
     {
-      name: "Harshiv Gajjar",
-      role: "Product & Platforms",
-      tagline: "Designing technology that feels human",
+      name: t("team.member4.name"),
+      role: t("team.member4.role"),
+      tagline: t("team.member4.tagline"),
       image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Harshiv",
       color: "#059669" // emerald
     },
     {
-      name: "Mitra Vanshita",
-      role: "Strategy & Growth",
-      tagline: "Scaling trust globally",
+      name: t("team.member5.name"),
+      role: t("team.member5.role"),
+      tagline: t("team.member5.tagline"),
       image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Mitra",
       color: "#3B82F6" // blue
     }
@@ -157,12 +157,12 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
     <div className="min-h-screen bg-background">
       {/* Fixed Header with Theme and Language Toggles */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Activity className="w-6 h-6 text-primary" />
-            <span className="text-lg font-bold text-foreground">{t("header.brand")}</span>
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-2.5 sm:py-3 flex items-center justify-between">
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <Activity className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
+            <span className="text-base sm:text-lg font-bold text-foreground">{t("header.brand")}</span>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             <LanguageToggle />
             <ThemeToggle />
           </div>
@@ -170,7 +170,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
       </header>
 
       {/* Hero Section */}
-      <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-white via-cyan-50/20 to-violet-50/10 dark:from-gray-950 dark:via-cyan-950/20 dark:to-violet-950/10">
+      <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-white via-cyan-50/20 to-violet-50/10 dark:from-gray-950 dark:via-cyan-950/20 dark:to-violet-950/10 pt-20">
         
         {/* Cursor Ripple Effect */}
         <motion.div
@@ -185,7 +185,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
         />
 
         {/* ECG Pulse Line at Top */}
-        <div className="absolute top-0 left-0 w-full h-24 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 left-0 w-full h-24 overflow-hidden pointer-events-none">
           <svg className="w-full h-full" preserveAspectRatio="none" viewBox="0 0 1200 100">
             <motion.path
               d="M 0 50 L 400 50 L 420 30 L 440 70 L 460 50 L 1200 50"
@@ -195,7 +195,12 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
               opacity="0.4"
               initial={{ pathLength: 0 }}
               animate={{ pathLength: 1 }}
-              transition={{ duration: 2, ease: "easeInOut" }}
+              transition={{
+                duration: 2,
+                ease: "easeInOut",
+                repeat: Infinity,
+                repeatDelay: 1
+              }}
             />
           </svg>
         </div>
@@ -230,8 +235,8 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
           </svg>
         </motion.div>
 
-        <motion.div 
-          className="max-w-6xl mx-auto px-6 text-center relative z-10"
+        <motion.div
+          className="max-w-6xl mx-auto px-4 sm:px-6 text-center relative z-10"
           style={{ opacity: heroOpacity }}
         >
           {/* Eyebrow */}
@@ -239,16 +244,16 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="mb-6"
+            className="mb-3 sm:mb-6"
           >
-            <p className="text-xs font-semibold text-primary tracking-[0.2em] uppercase">
+            <p className="text-[0.65rem] sm:text-xs font-semibold text-primary tracking-[0.15em] sm:tracking-[0.2em] uppercase">
               {t("hero.eyebrow")}
             </p>
           </motion.div>
 
           {/* Main Title */}
-          <motion.h1 
-            className="text-7xl md:text-8xl lg:text-9xl font-bold mb-4 text-foreground"
+          <motion.h1
+            className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-bold mb-3 sm:mb-4 text-foreground leading-tight"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.8 }}
@@ -257,17 +262,17 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
           </motion.h1>
 
           {/* Handwritten Tagline with Writing Animation */}
-          <HandwrittenText 
+          <HandwrittenText
             text={t("hero.tagline")}
             delay={0.8}
             duration={2.5}
             color="cyan"
-            className="mb-12"
+            className="mb-6 sm:mb-8 md:mb-12"
           />
 
           {/* Support Text */}
-          <motion.p 
-            className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-12 leading-relaxed"
+          <motion.p
+            className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto mb-6 sm:mb-8 md:mb-12 leading-relaxed px-2"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.2, duration: 0.8 }}
@@ -276,19 +281,19 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
           </motion.p>
 
           {/* CTAs */}
-          <motion.div 
-            className="flex gap-4 justify-center flex-wrap"
+          <motion.div
+            className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ 
+            transition={{
               duration: 0.6,
-              delay: showButtonsImmediately ? 0 : 1.6 
+              delay: showButtonsImmediately ? 0 : 1.6
             }}
           >
-            <Button size="lg" className="text-lg px-8 bg-cyan-600 dark:bg-cyan-500" data-testid="button-explore-services">
+            <Button size="lg" className="w-full sm:w-auto text-base sm:text-lg px-6 sm:px-8 bg-cyan-600 dark:bg-cyan-500" data-testid="button-explore-services">
               {t("hero.cta.primary")}
             </Button>
-            <Button size="lg" variant="outline" className="text-lg px-8 border-cyan-600 text-cyan-600 dark:border-cyan-400 dark:text-cyan-400" data-testid="button-partner">
+            <Button size="lg" variant="outline" className="w-full sm:w-auto text-base sm:text-lg px-6 sm:px-8 border-cyan-600 text-cyan-600 dark:border-cyan-400 dark:text-cyan-400" data-testid="button-partner">
               {t("hero.cta.secondary")}
             </Button>
           </motion.div>
@@ -296,29 +301,29 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
       </section>
 
       {/* From Conversation to Care Section */}
-      <section ref={servicesRef} className="relative py-32 px-6 bg-gradient-to-br from-muted via-background to-muted/50 overflow-hidden">
-        <div className="max-w-7xl mx-auto relative z-10">
+      <section ref={servicesRef} className="relative min-h-screen py-12 px-4 sm:px-6 bg-gradient-to-br from-muted via-background to-muted/50 overflow-hidden flex items-center">
+        <div className="max-w-7xl mx-auto w-full">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="text-center mb-20"
+            className="text-center mb-6"
           >
-            <h2 className="text-5xl md:text-6xl font-bold mb-6 text-foreground">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 text-foreground px-2">
               {t("service.title")}
             </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-3xl mx-auto px-4">
               {t("service.subtitle")}
             </p>
           </motion.div>
 
           {/* 3D Phone Showcase */}
           <div className="relative max-w-6xl mx-auto" style={{ perspective: "2000px" }}>
-            <div className="relative min-h-[700px] flex items-center justify-center">
+            <div className="relative min-h-[420px] flex flex-col md:flex-row items-center justify-center gap-6 md:gap-0">
               
-              {/* Voice Wave Connection */}
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              {/* Voice Wave Connection - Hidden on mobile */}
+              <div className="hidden md:block absolute inset-0 flex items-center justify-center pointer-events-none">
                 <svg className="w-full h-full" viewBox="0 0 1000 600">
                   <motion.path
                     d="M 150 300 Q 350 200, 550 300 T 850 300"
@@ -342,7 +347,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
 
               {/* Left - The XXperiment Card */}
               <motion.div
-                className="absolute left-0 top-1/2 -translate-y-1/2 w-80 z-20"
+                className="relative md:absolute md:left-0 md:top-[40%] md:-translate-y-1/2 w-full max-w-sm md:w-72 z-20"
                 initial={{ opacity: 0, x: -80 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
@@ -350,26 +355,26 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                 data-testid="xxperiment-card"
               >
                 <motion.div
-                  className="bg-card rounded-2xl p-8 shadow-2xl border border-pink-200 dark:border-pink-900/50"
+                  className="bg-card rounded-2xl p-4 sm:p-5 shadow-2xl border border-pink-200 dark:border-pink-900/50"
                   whileHover={{ y: -8, boxShadow: "0 30px 60px rgba(219, 39, 119, 0.3)" }}
                   transition={{ type: "spring", stiffness: 300 }}
                 >
-                  <div className="flex items-center gap-4 mb-6">
-                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-pink-500 to-violet-500 flex items-center justify-center">
-                      <Mic className="w-8 h-8 text-white" />
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-pink-500 to-violet-500 flex items-center justify-center">
+                      <Mic className="w-6 h-6 text-white" />
                     </div>
                     <div>
-                      <h3 className="text-2xl font-bold text-card-foreground">{t("service.xxperiment.title")}</h3>
-                      <p className="text-sm text-pink-600 dark:text-pink-400">{t("service.xxperiment.type")}</p>
+                      <h3 className="text-lg font-bold text-card-foreground">{t("service.xxperiment.title")}</h3>
+                      <p className="text-xs text-pink-600 dark:text-pink-400">{t("service.xxperiment.type")}</p>
                     </div>
                   </div>
-                  
-                  <p className="text-muted-foreground mb-6">
+
+                  <p className="text-sm text-muted-foreground mb-4">
                     {t("service.xxperiment.description")}
                   </p>
 
                   {/* Voice Wave Visualization */}
-                  <div className="h-24 mb-6 bg-gradient-to-br from-pink-50 to-violet-50 dark:from-pink-950/20 dark:to-violet-950/20 rounded-xl p-3 flex items-center justify-center">
+                  <div className="h-16 mb-4 bg-gradient-to-br from-pink-50 to-violet-50 dark:from-pink-950/20 dark:to-violet-950/20 rounded-xl p-2 flex items-center justify-center">
                     <div className="flex items-center gap-1 h-full">
                       {[...Array(20)].map((_, i) => {
                         const height = Math.abs(Math.sin((i * Math.PI) / 8) * 60 + Math.random() * 15);
@@ -403,9 +408,9 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                 </motion.div>
               </motion.div>
 
-              {/* Center - 3D Realistic Phone */}
+              {/* Center - 3D Realistic Phone - Hidden on mobile */}
               <motion.div
-                className="relative z-30"
+                className="hidden md:block relative z-30"
                 initial={{ opacity: 0, scale: 0.8, y: 50 }}
                 whileInView={{ opacity: 1, scale: 1, y: 0 }}
                 transition={{ duration: 1, delay: 0.4, type: "spring" }}
@@ -426,24 +431,24 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                   transition={{ type: "spring", stiffness: 150, damping: 20 }}
                 >
                   {/* Phone Body with realistic depth */}
-                  <div 
-                    className="relative w-[320px] h-[640px] rounded-[3rem] bg-gradient-to-br from-gray-900 to-black"
+                  <div
+                    className="relative w-[260px] h-[520px] rounded-[2.5rem] bg-gradient-to-br from-gray-900 to-black"
                     style={{
                       boxShadow: `
-                        0 50px 100px rgba(0, 0, 0, 0.5),
-                        0 0 0 12px rgba(30, 30, 30, 0.9),
-                        0 0 0 13px rgba(60, 60, 60, 0.5),
-                        inset 0 0 40px rgba(0, 0, 0, 0.5)
+                        0 40px 80px rgba(0, 0, 0, 0.5),
+                        0 0 0 10px rgba(30, 30, 30, 0.9),
+                        0 0 0 11px rgba(60, 60, 60, 0.5),
+                        inset 0 0 30px rgba(0, 0, 0, 0.5)
                       `
                     }}
                   >
                     {/* Screen Bezel */}
-                    <div className="absolute inset-[14px] rounded-[2.5rem] bg-black overflow-hidden">
+                    <div className="absolute inset-[12px] rounded-[2rem] bg-black overflow-hidden">
                       {/* Screen Content */}
                       <div className="relative w-full h-full bg-gradient-to-br from-gray-900 via-gray-950 to-black">
-                        
+
                         {/* Status Bar */}
-                        <div className="absolute top-0 left-0 right-0 h-12 flex items-center justify-between px-8 text-white text-xs">
+                        <div className="absolute top-0 left-0 right-0 h-10 flex items-center justify-between px-6 text-white text-xs">
                           <span>9:41</span>
                           <div className="flex gap-1">
                             <div className="w-4 h-4 border border-white/50 rounded-sm" />
@@ -585,7 +590,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
 
               {/* Right - Medicoz App Card */}
               <motion.div
-                className="absolute right-0 top-1/2 -translate-y-1/2 w-80 z-20"
+                className="relative md:absolute md:right-0 md:top-[40%] md:-translate-y-1/2 w-full max-w-sm md:w-72 z-20"
                 initial={{ opacity: 0, x: 80 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
@@ -593,34 +598,34 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                 data-testid="medicoz-card"
               >
                 <motion.div
-                  className="bg-card rounded-2xl p-8 shadow-2xl border border-cyan-200 dark:border-cyan-900/50"
+                  className="bg-card rounded-2xl p-4 sm:p-5 shadow-2xl border border-cyan-200 dark:border-cyan-900/50"
                   whileHover={{ y: -8, boxShadow: "0 30px 60px rgba(8, 145, 178, 0.3)" }}
                   transition={{ type: "spring", stiffness: 300 }}
                 >
-                  <div className="flex items-center gap-4 mb-6">
-                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center">
-                      <Smartphone className="w-8 h-8 text-white" />
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center">
+                      <Smartphone className="w-6 h-6 text-white" />
                     </div>
                     <div>
-                      <h3 className="text-2xl font-bold text-card-foreground">{t("service.medicoz.title")}</h3>
-                      <Badge className="bg-cyan-100 text-cyan-700 dark:bg-cyan-950/30 dark:text-cyan-400 border-0">{t("service.medicoz.badge")}</Badge>
+                      <h3 className="text-lg font-bold text-card-foreground">{t("service.medicoz.title")}</h3>
+                      <Badge className="bg-cyan-100 text-cyan-700 dark:bg-cyan-950/30 dark:text-cyan-400 border-0 text-xs">{t("service.medicoz.badge")}</Badge>
                     </div>
                   </div>
-                  
-                  <p className="text-muted-foreground mb-6">
+
+                  <p className="text-sm text-muted-foreground mb-4">
                     {t("service.medicoz.description")}
                   </p>
 
                   {/* Feature List */}
-                  <div className="space-y-3 mb-6">
+                  <div className="space-y-2 mb-4">
                     {[
                       { icon: Activity, text: t("service.medicoz.feature1") },
                       { icon: Brain, text: t("service.medicoz.feature2") },
                       { icon: Lock, text: t("service.medicoz.feature3") }
                     ].map((item, i) => (
-                      <div key={i} className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-400">
-                        <div className="w-8 h-8 rounded-lg bg-cyan-100 dark:bg-cyan-950/30 flex items-center justify-center">
-                          <item.icon className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
+                      <div key={i} className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400">
+                        <div className="w-7 h-7 rounded-lg bg-cyan-100 dark:bg-cyan-950/30 flex items-center justify-center">
+                          <item.icon className="w-3.5 h-3.5 text-cyan-600 dark:text-cyan-400" />
                         </div>
                         <span>{item.text}</span>
                       </div>
@@ -649,16 +654,16 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
           </div>
 
           <motion.div
-            className="text-center mt-20"
+            className="text-center mt-12 sm:mt-16 md:mt-20 px-4"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
             viewport={{ once: true }}
           >
-            <p className="text-2xl font-semibold text-foreground mb-2">
+            <p className="text-xl sm:text-2xl font-semibold text-foreground mb-2">
               {t("service.closing")}
             </p>
-            <p className="text-muted-foreground">
+            <p className="text-sm sm:text-base text-muted-foreground">
               {t("service.closingSubtitle")}
             </p>
           </motion.div>
@@ -666,31 +671,34 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
       </section>
 
       {/* About & Team Section - Orbit Design */}
-      <section ref={teamRef} className="relative py-32 px-6 bg-background">
-        <div className="max-w-7xl mx-auto relative z-10">
+      <section ref={teamRef} className="relative min-h-screen py-12 px-4 sm:px-6 bg-background flex items-center">
+        <div className="max-w-7xl mx-auto w-full">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true, margin: "-100px" }}
-            className="text-center mb-16"
+            className="text-center mb-10"
           >
-            <h2 className="text-5xl md:text-6xl font-bold mb-6 text-foreground">
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 text-foreground px-2">
               {t("team.title")}
             </h2>
-            <p className="text-2xl font-semibold text-primary mb-4">
+            <p className="text-lg sm:text-xl md:text-2xl font-semibold text-primary px-4">
               {t("team.subtitle")}
             </p>
           </motion.div>
 
-          {/* Orbit System */}
-          <div className="relative w-full max-w-5xl mx-auto h-[600px] flex items-center justify-center">
+          {/* Orbit System - Hidden on mobile, replaced with cards */}
+          <div className="hidden lg:block relative w-full max-w-5xl mx-auto h-[500px]">
             {/* Center - Our Purpose */}
             <motion.div
               className="absolute z-20 w-40 h-40 rounded-full flex items-center justify-center"
               style={{
                 background: "radial-gradient(circle, rgba(8, 145, 178, 0.2) 0%, rgba(8, 145, 178, 0.05) 100%)",
-                boxShadow: "0 0 60px rgba(8, 145, 178, 0.3)"
+                boxShadow: "0 0 60px rgba(8, 145, 178, 0.3)",
+                left: "50%",
+                top: "50%",
+                transform: "translate(-50%, -50%)"
               }}
               animate={{
                 boxShadow: [
@@ -721,19 +729,29 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
               const y = Math.sin((angle * Math.PI) / 180) * radius;
               const isHovered = hoveredMember === index;
 
+              // Members on the left side (negative x) should show card on the left
+              // Harshiv (index 3) and Veda (index 2) are on the left side
+              const isOnLeftSide = x < 0;
+              const cardPositionClass = isOnLeftSide ? "right-32" : "left-32";
+              const cardAnimationX = isOnLeftSide ? 20 : -20;
+
               return (
                 <motion.div
                   key={member.name}
                   className="absolute"
+                  style={{
+                    left: "50%",
+                    top: "50%",
+                  }}
                   initial={{ x, y }}
                   animate={{
                     x: isHovered ? x * 0.9 : x,
                     y: isHovered ? y * 0.9 : y,
                     rotate: 0
                   }}
-                  transition={{ 
-                    type: "spring", 
-                    stiffness: 100, 
+                  transition={{
+                    type: "spring",
+                    stiffness: 100,
                     damping: 15
                   }}
                   onHoverStart={() => setHoveredMember(index)}
@@ -744,14 +762,14 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                     {/* Profile Image */}
                     <motion.div
                       className="w-24 h-24 rounded-full overflow-hidden border-4 cursor-pointer"
-                      style={{ 
+                      style={{
                         borderColor: isHovered ? member.color : "#e5e7eb",
                         boxShadow: isHovered ? `0 0 30px ${member.color}50` : "none"
                       }}
                       whileHover={{ scale: 1.1 }}
                     >
-                      <img 
-                        src={member.image} 
+                      <img
+                        src={member.image}
                         alt={member.name}
                         className="w-full h-full object-cover"
                       />
@@ -759,12 +777,12 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
 
                     {/* Info Card */}
                     <motion.div
-                      className="absolute left-32 top-0 bg-white dark:bg-gray-800 rounded-lg p-4 shadow-2xl border-2 w-64"
+                      className={`absolute ${cardPositionClass} top-0 bg-white dark:bg-gray-800 rounded-lg p-4 shadow-2xl border-2 w-64`}
                       style={{ borderColor: member.color }}
-                      initial={{ opacity: 0, x: -20, scale: 0.8 }}
+                      initial={{ opacity: 0, x: cardAnimationX, scale: 0.8 }}
                       animate={{
                         opacity: isHovered ? 1 : 0,
-                        x: isHovered ? 0 : -20,
+                        x: isHovered ? 0 : cardAnimationX,
                         scale: isHovered ? 1 : 0.8,
                         pointerEvents: isHovered ? "auto" : "none"
                       }}
@@ -772,7 +790,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                     >
                       <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">{member.name}</h3>
                       <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">{member.role}</p>
-                      <p 
+                      <p
                         className="text-sm font-medium italic"
                         style={{ color: member.color }}
                       >
@@ -785,41 +803,77 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
             })}
           </div>
 
+          {/* Mobile Team Grid */}
+          <div className="lg:hidden grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 max-w-4xl mx-auto">
+            {teamMembers.map((member, index) => (
+              <motion.div
+                key={member.name}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="bg-card rounded-xl p-4 sm:p-6 shadow-lg border-2"
+                style={{ borderColor: member.color }}
+                data-testid={`team-card-${member.name.toLowerCase().replace(' ', '-')}`}
+              >
+                <div className="flex flex-col items-center text-center">
+                  <div
+                    className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden border-4 mb-4"
+                    style={{ borderColor: member.color }}
+                  >
+                    <img
+                      src={member.image}
+                      alt={member.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-bold text-foreground mb-1">{member.name}</h3>
+                  <p className="text-xs sm:text-sm font-semibold mb-2" style={{ color: member.color }}>
+                    {member.role}
+                  </p>
+                  <p className="text-xs sm:text-sm text-muted-foreground italic">
+                    "{member.tagline}"
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
         </div>
       </section>
 
       {/* Contact Section - Innovated */}
-      <section className="relative py-32 px-6 bg-gradient-to-br from-muted via-background to-muted/50">
-        <div className="max-w-6xl mx-auto relative z-10">
+      <section className="relative min-h-screen py-12 px-4 sm:px-6 bg-gradient-to-br from-muted via-background to-muted/50 flex items-center">
+        <div className="max-w-6xl mx-auto w-full">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true, margin: "-100px" }}
-            className="text-center mb-16"
+            className="text-center mb-10"
           >
-            <h2 className="text-5xl md:text-6xl font-bold mb-6 text-foreground">
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 text-foreground px-2">
               {t("contact.title")}
             </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto px-4">
               {t("contact.subtitle")}
             </p>
           </motion.div>
 
-          <div className="grid lg:grid-cols-2 gap-12">
+          <div className="grid lg:grid-cols-2 gap-6 lg:gap-8">
             {/* Left - Intent Selection */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
-              className="space-y-6"
+              className="space-y-4"
             >
               <div>
-                <h3 className="text-2xl font-bold mb-4 text-foreground">{t("contact.pathTitle")}</h3>
-                <p className="text-muted-foreground mb-6">{t("contact.pathSubtitle")}</p>
-                
-                <div className="space-y-3">
+                <h3 className="text-lg sm:text-xl font-bold mb-2 text-foreground">{t("contact.pathTitle")}</h3>
+                <p className="text-xs sm:text-sm text-muted-foreground mb-3">{t("contact.pathSubtitle")}</p>
+
+                <div className="space-y-2">
                   {intents.map((intent, index) => {
                     const colorMap: Record<string, { bg: string; border: string; text: string; icon: string }> = {
                       "Partnership": { bg: "bg-cyan-50 dark:bg-cyan-950/30", border: "border-cyan-600 dark:border-cyan-400", text: "text-cyan-600 dark:text-cyan-400", icon: "🤝" },
@@ -827,32 +881,32 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                       "Careers": { bg: "bg-emerald-50 dark:bg-emerald-950/30", border: "border-emerald-600 dark:border-emerald-400", text: "text-emerald-600 dark:text-emerald-400", icon: "💼" },
                       "General Inquiry": { bg: "bg-pink-50 dark:bg-pink-950/30", border: "border-pink-600 dark:border-pink-400", text: "text-pink-600 dark:text-pink-400", icon: "💬" }
                     };
-                    
+
                     const colors = colorMap[intent] || colorMap["General Inquiry"];
 
                     return (
                       <motion.div
                         key={intent}
-                        className={`p-4 rounded-xl border-2 cursor-pointer transition-all ${
-                          selectedIntent === intent 
-                            ? `${colors.bg} ${colors.border}` 
+                        className={`p-2 sm:p-3 rounded-xl border-2 cursor-pointer transition-all ${
+                          selectedIntent === intent
+                            ? `${colors.bg} ${colors.border}`
                             : "bg-card border-border hover:border-border/80"
                         }`}
                         onClick={() => setSelectedIntent(intent)}
                         whileHover={{ scale: 1.02, x: 5 }}
                         data-testid={`chip-${intent.toLowerCase().replace(" ", "-").replace("/", "")}`}
                       >
-                        <div className="flex items-center gap-3">
-                          <span className="text-2xl">{colors.icon}</span>
-                          <div>
-                            <p className={`font-semibold ${selectedIntent === intent ? colors.text : "text-foreground"}`}>
+                        <div className="flex items-center gap-2">
+                          <span className="text-lg sm:text-xl">{colors.icon}</span>
+                          <div className="flex-1 min-w-0">
+                            <p className={`text-xs sm:text-sm font-semibold ${selectedIntent === intent ? colors.text : "text-foreground"}`}>
                               {intent}
                             </p>
                             {selectedIntent === intent && intent === "Careers" && (
-                              <motion.p 
+                              <motion.p
                                 initial={{ opacity: 0, height: 0 }}
                                 animate={{ opacity: 1, height: "auto" }}
-                                className="text-sm text-emerald-700 dark:text-emerald-300 mt-1"
+                                className="text-xs text-emerald-700 dark:text-emerald-300 mt-1"
                               >
                                 {t("contact.intent.careers.note")}
                               </motion.p>
@@ -873,47 +927,48 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
             >
-              <div className="bg-card rounded-2xl p-8 shadow-xl border border-border">
-                <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="bg-card rounded-2xl p-3 sm:p-4 md:p-6 shadow-xl border border-border">
+                <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
                   <div>
-                    <label className="text-sm font-semibold mb-2 block text-foreground">{t("contact.form.name")}</label>
-                    <Input 
+                    <label className="text-xs sm:text-sm font-semibold mb-1.5 block text-foreground">{t("contact.form.name")}</label>
+                    <Input
                       placeholder={t("contact.form.namePlaceholder")}
-                      className="h-12"
+                      className="h-9 sm:h-10"
                       data-testid="input-name"
                       required
                     />
                   </div>
 
                   <div>
-                    <label className="text-sm font-semibold mb-2 block text-foreground">{t("contact.form.email")}</label>
-                    <Input 
+                    <label className="text-xs sm:text-sm font-semibold mb-1.5 block text-foreground">{t("contact.form.email")}</label>
+                    <Input
                       placeholder={t("contact.form.emailPlaceholder")}
                       type="email"
-                      className="h-12"
+                      className="h-9 sm:h-10"
                       data-testid="input-email"
                       required
                     />
                   </div>
 
                   <div>
-                    <label className="text-sm font-semibold mb-2 block text-foreground">{t("contact.form.message")}</label>
-                    <Textarea 
+                    <label className="text-xs sm:text-sm font-semibold mb-1.5 block text-foreground">{t("contact.form.message")}</label>
+                    <Textarea
                       placeholder={t("contact.form.messagePlaceholder")}
-                      rows={6}
+                      rows={3}
+                      className="text-sm sm:text-base"
                       data-testid="textarea-message"
                       required
                     />
                   </div>
 
                   <div>
-                    <label className="text-sm font-semibold mb-2 block text-foreground">
+                    <label className="text-xs sm:text-sm font-semibold mb-1.5 block text-foreground">
                       {t("contact.form.links")}
                     </label>
-                    <Input 
+                    <Input
                       placeholder={t("contact.form.linksPlaceholder")}
                       type="url"
-                      className="h-12"
+                      className="h-9 sm:h-10"
                       data-testid="input-attachment"
                     />
                   </div>
@@ -948,10 +1003,10 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                       </div>
                     </motion.div>
                   ) : (
-                    <Button 
+                    <Button
                       type="submit"
-                      size="lg" 
-                      className="w-full bg-cyan-600 dark:bg-cyan-500 text-white text-lg h-14"
+                      size="lg"
+                      className="w-full bg-cyan-600 dark:bg-cyan-500 text-white text-base sm:text-lg h-11 sm:h-14"
                       data-testid="button-send-message"
                     >
                       {t("contact.form.submit")} →
@@ -964,1358 +1019,11 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
         </div>
       </section>
 
-      {/* Contact Section V2 - REALISTIC BLUE VELVET CURTAIN */}
-      <section className="relative min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 overflow-hidden" data-testid="section-conversation-curtain">
-        {/* Stage lighting */}
-        <div className="absolute top-0 left-1/4 w-48 h-48 bg-amber-400/20 blur-3xl" />
-        <div className="absolute top-0 right-1/4 w-48 h-48 bg-amber-400/20 blur-3xl" />
-        
-        {/* Wooden stage floor */}
-        <div className="absolute bottom-0 inset-x-0 h-32 bg-gradient-to-t from-amber-900/30 to-transparent" style={{
-          backgroundImage: 'repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(0,0,0,0.1) 80px, rgba(0,0,0,0.1) 82px)'
-        }} />
-
-        {/* REAL BLUE VELVET CURTAINS - Parting from center */}
-        <AnimatePresence>
-          {!curtainOpen && (
-            <>
-              {/* Left Curtain Panel */}
-              <motion.div
-                className="absolute inset-y-0 left-0 w-1/2 z-20"
-                initial={{ x: 0 }}
-                exit={{ x: "-100%" }}
-                transition={{ duration: 1.4, ease: [0.65, 0, 0.35, 1] }}
-              >
-                {/* Velvet fabric with realistic folds */}
-                <div className="relative w-full h-full bg-gradient-to-r from-blue-950 via-blue-900 to-blue-800 shadow-2xl">
-                  {/* Vertical pleats/folds */}
-                  {[...Array(14)].map((_, i) => (
-                    <div
-                      key={i}
-                      className="absolute inset-y-0"
-                      style={{
-                        left: `${i * 7.14}%`,
-                        width: '7.14%',
-                        background: i % 2 === 0
-                          ? 'linear-gradient(90deg, rgba(0,0,0,0.5) 0%, transparent 30%, rgba(255,255,255,0.15) 70%, transparent 100%)'
-                          : 'linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.4) 40%, transparent 60%, rgba(0,0,0,0.3) 100%)',
-                        opacity: 0.7
-                      }}
-                    />
-                  ))}
-                  {/* Velvet texture */}
-                  <div className="absolute inset-0 opacity-30 mix-blend-soft-light" style={{
-                    backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(255,255,255,0.05) 1px, rgba(255,255,255,0.05) 2px), repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(255,255,255,0.03) 1px, rgba(255,255,255,0.03) 2px)'
-                  }} />
-                  {/* Deep shadow on right edge */}
-                  <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-black/70 via-black/40 to-transparent" />
-                  {/* Top gather rod shadow */}
-                  <div className="absolute top-0 inset-x-0 h-16 bg-gradient-to-b from-black/60 to-transparent" />
-                  {/* Sheen highlight */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-400/10 via-transparent to-transparent opacity-40" />
-                </div>
-              </motion.div>
-
-              {/* Right Curtain Panel */}
-              <motion.div
-                className="absolute inset-y-0 right-0 w-1/2 z-20"
-                initial={{ x: 0 }}
-                exit={{ x: "100%" }}
-                transition={{ duration: 1.4, ease: [0.65, 0, 0.35, 1] }}
-              >
-                <div className="relative w-full h-full bg-gradient-to-l from-blue-950 via-blue-900 to-blue-800 shadow-2xl">
-                  {[...Array(14)].map((_, i) => (
-                    <div
-                      key={i}
-                      className="absolute inset-y-0"
-                      style={{
-                        left: `${i * 7.14}%`,
-                        width: '7.14%',
-                        background: i % 2 === 0
-                          ? 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.15) 30%, transparent 70%, rgba(0,0,0,0.5) 100%)'
-                          : 'linear-gradient(90deg, rgba(0,0,0,0.3) 0%, transparent 40%, rgba(0,0,0,0.4) 60%, transparent 100%)',
-                        opacity: 0.7
-                      }}
-                    />
-                  ))}
-                  <div className="absolute inset-0 opacity-30 mix-blend-soft-light" style={{
-                    backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(255,255,255,0.05) 1px, rgba(255,255,255,0.05) 2px), repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(255,255,255,0.03) 1px, rgba(255,255,255,0.03) 2px)'
-                  }} />
-                  <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
-                  <div className="absolute top-0 inset-x-0 h-16 bg-gradient-to-b from-black/60 to-transparent" />
-                  <div className="absolute inset-0 bg-gradient-to-bl from-blue-400/10 via-transparent to-transparent opacity-40" />
-                </div>
-              </motion.div>
-
-              {/* Center seam with heavy shadow */}
-              <div className="absolute inset-y-0 left-1/2 w-4 -ml-2 bg-black/90 z-21 shadow-2xl" style={{
-                boxShadow: '0 0 30px rgba(0,0,0,0.8), inset 0 0 10px rgba(0,0,0,0.9)'
-              }} />
-            </>
-          )}
-        </AnimatePresence>
-
-        <div className="relative z-30 flex items-center justify-center min-h-screen px-4 sm:px-6 py-12 sm:py-20">
-          {!curtainOpen ? (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-center"
-            >
-              <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 sm:mb-6 text-white drop-shadow-lg">
-                {t("curtain.title")}
-              </h2>
-              <p className="text-base sm:text-xl text-gray-200 mb-6 sm:mb-8 max-w-2xl mx-auto px-4">
-                {t("curtain.subtitle")}
-              </p>
-              <Button
-                size="lg"
-                onClick={() => setCurtainOpen(true)}
-                className="bg-cyan-600 hover:bg-cyan-700 dark:bg-cyan-500 text-white text-base sm:text-lg h-12 sm:h-14 px-6 sm:px-8 shadow-xl shadow-cyan-900/50"
-                data-testid="button-start-conversation"
-              >
-                {t("curtain.openButton")} →
-              </Button>
-            </motion.div>
-          ) : (
-            <AnimatePresence mode="wait">
-              {/* PAGE TURNING EFFECT - 3D Card Flip */}
-              <motion.div
-                key={curtainStep}
-                initial={{ 
-                  rotateY: -90,
-                  opacity: 0,
-                  scale: 0.8
-                }}
-                animate={{ 
-                  rotateY: 0,
-                  opacity: 1,
-                  scale: 1
-                }}
-                exit={{ 
-                  rotateY: 90,
-                  opacity: 0,
-                  scale: 0.8
-                }}
-                transition={{ 
-                  duration: 0.6,
-                  ease: [0.25, 0.46, 0.45, 0.94]
-                }}
-                style={{
-                  transformStyle: "preserve-3d",
-                  perspective: "1000px"
-                }}
-                className="w-full max-w-3xl space-y-4"
-              >
-                {/* Paper strip answer log */}
-                {curtainStep > 0 && (
-                  <motion.div className="space-y-2">
-                    {curtainAnswers.intent && (
-                      <motion.div
-                        initial={{ opacity: 0, scale: 0.9, rotate: -1 }}
-                        animate={{ opacity: 1, scale: 1, rotate: 1 }}
-                        transition={{ duration: 0.18 }}
-                        className="bg-card rounded-lg p-3 shadow-md border-l-4 border-cyan-600 dark:border-cyan-400"
-                        style={{ transform: "rotate(0.5deg)" }}
-                      >
-                        <p className="text-xs text-muted-foreground mb-1">Intent</p>
-                        <p className="font-semibold text-foreground">{curtainAnswers.intent}</p>
-                      </motion.div>
-                    )}
-                    {curtainAnswers.name && curtainStep > 1 && (
-                      <motion.div
-                        initial={{ opacity: 0, scale: 0.9, rotate: 1 }}
-                        animate={{ opacity: 1, scale: 1, rotate: -0.5 }}
-                        transition={{ duration: 0.18 }}
-                        className="bg-card rounded-lg p-3 shadow-md border-l-4 border-violet-600 dark:border-violet-400"
-                        style={{ transform: "rotate(-0.3deg)" }}
-                      >
-                        <p className="text-xs text-muted-foreground mb-1">Name</p>
-                        <p className="font-semibold text-foreground">{curtainAnswers.name}</p>
-                      </motion.div>
-                    )}
-                    {curtainAnswers.message && curtainStep > 2 && (
-                      <motion.div
-                        initial={{ opacity: 0, scale: 0.9, rotate: -1 }}
-                        animate={{ opacity: 1, scale: 1, rotate: 0.8 }}
-                        transition={{ duration: 0.18 }}
-                        className="bg-card rounded-lg p-3 shadow-md border-l-4 border-pink-600 dark:border-pink-400"
-                        style={{ transform: "rotate(0.6deg)" }}
-                      >
-                        <p className="text-xs text-muted-foreground mb-1">Message</p>
-                        <p className="font-semibold text-foreground line-clamp-2">{curtainAnswers.message}</p>
-                      </motion.div>
-                    )}
-                  </motion.div>
-                )}
-
-                {/* Center stage card */}
-                <Card className="shadow-2xl border-border rounded-3xl overflow-hidden">
-                  <CardContent className="p-8 md:p-12">
-                    {curtainStep === 0 && (
-                      <div className="space-y-6">
-                        <div>
-                          <h3 className="text-3xl font-bold mb-2 text-foreground">
-                            {t("curtain.q1.title")}
-                          </h3>
-                          <p className="text-muted-foreground">{t("curtain.q1.subtitle")}</p>
-                          
-                          {/* Intent-specific helper copy */}
-                          <AnimatePresence mode="wait">
-                            {curtainAnswers.intent && (
-                              <motion.p
-                                key={curtainAnswers.intent}
-                                initial={{ opacity: 0, y: -10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -10 }}
-                                className="mt-3 text-cyan-600 dark:text-cyan-400 font-medium"
-                              >
-                                {curtainAnswers.intent === "Partnership" && t("curtain.q1.helper.partnership")}
-                                {curtainAnswers.intent === "Pilot project" && t("curtain.q1.helper.pilot")}
-                                {curtainAnswers.intent === "Sponsorship" && t("curtain.q1.helper.sponsorship")}
-                                {curtainAnswers.intent === "Careers" && t("curtain.q1.helper.careers")}
-                                {curtainAnswers.intent === "Other" && t("curtain.q1.helper.other")}
-                              </motion.p>
-                            )}
-                          </AnimatePresence>
-                        </div>
-                        
-                        <div className="grid gap-3">
-                          {[
-                            { key: "Partnership", label: t("curtain.q1.partnership") },
-                            { key: "Pilot project", label: t("curtain.q1.pilot") },
-                            { key: "Sponsorship", label: t("curtain.q1.sponsorship") },
-                            { key: "Careers", label: t("curtain.q1.careers") },
-                            { key: "Other", label: t("curtain.q1.other") }
-                          ].map(({ key, label }) => (
-                            <motion.button
-                              key={key}
-                              onClick={() => {
-                                setCurtainAnswers({ ...curtainAnswers, intent: key });
-                              }}
-                              className={`p-4 rounded-xl border-2 text-left transition-all ${
-                                curtainAnswers.intent === key
-                                  ? "bg-cyan-50 dark:bg-cyan-950/30 border-cyan-600 dark:border-cyan-400"
-                                  : "bg-card border-border hover:border-cyan-300 dark:hover:border-cyan-700"
-                              }`}
-                              whileHover={{ x: 4 }}
-                              data-testid={`chip-curtain-${key.toLowerCase().replace(" ", "-")}`}
-                            >
-                              <span className={`font-semibold ${
-                                curtainAnswers.intent === key
-                                  ? "text-cyan-600 dark:text-cyan-400"
-                                  : "text-foreground"
-                              }`}>
-                                {label}
-                              </span>
-                            </motion.button>
-                          ))}
-                        </div>
-
-                        {curtainAnswers.intent && (
-                          <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                          >
-                            <Button
-                              onClick={() => setCurtainStep(1)}
-                              className="w-full bg-cyan-600 dark:bg-cyan-500 text-white"
-                              data-testid="button-curtain-next-0"
-                            >
-                              Next <ArrowRight className="ml-2 w-4 h-4" />
-                            </Button>
-                          </motion.div>
-                        )}
-                      </div>
-                    )}
-
-                    {curtainStep === 1 && (
-                      <div className="space-y-6">
-                        <div>
-                          <h3 className="text-3xl font-bold mb-2 text-foreground">
-                            {t("curtain.q2.title")}
-                          </h3>
-                          <p className="text-muted-foreground">{t("curtain.q2.subtitle")}</p>
-                        </div>
-                        
-                        <div className="space-y-4">
-                          <div>
-                            <label className="text-sm font-semibold mb-2 block text-foreground">
-                              {t("curtain.q2.nameLabel")}
-                            </label>
-                            <Input
-                              placeholder={t("curtain.q2.namePlaceholder")}
-                              value={curtainAnswers.name || ""}
-                              onChange={(e) => setCurtainAnswers({ ...curtainAnswers, name: e.target.value })}
-                              className="h-12"
-                              data-testid="input-curtain-name"
-                            />
-                          </div>
-                          
-                          <div>
-                            <label className="text-sm font-semibold mb-2 block text-foreground">
-                              {t("curtain.q2.roleLabel")}
-                            </label>
-                            <Select
-                              value={curtainAnswers.role}
-                              onValueChange={(value) => setCurtainAnswers({ ...curtainAnswers, role: value })}
-                            >
-                              <SelectTrigger className="h-12" data-testid="select-curtain-role">
-                                <SelectValue placeholder={t("curtain.q2.rolePlaceholder")} />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="clinician">{t("curtain.q2.roles.clinician")}</SelectItem>
-                                <SelectItem value="executive">{t("curtain.q2.roles.executive")}</SelectItem>
-                                <SelectItem value="developer">{t("curtain.q2.roles.developer")}</SelectItem>
-                                <SelectItem value="researcher">{t("curtain.q2.roles.researcher")}</SelectItem>
-                                <SelectItem value="other">{t("curtain.q2.roles.other")}</SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </div>
-                        </div>
-
-                        <div className="flex gap-3">
-                          <Button
-                            variant="outline"
-                            onClick={() => setCurtainStep(0)}
-                            data-testid="button-curtain-back-1"
-                          >
-                            <ArrowLeft className="mr-2 w-4 h-4" /> {t("curtain.back")}
-                          </Button>
-                          <Button
-                            onClick={() => setCurtainStep(2)}
-                            disabled={!curtainAnswers.name || !curtainAnswers.role}
-                            className="flex-1 bg-cyan-600 dark:bg-cyan-500 text-white"
-                            data-testid="button-curtain-next-1"
-                          >
-                            {t("curtain.next")} <ArrowRight className="ml-2 w-4 h-4" />
-                          </Button>
-                        </div>
-                      </div>
-                    )}
-
-                    {curtainStep === 2 && (
-                      <div className="space-y-6">
-                        <div>
-                          <h3 className="text-3xl font-bold mb-2 text-foreground">
-                            {t("curtain.q3.title")}
-                          </h3>
-                          <p className="text-muted-foreground">
-                            {t("curtain.q3.subtitle")}
-                          </p>
-                        </div>
-                        
-                        <Textarea
-                          placeholder={t("curtain.q3.placeholder")}
-                          value={curtainAnswers.message || ""}
-                          onChange={(e) => setCurtainAnswers({ ...curtainAnswers, message: e.target.value })}
-                          rows={6}
-                          data-testid="textarea-curtain-message"
-                        />
-
-                        <div className="flex gap-3">
-                          <Button
-                            variant="outline"
-                            onClick={() => setCurtainStep(1)}
-                            data-testid="button-curtain-back-2"
-                          >
-                            <ArrowLeft className="mr-2 w-4 h-4" /> {t("curtain.back")}
-                          </Button>
-                          <Button
-                            onClick={() => setCurtainStep(3)}
-                            disabled={!curtainAnswers.message || curtainAnswers.message.length < 10}
-                            className="flex-1 bg-cyan-600 dark:bg-cyan-500 text-white"
-                            data-testid="button-curtain-next-2"
-                          >
-                            {t("curtain.next")} <ArrowRight className="ml-2 w-4 h-4" />
-                          </Button>
-                        </div>
-                      </div>
-                    )}
-
-                    {curtainStep === 3 && (
-                      <div className="space-y-6">
-                        <div>
-                          <h3 className="text-3xl font-bold mb-2 text-foreground">
-                            {t("curtain.q4.title")}
-                          </h3>
-                          <p className="text-muted-foreground">{t("curtain.q4.subtitle")}</p>
-                        </div>
-                        
-                        <div className="space-y-4">
-                          <Slider
-                            value={[curtainAnswers.urgency || 1]}
-                            onValueChange={(value) => setCurtainAnswers({ ...curtainAnswers, urgency: value[0] })}
-                            min={0}
-                            max={2}
-                            step={1}
-                            className="w-full"
-                            data-testid="slider-curtain-urgency"
-                          />
-                          <div className="flex justify-between text-sm text-muted-foreground">
-                            <span>{t("curtain.q4.urgency.today")}</span>
-                            <span>{t("curtain.q4.urgency.hours48")}</span>
-                            <span>{t("curtain.q4.urgency.nextWeek")}</span>
-                          </div>
-                          <p className="text-center font-medium text-cyan-600 dark:text-cyan-400">
-                            {curtainAnswers.urgency === 0 && t("curtain.q4.urgency.today")}
-                            {curtainAnswers.urgency === 1 && t("curtain.q4.urgency.hours48")}
-                            {curtainAnswers.urgency === 2 && t("curtain.q4.urgency.nextWeek")}
-                          </p>
-                        </div>
-
-                        <div className="flex gap-3">
-                          <Button
-                            variant="outline"
-                            onClick={() => setCurtainStep(2)}
-                            data-testid="button-curtain-back-3"
-                          >
-                            <ArrowLeft className="mr-2 w-4 h-4" /> {t("curtain.back")}
-                          </Button>
-                          <Button
-                            onClick={() => setCurtainStep(4)}
-                            className="flex-1 bg-cyan-600 dark:bg-cyan-500 text-white"
-                            data-testid="button-curtain-next-3"
-                          >
-                            {t("curtain.next")} <ArrowRight className="ml-2 w-4 h-4" />
-                          </Button>
-                        </div>
-                      </div>
-                    )}
-
-                    {curtainStep === 4 && (
-                      <div className="space-y-6">
-                        <div>
-                          <h3 className="text-3xl font-bold mb-2 text-foreground">
-                            {t("curtain.q5.title")}
-                          </h3>
-                        </div>
-                        
-                        <div className="space-y-4">
-                          <div>
-                            <label className="text-sm font-semibold mb-2 block text-foreground">
-                              {t("curtain.q5.emailLabel")}
-                            </label>
-                            <Input
-                              type="email"
-                              placeholder={t("curtain.q5.emailPlaceholder")}
-                              value={curtainAnswers.email || ""}
-                              onChange={(e) => setCurtainAnswers({ ...curtainAnswers, email: e.target.value })}
-                              className="h-12"
-                              data-testid="input-curtain-email"
-                            />
-                          </div>
-                          
-                          <div>
-                            <label className="text-sm font-semibold mb-2 block text-foreground">
-                              {t("curtain.q5.phoneLabel")}
-                            </label>
-                            <Input
-                              type="tel"
-                              placeholder={t("curtain.q5.phonePlaceholder")}
-                              value={curtainAnswers.phone || ""}
-                              onChange={(e) => setCurtainAnswers({ ...curtainAnswers, phone: e.target.value })}
-                              className="h-12"
-                              data-testid="input-curtain-phone"
-                            />
-                          </div>
-                          
-                          <p className="text-xs text-muted-foreground">
-                            <Shield className="w-3 h-3 inline mr-1" />
-                            {t("curtain.q5.privacy")}
-                          </p>
-                        </div>
-
-                        <div className="flex gap-3">
-                          <Button
-                            variant="outline"
-                            onClick={() => setCurtainStep(3)}
-                            data-testid="button-curtain-back-4"
-                          >
-                            <ArrowLeft className="mr-2 w-4 h-4" /> {t("curtain.back")}
-                          </Button>
-                          <Button
-                            onClick={() => setCurtainStep(5)}
-                            disabled={!curtainAnswers.email}
-                            className="flex-1 bg-cyan-600 dark:bg-cyan-500 text-white"
-                            data-testid="button-curtain-next-4"
-                          >
-                            {t("curtain.next")} <ArrowRight className="ml-2 w-4 h-4" />
-                          </Button>
-                        </div>
-                      </div>
-                    )}
-
-                    {curtainStep === 5 && (
-                      <div className="space-y-6">
-                        <div>
-                          <h3 className="text-3xl font-bold mb-2 text-gray-900 dark:text-white">
-                            Optional add-ons
-                          </h3>
-                          <p className="text-gray-600 dark:text-gray-400">Enhance your request</p>
-                        </div>
-                        
-                        <div className="space-y-3">
-                          <label className="flex items-center gap-3 p-4 border-2 border-gray-200 dark:border-gray-700 rounded-xl cursor-pointer hover:border-cyan-300 dark:hover:border-cyan-700 transition-colors">
-                            <input
-                              type="checkbox"
-                              checked={curtainAnswers.attachDeck || false}
-                              onChange={(e) => setCurtainAnswers({ ...curtainAnswers, attachDeck: e.target.checked })}
-                              className="w-5 h-5 text-cyan-600"
-                              data-testid="toggle-attach-deck"
-                            />
-                            <Upload className="w-5 h-5 text-gray-600 dark:text-gray-400" />
-                            <div className="flex-1">
-                              <p className="font-semibold text-gray-900 dark:text-white">Attach deck/link</p>
-                              <p className="text-sm text-gray-600 dark:text-gray-400">Share supporting materials</p>
-                            </div>
-                          </label>
-
-                          <label className="flex items-center gap-3 p-4 border-2 border-gray-200 dark:border-gray-700 rounded-xl cursor-pointer hover:border-cyan-300 dark:hover:border-cyan-700 transition-colors">
-                            <input
-                              type="checkbox"
-                              checked={curtainAnswers.voiceNote || false}
-                              onChange={(e) => setCurtainAnswers({ ...curtainAnswers, voiceNote: e.target.checked })}
-                              className="w-5 h-5 text-cyan-600"
-                              data-testid="toggle-voice-note"
-                            />
-                            <Mic className="w-5 h-5 text-gray-600 dark:text-gray-400" />
-                            <div className="flex-1">
-                              <p className="font-semibold text-gray-900 dark:text-white">Add 30-sec voice note</p>
-                              <p className="text-sm text-gray-600 dark:text-gray-400">Auto-captions appear to edit</p>
-                            </div>
-                          </label>
-
-                          <label className="flex items-center gap-3 p-4 border-2 border-gray-200 dark:border-gray-700 rounded-xl cursor-pointer hover:border-cyan-300 dark:hover:border-cyan-700 transition-colors">
-                            <input
-                              type="checkbox"
-                              checked={curtainAnswers.confidential || false}
-                              onChange={(e) => setCurtainAnswers({ ...curtainAnswers, confidential: e.target.checked })}
-                              className="w-5 h-5 text-cyan-600"
-                              data-testid="toggle-confidential"
-                            />
-                            <Lock className="w-5 h-5 text-gray-600 dark:text-gray-400" />
-                            <div className="flex-1">
-                              <p className="font-semibold text-gray-900 dark:text-white">Confidential mode</p>
-                              <p className="text-sm text-gray-600 dark:text-gray-400">Instant NDA link + plain-language summary</p>
-                            </div>
-                          </label>
-                        </div>
-
-                        <div className="flex gap-3">
-                          <Button
-                            variant="outline"
-                            onClick={() => setCurtainStep(4)}
-                            data-testid="button-curtain-back-5"
-                          >
-                            <ArrowLeft className="mr-2 w-4 h-4" /> Back
-                          </Button>
-                          <Button
-                            onClick={() => setCurtainStep(6)}
-                            className="flex-1 bg-cyan-600 dark:bg-cyan-500 text-white"
-                            data-testid="button-curtain-next-5"
-                          >
-                            Review <ArrowRight className="ml-2 w-4 h-4" />
-                          </Button>
-                        </div>
-                      </div>
-                    )}
-
-                    {curtainStep === 6 && !curtainSubmitted && (
-                      <div className="space-y-6">
-                        <h3 className="text-3xl font-bold mb-4 text-gray-900 dark:text-white">
-                          Review your message
-                        </h3>
-                        
-                        {/* Collapsible summary with inline editing */}
-                        <div className="space-y-3">
-                          <details open className="bg-gray-50 dark:bg-gray-900 rounded-xl p-6">
-                            <summary className="cursor-pointer font-semibold text-gray-900 dark:text-white mb-4">
-                              Your answers (click to edit inline)
-                            </summary>
-                            <div className="space-y-4">
-                              <div>
-                                <label className="text-xs text-gray-600 dark:text-gray-400">Intent</label>
-                                <p className="font-medium text-gray-900 dark:text-white">{curtainAnswers.intent}</p>
-                              </div>
-                              <div>
-                                <label className="text-xs text-gray-600 dark:text-gray-400">Name</label>
-                                <Input
-                                  value={curtainAnswers.name || ""}
-                                  onChange={(e) => setCurtainAnswers({ ...curtainAnswers, name: e.target.value })}
-                                  className="mt-1 h-10"
-                                />
-                              </div>
-                              <div>
-                                <label className="text-xs text-gray-600 dark:text-gray-400">Role</label>
-                                <p className="font-medium text-gray-900 dark:text-white capitalize">{curtainAnswers.role}</p>
-                              </div>
-                              <div>
-                                <label className="text-xs text-gray-600 dark:text-gray-400">Message</label>
-                                <Textarea
-                                  value={curtainAnswers.message || ""}
-                                  onChange={(e) => setCurtainAnswers({ ...curtainAnswers, message: e.target.value })}
-                                  rows={3}
-                                  className="mt-1"
-                                />
-                              </div>
-                              <div>
-                                <label className="text-xs text-gray-600 dark:text-gray-400">Urgency</label>
-                                <p className="font-medium text-gray-900 dark:text-white">
-                                  {curtainAnswers.urgency === 0 && "Today"}
-                                  {curtainAnswers.urgency === 1 && "48 hours"}
-                                  {curtainAnswers.urgency === 2 && "Next week"}
-                                </p>
-                              </div>
-                              <div>
-                                <label className="text-xs text-gray-600 dark:text-gray-400">Email</label>
-                                <Input
-                                  type="email"
-                                  value={curtainAnswers.email || ""}
-                                  onChange={(e) => setCurtainAnswers({ ...curtainAnswers, email: e.target.value })}
-                                  className="mt-1 h-10"
-                                />
-                              </div>
-                              {curtainAnswers.phone && (
-                                <div>
-                                  <label className="text-xs text-gray-600 dark:text-gray-400">Phone</label>
-                                  <Input
-                                    type="tel"
-                                    value={curtainAnswers.phone || ""}
-                                    onChange={(e) => setCurtainAnswers({ ...curtainAnswers, phone: e.target.value })}
-                                    className="mt-1 h-10"
-                                  />
-                                </div>
-                              )}
-                            </div>
-                          </details>
-                        </div>
-
-                        <div className="relative">
-                          {/* ECG sweep line */}
-                          <motion.div
-                            className="absolute -bottom-2 left-0 w-full h-1 overflow-hidden"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: holdProgress > 0 ? 1 : 0 }}
-                          >
-                            <motion.svg
-                              className="w-full h-full"
-                              viewBox="0 0 400 10"
-                              animate={{ x: holdProgress >= 100 ? [0, 400] : 0 }}
-                              transition={{ duration: 0.7, ease: "linear" }}
-                            >
-                              <path
-                                d="M 0 5 L 20 5 L 25 2 L 30 8 L 35 5 L 50 5"
-                                stroke="#0891B2"
-                                strokeWidth="2"
-                                fill="none"
-                                filter="url(#curtainGlow)"
-                              />
-                              <defs>
-                                <filter id="curtainGlow">
-                                  <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
-                                  <feMerge>
-                                    <feMergeNode in="coloredBlur"/>
-                                    <feMergeNode in="SourceGraphic"/>
-                                  </feMerge>
-                                </filter>
-                              </defs>
-                            </motion.svg>
-                          </motion.div>
-
-                          <div className="flex gap-3">
-                            <Button
-                              variant="outline"
-                              onClick={() => setCurtainStep(5)}
-                              data-testid="button-curtain-back-6"
-                              disabled={isHolding}
-                            >
-                              <ArrowLeft className="mr-2 w-4 h-4" /> Back
-                            </Button>
-                            <Button
-                              onMouseDown={() => {
-                                setIsHolding(true);
-                                if (holdIntervalRef.current) clearInterval(holdIntervalRef.current);
-                                const interval = setInterval(() => {
-                                  setHoldProgress(prev => {
-                                    if (prev >= 100) {
-                                      clearInterval(interval);
-                                      setCurtainSubmitted(true);
-                                      setHoldProgress(0);
-                                      setIsHolding(false);
-                                      setTimeout(() => {
-                                        setCurtainSubmitted(false);
-                                        setCurtainOpen(false);
-                                        setCurtainStep(0);
-                                        setCurtainAnswers({});
-                                      }, 4000);
-                                      return 100;
-                                    }
-                                    return prev + 10;
-                                  });
-                                }, 100);
-                                holdIntervalRef.current = interval;
-                              }}
-                              onMouseUp={() => {
-                                setIsHolding(false);
-                                if (holdIntervalRef.current) {
-                                  clearInterval(holdIntervalRef.current);
-                                  setHoldProgress(0);
-                                }
-                              }}
-                              onMouseLeave={() => {
-                                setIsHolding(false);
-                                if (holdIntervalRef.current) {
-                                  clearInterval(holdIntervalRef.current);
-                                  setHoldProgress(0);
-                                }
-                              }}
-                              className="flex-1 bg-cyan-600 dark:bg-cyan-500 text-white relative overflow-hidden"
-                              data-testid="button-curtain-submit"
-                            >
-                              <motion.div
-                                className="absolute inset-0 bg-cyan-700 dark:bg-cyan-600"
-                                initial={{ width: "0%" }}
-                                animate={{ width: `${holdProgress}%` }}
-                                transition={{ duration: 0.1 }}
-                              />
-                              <span className="relative z-10">
-                                {holdProgress > 0 ? `Sending... ${holdProgress}%` : "Press and hold to send with care"}
-                              </span>
-                            </Button>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-
-                    {curtainSubmitted && (
-                      <motion.div
-                        initial={{ scale: 0.9, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        className="text-center space-y-4"
-                      >
-                        <div className="w-16 h-16 bg-emerald-100 dark:bg-emerald-950/30 rounded-full flex items-center justify-center mx-auto">
-                          <Check className="w-8 h-8 text-emerald-600 dark:text-emerald-400" />
-                        </div>
-                        <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Message received.</h3>
-                        <p className="text-gray-600 dark:text-gray-400">
-                          Pulse ID #MX-{Math.random().toString(36).substring(2, 5).toUpperCase()} • Reply within 48 hours
-                        </p>
-                        <Button
-                          variant="outline"
-                          onClick={() => {
-                            navigator.clipboard.writeText(`#MX-${Math.random().toString(36).substring(2, 5).toUpperCase()}`);
-                          }}
-                          className="mt-4"
-                          data-testid="button-copy-confirmation"
-                        >
-                          Copy confirmation link
-                        </Button>
-                      </motion.div>
-                    )}
-                  </CardContent>
-                </Card>
-
-                {/* Progress indicator */}
-                {!curtainSubmitted && curtainStep < 5 && (
-                  <div className="flex justify-center gap-2 mt-6">
-                    {[0, 1, 2, 3, 4].map((step) => (
-                      <div
-                        key={step}
-                        className={`h-1 rounded-full transition-all ${
-                          step <= curtainStep
-                            ? "w-8 bg-cyan-600 dark:bg-cyan-400"
-                            : "w-4 bg-gray-300 dark:bg-gray-700"
-                        }`}
-                      />
-                    ))}
-                  </div>
-                )}
-              </motion.div>
-            </AnimatePresence>
-          )}
-        </div>
-      </section>
-
-      {/* Contact Section V3 - ULTRA REALISTIC ELEVATOR */}
-      <section className="relative min-h-screen bg-gradient-to-b from-slate-200 via-slate-100 to-slate-200 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 py-12 sm:py-20 px-4 sm:px-6" data-testid="section-elevator">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-8 sm:mb-12"
-          >
-            <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-3 sm:mb-4 text-gray-900 dark:text-white">
-              {t("elevator.title")}
-            </h2>
-            <p className="text-base sm:text-xl text-gray-600 dark:text-gray-300 px-4">
-              {t("elevator.subtitle")}
-            </p>
-          </motion.div>
-
-          <div className="grid lg:grid-cols-5 gap-6 sm:gap-8">
-            {/* REALISTIC ELEVATOR CAR */}
-            <div className="lg:col-span-2">
-              <div className="sticky top-24">
-                {/* Elevator shaft housing - brushed metal */}
-                <div className="bg-gradient-to-br from-gray-800 via-gray-700 to-gray-800 rounded-xl p-1 shadow-2xl" style={{
-                  boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.5), 0 10px 40px rgba(0,0,0,0.3)'
-                }}>
-                  {/* Metal panel with rivets */}
-                  <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 rounded-lg p-4 sm:p-6 relative" style={{
-                    backgroundImage: 'repeating-linear-gradient(90deg, transparent, transparent 30px, rgba(0,0,0,0.1) 30px, rgba(0,0,0,0.1) 31px), repeating-linear-gradient(0deg, transparent, transparent 30px, rgba(0,0,0,0.1) 30px, rgba(0,0,0,0.1) 31px)'
-                  }}>
-                    {/* Corner rivets */}
-                    {[[8, 8], [8, null], [null, 8], [null, null]].map(([top, left], i) => (
-                      <div
-                        key={i}
-                        className="absolute w-3 h-3 rounded-full bg-gray-600 shadow-inner"
-                        style={{
-                          top: top ? `${top}px` : 'auto',
-                          bottom: top === null ? '8px' : 'auto',
-                          left: left ? `${left}px` : 'auto',
-                          right: left === null ? '8px' : 'auto',
-                          boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.8)'
-                        }}
-                      />
-                    ))}
-
-                    {/* Visible cable mechanism */}
-                    <div className="absolute -top-4 left-1/2 -ml-0.5 w-1 h-4 bg-gradient-to-b from-gray-600 to-gray-700" style={{
-                      boxShadow: '0 0 10px rgba(0,0,0,0.5)'
-                    }} />
-
-                    {/* Dot matrix floor indicator */}
-                    <div className="text-center mb-6">
-                      <div className="bg-black rounded-lg p-4 mb-3 border border-gray-800">
-                      <motion.div
-                        className="font-mono text-6xl font-bold tracking-widest"
-                        key={currentFloor}
-                        initial={{ opacity: 0, filter: "blur(4px)" }}
-                        animate={{ 
-                          opacity: 1, 
-                          filter: "blur(0px)",
-                          textShadow: [
-                            "0 0 10px rgba(8, 145, 178, 0.5)",
-                            "0 0 20px rgba(8, 145, 178, 0.8)",
-                            "0 0 10px rgba(8, 145, 178, 0.5)"
-                          ]
-                        }}
-                        transition={{ 
-                          duration: 0.3,
-                          textShadow: {
-                            duration: 0.5,
-                            repeat: Infinity,
-                            repeatType: "reverse"
-                          }
-                        }}
-                        style={{ color: "#0891B2" }}
-                      >
-                        {currentFloor}
-                      </motion.div>
-                    </div>
-                    <motion.p 
-                      className="text-gray-400 text-xs font-mono tracking-wider"
-                      key={`label-${currentFloor}`}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.2 }}
-                    >
-                      {currentFloor === 0 && "⬚ LOBBY ⬚"}
-                      {currentFloor === 3 && "⬚ PARTNERSHIPS ⬚"}
-                      {currentFloor === 4 && "⬚ CLINICAL ⬚"}
-                      {currentFloor === 5 && "⬚ PRODUCT ⬚"}
-                      {currentFloor === 6 && "⬚ CAREERS ⬚"}
-                    </motion.p>
-                  </div>
-                  </div>
-
-                  {/* Mini directory - next floors */}
-                  <div className="bg-black/50 rounded-lg p-3 mb-4 border border-gray-800">
-                    <p className="text-xs text-gray-500 uppercase tracking-wider mb-2">Directory</p>
-                    <div className="grid grid-cols-2 gap-2 text-xs">
-                      <div className={visitedFloors.includes(3) ? "text-emerald-400" : "text-gray-400"}>3 - Partnerships</div>
-                      <div className={visitedFloors.includes(4) ? "text-emerald-400" : "text-gray-400"}>4 - Clinical</div>
-                      <div className={visitedFloors.includes(5) ? "text-emerald-400" : "text-gray-400"}>5 - Product</div>
-                      <div className={visitedFloors.includes(6) ? "text-emerald-400" : "text-gray-400"}>6 - Careers</div>
-                    </div>
-                  </div>
-
-                  {/* Progress indicator light */}
-                  {visitedFloors.length > 0 && (
-                    <div className="mb-4 flex items-center gap-2">
-                      <div className="flex-1 bg-gray-800 rounded-full h-1 relative overflow-hidden">
-                        <motion.div
-                          className="absolute inset-y-0 left-0 bg-gradient-to-r from-cyan-600 to-emerald-600"
-                          initial={{ width: "0%" }}
-                          animate={{ width: `${(visitedFloors.length / 4) * 100}%` }}
-                          transition={{ duration: 0.5 }}
-                        >
-                          <motion.div
-                            className="absolute right-0 w-2 h-2 bg-emerald-400 rounded-full -top-0.5"
-                            animate={{
-                              boxShadow: [
-                                "0 0 4px rgba(52, 211, 153, 0.8)",
-                                "0 0 12px rgba(52, 211, 153, 1)",
-                                "0 0 4px rgba(52, 211, 153, 0.8)"
-                              ]
-                            }}
-                            transition={{ duration: 1, repeat: Infinity }}
-                          />
-                        </motion.div>
-                      </div>
-                      <span className="text-xs text-gray-400 font-mono">{visitedFloors.length}/4</span>
-                    </div>
-                  )}
-
-                  {/* Floor buttons */}
-                  <div className="space-y-2">
-                    {[
-                      { floor: 0, label: "Lobby", icon: Building2 },
-                      { floor: 3, label: "Partnerships", icon: Heart },
-                      { floor: 4, label: "Clinical", icon: Activity },
-                      { floor: 5, label: "Product", icon: Smartphone },
-                      { floor: 6, label: "Careers", icon: Mic }
-                    ].map(({ floor, label, icon: Icon }) => (
-                      <motion.button
-                        key={floor}
-                        onClick={() => {
-                          setElevatorMoving(true);
-                          setTimeout(() => {
-                            setCurrentFloor(floor);
-                            if (floor > 0 && !visitedFloors.includes(floor)) {
-                              setVisitedFloors([...visitedFloors, floor]);
-                            }
-                            setElevatorMoving(false);
-                          }, 640);
-                        }}
-                        className={`w-full p-4 rounded-xl border-2 flex items-center gap-3 transition-all ${
-                          currentFloor === floor
-                            ? "bg-cyan-600 border-cyan-600 text-white"
-                            : visitedFloors.includes(floor)
-                            ? "bg-emerald-950/30 border-emerald-600 text-emerald-400"
-                            : "bg-gray-800 border-gray-700 text-gray-400 hover:border-gray-600"
-                        }`}
-                        whileHover={{ x: 4 }}
-                        disabled={elevatorMoving}
-                        data-testid={`button-floor-${floor}`}
-                      >
-                        <Icon className="w-5 h-5" />
-                        <div className="text-left flex-1">
-                          <div className="font-semibold">{label}</div>
-                          <div className="text-xs opacity-75">Floor {floor}</div>
-                        </div>
-                        {visitedFloors.includes(floor) && (
-                          <Check className="w-4 h-4" />
-                        )}
-                      </motion.button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Door panels */}
-            <div className="lg:col-span-3 relative">
-              {/* Cable pulley system at top */}
-              <div className="absolute -top-8 left-1/2 -ml-12 w-24 h-8 z-30 hidden lg:block">
-                {/* Pulley wheel */}
-                <motion.div 
-                  className="absolute top-0 left-1/2 -ml-6 w-12 h-12 rounded-full border-4 border-gray-600"
-                  style={{
-                    background: 'radial-gradient(circle at 30% 30%, #4a4d55, #2a2d35)',
-                    boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.5), 0 1px 2px rgba(255,255,255,0.1)'
-                  }}
-                  animate={{
-                    rotate: elevatorMoving ? 360 : 0
-                  }}
-                  transition={{
-                    duration: 1,
-                    repeat: elevatorMoving ? Infinity : 0,
-                    ease: "linear"
-                  }}
-                >
-                  {/* Pulley spokes */}
-                  {[0, 60, 120, 180, 240, 300].map((angle) => (
-                    <div
-                      key={angle}
-                      className="absolute top-1/2 left-1/2 w-1 h-4 bg-gray-700 -ml-0.5"
-                      style={{
-                        transform: `rotate(${angle}deg) translateY(-50%)`,
-                        transformOrigin: '50% 0'
-                      }}
-                    />
-                  ))}
-                </motion.div>
-                
-                {/* Cables going down */}
-                <div className="absolute top-8 left-1/2 -ml-1 w-2 h-8 bg-gradient-to-b from-gray-500 to-gray-600 opacity-80" style={{
-                  boxShadow: '0 0 8px rgba(0,0,0,0.5)'
-                }} />
-              </div>
-
-              {/* Elevator doors */}
-              <div className="relative overflow-hidden rounded-2xl">
-                {/* Left door with brushed metal texture */}
-                <motion.div
-                  className="absolute top-0 left-0 h-full w-1/2 z-10 border-r-2 border-gray-700"
-                  style={{
-                    background: 'linear-gradient(90deg, #2a2d35 0%, #3a3d45 50%, #2a2d35 100%)',
-                    backgroundSize: '200% 100%',
-                  }}
-                  animate={{ 
-                    x: elevatorMoving ? 0 : "-100%"
-                  }}
-                  transition={{ 
-                    duration: 0.42, 
-                    ease: [0.4, 0, 0.2, 1]
-                  }}
-                >
-                  {/* Brushed metal texture */}
-                  <div className="absolute inset-0 opacity-30" style={{
-                    background: 'repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255,255,255,0.05) 2px, rgba(255,255,255,0.05) 4px)'
-                  }} />
-                  
-                  {/* Vertical seam */}
-                  <div className="absolute right-0 top-0 h-full w-0.5 bg-gradient-to-b from-transparent via-gray-900 to-transparent" />
-                </motion.div>
-
-                {/* Right door with brushed metal texture */}
-                <motion.div
-                  className="absolute top-0 right-0 h-full w-1/2 z-10 border-l-2 border-gray-700"
-                  style={{
-                    background: 'linear-gradient(270deg, #2a2d35 0%, #3a3d45 50%, #2a2d35 100%)',
-                    backgroundSize: '200% 100%',
-                  }}
-                  animate={{ 
-                    x: elevatorMoving ? 0 : "100%"
-                  }}
-                  transition={{ 
-                    duration: 0.42,
-                    ease: [0.4, 0, 0.2, 1]
-                  }}
-                >
-                  {/* Brushed metal texture */}
-                  <div className="absolute inset-0 opacity-30" style={{
-                    background: 'repeating-linear-gradient(270deg, transparent, transparent 2px, rgba(255,255,255,0.05) 2px, rgba(255,255,255,0.05) 4px)'
-                  }} />
-                  
-                  {/* Vertical seam */}
-                  <div className="absolute left-0 top-0 h-full w-0.5 bg-gradient-to-b from-transparent via-gray-900 to-transparent" />
-                </motion.div>
-
-                {/* Ding indicator */}
-                <AnimatePresence>
-                  {!elevatorMoving && currentFloor > 0 && (
-                    <motion.div
-                      className="absolute top-4 right-4 z-20 flex items-center gap-2 bg-cyan-600/20 backdrop-blur-sm px-3 py-1 rounded-full border border-cyan-600/30"
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.8 }}
-                      transition={{ delay: 0.5 }}
-                    >
-                      <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse" />
-                      <span className="text-xs text-cyan-400 font-mono">DING</span>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-
-                {/* Content inside doors */}
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={currentFloor}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3, delay: elevatorMoving ? 0 : 0.42 }}
-                  >
-                    <Card className="shadow-xl border-0 rounded-2xl">
-                    <CardHeader>
-                      <CardTitle className="text-3xl">
-                        {currentFloor === 0 && "Welcome to the Lobby"}
-                        {currentFloor === 3 && "Partnerships"}
-                        {currentFloor === 4 && "Clinical Pilots"}
-                        {currentFloor === 5 && "Product & Platform"}
-                        {currentFloor === 6 && "Careers"}
-                      </CardTitle>
-                      <CardDescription>
-                        {currentFloor === 0 && visitedFloors.length === 0 && "Choose a floor to start your journey. Mind the gap!"}
-                        {currentFloor === 0 && visitedFloors.length > 0 && "Back to the Lobby - all your inputs preserved"}
-                        {currentFloor === 3 && "Collabs that improve real outcomes. Doors opening to partnerships..."}
-                        {currentFloor === 4 && "Pilot design that respects clinicians and patients. Going up..."}
-                        {currentFloor === 5 && "From idea to useful. Doors sliding open..."}
-                        {currentFloor === 6 && "Mission-first builders welcome. Top floor, everyone out!"}
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      {currentFloor === 0 && visitedFloors.length === 0 && (
-                        <div className="text-center py-12">
-                          <p className="text-gray-600 dark:text-gray-400 mb-6">
-                            Select a floor above to begin. Mind the gap!
-                          </p>
-                          <Building2 className="w-24 h-24 text-cyan-600 dark:text-cyan-400 mx-auto opacity-50" />
-                        </div>
-                      )}
-
-                      {/* Summary Lobby - auto shows when floors visited */}
-                      {currentFloor === 0 && visitedFloors.length > 0 && (
-                        <div className="space-y-6">
-                          <div className="bg-cyan-50 dark:bg-cyan-950/20 rounded-xl p-6 border-2 border-cyan-200 dark:border-cyan-800">
-                            <h4 className="font-bold text-lg mb-3 text-cyan-900 dark:text-cyan-100">📋 Summary Lobby</h4>
-                            <p className="text-sm text-cyan-800 dark:text-cyan-200 mb-4">
-                              You've visited {visitedFloors.length} floor{visitedFloors.length > 1 ? 's' : ''}. Review your inputs or ride to another floor.
-                            </p>
-                            
-                            {/* Show collected data */}
-                            <div className="space-y-3">
-                              {visitedFloors.map(floor => (
-                                <div key={floor} className="bg-white dark:bg-gray-900 rounded-lg p-3 border border-gray-200 dark:border-gray-800">
-                                  <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">
-                                    Floor {floor} - {floor === 3 && "Partnerships"}{floor === 4 && "Clinical"}{floor === 5 && "Product"}{floor === 6 && "Careers"}
-                                  </p>
-                                  <p className="text-sm text-gray-900 dark:text-white">
-                                    {Object.keys(floorData[floor] || {}).length} field{Object.keys(floorData[floor] || {}).length !== 1 ? 's' : ''} completed
-                                  </p>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-
-                          {/* Smart routing hints */}
-                          {visitedFloors.includes(3) && floorData[3]?.org?.toLowerCase().includes('hospital') && (
-                            <div className="bg-violet-50 dark:bg-violet-950/20 rounded-lg p-4 border border-violet-200 dark:border-violet-800">
-                              <p className="text-sm text-violet-900 dark:text-violet-100">
-                                💡 <strong>Hint:</strong> Since you mentioned a hospital, Floor 4 (Clinical Pilots) might be useful.
-                              </p>
-                            </div>
-                          )}
-
-                          {visitedFloors.includes(3) && floorData[3]?.outcome?.toLowerCase().includes('pilot') && !visitedFloors.includes(4) && (
-                            <div className="bg-violet-50 dark:bg-violet-950/20 rounded-lg p-4 border border-violet-200 dark:border-violet-800">
-                              <p className="text-sm text-violet-900 dark:text-violet-100">
-                                💡 <strong>Hint:</strong> You mentioned "pilot" - consider visiting Floor 4 (Clinical).
-                              </p>
-                            </div>
-                          )}
-
-                          <Button
-                            onClick={() => {
-                              setElevatorSubmitted(true);
-                              setTimeout(() => {
-                                setElevatorSubmitted(false);
-                                setCurrentFloor(0);
-                                setVisitedFloors([]);
-                                setFloorData({});
-                              }, 4000);
-                            }}
-                            className="w-full bg-emerald-600 dark:bg-emerald-500 text-white"
-                            data-testid="button-submit-elevator"
-                          >
-                            Submit All Floors
-                          </Button>
-                        </div>
-                      )}
-
-                      {currentFloor === 3 && (
-                        <div className="space-y-4">
-                          <Input 
-                            placeholder="Organization" 
-                            data-testid="input-org" 
-                            className="h-12"
-                            value={floorData[3]?.org || ""}
-                            onChange={(e) => setFloorData({ ...floorData, 3: { ...floorData[3], org: e.target.value } })}
-                          />
-                          <Input 
-                            placeholder="Region" 
-                            data-testid="input-region" 
-                            className="h-12"
-                            value={floorData[3]?.region || ""}
-                            onChange={(e) => setFloorData({ ...floorData, 3: { ...floorData[3], region: e.target.value } })}
-                          />
-                          <Textarea 
-                            placeholder="Problem statement (what keeps you up at night?)" 
-                            rows={4} 
-                            data-testid="textarea-problem"
-                            value={floorData[3]?.problem || ""}
-                            onChange={(e) => setFloorData({ ...floorData, 3: { ...floorData[3], problem: e.target.value } })}
-                          />
-                          <Input 
-                            placeholder="Desired outcome (in your words)" 
-                            data-testid="input-outcome" 
-                            className="h-12"
-                            value={floorData[3]?.outcome || ""}
-                            onChange={(e) => setFloorData({ ...floorData, 3: { ...floorData[3], outcome: e.target.value } })}
-                          />
-                          <Button 
-                            onClick={() => setCurrentFloor(0)}
-                            className="w-full bg-cyan-600 dark:bg-cyan-500 text-white" 
-                            data-testid="button-partnerships-next"
-                          >
-                            Back to Lobby →
-                          </Button>
-                        </div>
-                      )}
-
-                      {currentFloor === 4 && (
-                        <div className="space-y-4">
-                          <Select
-                            value={floorData[4]?.setting || ""}
-                            onValueChange={(value) => setFloorData({ ...floorData, 4: { ...floorData[4], setting: value } })}
-                          >
-                            <SelectTrigger className="h-12" data-testid="select-setting">
-                              <SelectValue placeholder="Setting (Hospital/Clinic/Remote)" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="hospital">Hospital</SelectItem>
-                              <SelectItem value="clinic">Clinic</SelectItem>
-                              <SelectItem value="remote">Remote/Telehealth</SelectItem>
-                              <SelectItem value="home">Home care</SelectItem>
-                            </SelectContent>
-                          </Select>
-                          <Input 
-                            placeholder="Population (who benefits?)" 
-                            data-testid="input-population" 
-                            className="h-12"
-                            value={floorData[4]?.population || ""}
-                            onChange={(e) => setFloorData({ ...floorData, 4: { ...floorData[4], population: e.target.value } })}
-                          />
-                          <Textarea 
-                            placeholder="Measures of success (what gets better?)" 
-                            rows={4} 
-                            data-testid="textarea-measures"
-                            value={floorData[4]?.measures || ""}
-                            onChange={(e) => setFloorData({ ...floorData, 4: { ...floorData[4], measures: e.target.value } })}
-                          />
-                          <div className="flex items-center gap-2">
-                            <input
-                              type="checkbox"
-                              checked={floorData[4]?.irb || false}
-                              onChange={(e) => setFloorData({ ...floorData, 4: { ...floorData[4], irb: e.target.checked } })}
-                              className="w-4 h-4"
-                            />
-                            <label className="text-sm text-gray-700 dark:text-gray-300">IRB approval in place</label>
-                          </div>
-                          <Button 
-                            onClick={() => setCurrentFloor(0)}
-                            className="w-full bg-cyan-600 dark:bg-cyan-500 text-white" 
-                            data-testid="button-clinical-next"
-                          >
-                            Back to Lobby →
-                          </Button>
-                        </div>
-                      )}
-
-                      {currentFloor === 5 && (
-                        <div className="space-y-4">
-                          <Input 
-                            placeholder="Use case (what problem are we solving?)" 
-                            data-testid="input-usecase" 
-                            className="h-12"
-                            value={floorData[5]?.usecase || ""}
-                            onChange={(e) => setFloorData({ ...floorData, 5: { ...floorData[5], usecase: e.target.value } })}
-                          />
-                          <Input 
-                            placeholder="Required integrations (EHR, APIs, etc)" 
-                            data-testid="input-integrations" 
-                            className="h-12"
-                            value={floorData[5]?.integrations || ""}
-                            onChange={(e) => setFloorData({ ...floorData, 5: { ...floorData[5], integrations: e.target.value } })}
-                          />
-                          <Input 
-                            placeholder="Languages needed (if applicable)" 
-                            data-testid="input-languages" 
-                            className="h-12"
-                            value={floorData[5]?.languages || ""}
-                            onChange={(e) => setFloorData({ ...floorData, 5: { ...floorData[5], languages: e.target.value } })}
-                          />
-                          <Textarea 
-                            placeholder="Constraints (budget/infra/timeline)" 
-                            rows={4} 
-                            data-testid="textarea-constraints"
-                            value={floorData[5]?.constraints || ""}
-                            onChange={(e) => setFloorData({ ...floorData, 5: { ...floorData[5], constraints: e.target.value } })}
-                          />
-                          <Button 
-                            onClick={() => setCurrentFloor(0)}
-                            className="w-full bg-cyan-600 dark:bg-cyan-500 text-white" 
-                            data-testid="button-product-next"
-                          >
-                            Back to Lobby →
-                          </Button>
-                        </div>
-                      )}
-
-                      {currentFloor === 6 && (
-                        <div className="space-y-4">
-                          <Input 
-                            placeholder="Your name" 
-                            data-testid="input-career-name" 
-                            className="h-12"
-                            value={floorData[6]?.name || ""}
-                            onChange={(e) => setFloorData({ ...floorData, 6: { ...floorData[6], name: e.target.value } })}
-                          />
-                          <Input 
-                            type="email" 
-                            placeholder="Email" 
-                            data-testid="input-career-email" 
-                            className="h-12"
-                            value={floorData[6]?.email || ""}
-                            onChange={(e) => setFloorData({ ...floorData, 6: { ...floorData[6], email: e.target.value } })}
-                          />
-                          <Input 
-                            placeholder="Portfolio/LinkedIn (link work you're proud of)" 
-                            data-testid="input-portfolio" 
-                            className="h-12"
-                            value={floorData[6]?.portfolio || ""}
-                            onChange={(e) => setFloorData({ ...floorData, 6: { ...floorData[6], portfolio: e.target.value } })}
-                          />
-                          <Select
-                            value={floorData[6]?.role || ""}
-                            onValueChange={(value) => setFloorData({ ...floorData, 6: { ...floorData[6], role: value } })}
-                          >
-                            <SelectTrigger className="h-12" data-testid="select-role">
-                              <SelectValue placeholder="Role you're interested in" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="engineer">Engineer</SelectItem>
-                              <SelectItem value="designer">Designer</SelectItem>
-                              <SelectItem value="clinical">Clinical</SelectItem>
-                              <SelectItem value="product">Product</SelectItem>
-                              <SelectItem value="other">Other</SelectItem>
-                            </SelectContent>
-                          </Select>
-                          <Textarea 
-                            placeholder="Why Medicoz? (mission-first builders welcome)" 
-                            rows={4} 
-                            data-testid="textarea-why"
-                            value={floorData[6]?.why || ""}
-                            onChange={(e) => setFloorData({ ...floorData, 6: { ...floorData[6], why: e.target.value } })}
-                          />
-                          <Button 
-                            onClick={() => setCurrentFloor(0)}
-                            className="w-full bg-cyan-600 dark:bg-cyan-500 text-white" 
-                            data-testid="button-career-submit"
-                          >
-                            Back to Lobby →
-                          </Button>
-                        </div>
-                      )}
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              </AnimatePresence>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Footer - "Living ECG Rail" */}
-      <footer 
+      <footer
         ref={footerRef}
-        className="relative bg-white dark:bg-gray-950 py-16 px-6 overflow-hidden"
+        className="relative bg-white dark:bg-gray-950 py-12 sm:py-16 px-4 sm:px-6 overflow-hidden"
       >
         {/* Living ECG Line */}
         <div className="absolute top-0 left-0 w-full h-12 overflow-hidden">
@@ -2360,40 +1068,46 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
         </div>
 
         <div className="max-w-7xl mx-auto relative z-10">
-          <div className="grid md:grid-cols-3 gap-12 mb-8">
-            {/* Left */}
-            <div>
-              <h3 className="text-3xl font-bold mb-3 text-foreground">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 md:gap-12 mb-8">
+            {/* About Column */}
+            <div className="lg:col-span-2">
+              <h3 className="text-2xl sm:text-3xl font-bold mb-3 text-foreground">
                 {t("footer.title")}
               </h3>
-              <HandwrittenText 
+              <HandwrittenText
                 text={t("footer.tagline")}
                 delay={0.5}
                 duration={2}
                 color="cyan"
-                className="text-lg"
+                className="text-base sm:text-lg mb-4"
               />
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {t("footer.about")}
+              </p>
             </div>
-            
-            {/* Middle - Links */}
+
+            {/* Quick Links Column */}
             <div>
-              <nav className="flex flex-wrap gap-4 text-muted-foreground">
-                <a href="#about" className="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors" data-testid="link-about">{t("footer.links.about")}</a>
-                <span>•</span>
-                <a href="#services" className="hover:text-pink-600 dark:hover:text-pink-400 transition-colors" data-testid="link-services">{t("footer.links.services")}</a>
-                <span>•</span>
-                <a href="#xxperiment" className="hover:text-violet-600 dark:hover:text-violet-400 transition-colors" data-testid="link-xxperiment">{t("footer.links.xxperiment")}</a>
-                <span>•</span>
-                <a href="#careers" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors" data-testid="link-careers">{t("footer.links.careers")}</a>
-                <span>•</span>
-                <a href="#privacy" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors" data-testid="link-privacy">{t("footer.links.privacy")}</a>
+              <h4 className="text-base sm:text-lg font-semibold mb-4 text-foreground">Quick Links</h4>
+              <nav className="flex flex-col gap-3 text-sm">
+                <a href="#about" className="text-muted-foreground hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors" data-testid="link-about">{t("footer.links.about")}</a>
+                <a href="#services" className="text-muted-foreground hover:text-pink-600 dark:hover:text-pink-400 transition-colors" data-testid="link-services">{t("footer.links.services")}</a>
+                <a href="https://thexxperiment.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-violet-600 dark:hover:text-violet-400 transition-colors" data-testid="link-xxperiment">{t("footer.links.xxperiment")}</a>
+                <a href="#careers" className="text-muted-foreground hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors" data-testid="link-careers">{t("footer.links.careers")}</a>
               </nav>
             </div>
-            
-            {/* Right - Social Icons with Pulse Glow */}
-            <div className="space-y-3">
-              <p className="text-muted-foreground">{t("footer.contact.email")}</p>
-              <div className="flex gap-4">
+
+            {/* Contact & Social Column */}
+            <div>
+              <h4 className="text-base sm:text-lg font-semibold mb-4 text-foreground">{t("footer.contact.title")}</h4>
+              <div className="space-y-3 text-sm">
+                <p className="text-muted-foreground">{t("footer.contact.email")}</p>
+                <p className="text-muted-foreground">{t("footer.contact.phone")}</p>
+                <p className="text-muted-foreground">{t("footer.contact.address")}</p>
+              </div>
+
+              <h5 className="text-sm font-semibold mt-6 mb-3 text-foreground">{t("footer.social")}</h5>
+              <div className="flex gap-3">
                 <motion.div
                   animate={{
                     filter: pulsePosition > 70 && pulsePosition < 100 
@@ -2450,8 +1164,15 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
           </div>
           
           {/* Bottom */}
-          <div className="pt-8 border-t border-border text-center">
-            <p className="text-muted-foreground text-xs">{t("footer.copyright")}</p>
+          <div className="pt-6 sm:pt-8 border-t border-border">
+            <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs sm:text-sm">
+              <p className="text-muted-foreground text-center sm:text-left">{t("footer.copyright")}</p>
+              <div className="flex gap-4 text-muted-foreground">
+                <a href="#privacy" className="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">{t("footer.links.privacy")}</a>
+                <span>•</span>
+                <a href="#terms" className="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">{t("footer.links.terms")}</a>
+              </div>
+            </div>
           </div>
         </div>
       </footer>
