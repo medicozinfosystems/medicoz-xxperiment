@@ -260,195 +260,372 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
         </motion.div>
       </section>
 
-      {/* Hologram Phone + Voice Ribbon Section */}
-      <section className="relative py-32 px-6 bg-white dark:bg-gray-950">
+      {/* From Conversation to Care Section */}
+      <section ref={servicesRef} className="relative py-32 px-6 bg-gradient-to-br from-gray-50 via-white to-cyan-50/30 dark:from-gray-900 dark:via-gray-950 dark:to-cyan-950/20 overflow-hidden">
         <div className="max-w-7xl mx-auto relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-20"
           >
             <h2 className="text-5xl md:text-6xl font-bold mb-6 text-gray-900 dark:text-white">
               From Conversation to Care
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-              Watch knowledge flow from podcast to your pocket
+              Empowering women's health through stories and seamless digital care
             </p>
           </motion.div>
 
-          <div className="relative max-w-6xl mx-auto min-h-[500px] flex items-center justify-center">
-            {/* Voice Ribbon Stream */}
-            <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 1 }}>
-              <motion.path
-                d="M 100 250 Q 300 150, 500 250 T 900 250"
-                stroke="url(#voiceGradient)"
-                strokeWidth="3"
-                fill="none"
-                initial={{ pathLength: 0, opacity: 0 }}
-                whileInView={{ pathLength: 1, opacity: 1 }}
-                transition={{ duration: 2, ease: "easeInOut" }}
-                viewport={{ once: true }}
-              />
-              <defs>
-                <linearGradient id="voiceGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#DB2777" />
-                  <stop offset="50%" stopColor="#7C3AED" />
-                  <stop offset="100%" stopColor="#0891B2" />
-                </linearGradient>
-              </defs>
-
-              {/* Animated particles along ribbon */}
-              {[0, 0.25, 0.5, 0.75].map((offset) => (
-                <motion.circle
-                  key={offset}
-                  r="4"
-                  fill="#DB2777"
-                  initial={{ offsetDistance: `${offset * 100}%` }}
-                  animate={{ offsetDistance: "100%" }}
-                  transition={{
-                    duration: 3,
-                    repeat: Infinity,
-                    ease: "linear",
-                    delay: offset * 0.75
-                  }}
-                  style={{ offsetPath: "path('M 100 250 Q 300 150, 500 250 T 900 250')" }}
-                />
-              ))}
-            </svg>
-
-            {/* Left - Podcast Tile */}
-            <motion.div
-              className="absolute left-0 top-1/2 -translate-y-1/2 w-64 p-6 bg-gradient-to-br from-pink-100 to-violet-100 dark:from-pink-950/40 dark:to-violet-950/40 rounded-2xl border-2 border-pink-400 dark:border-pink-600 z-10"
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              whileHover={{ scale: 1.05 }}
-              data-testid="podcast-tile"
-            >
-              <Mic className="w-10 h-10 text-pink-600 dark:text-pink-400 mb-3" />
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">The XXperiment</h3>
-              <p className="text-sm text-gray-700 dark:text-gray-300 mb-3">Latest: Fertility & Choice</p>
+          {/* 3D Phone Showcase */}
+          <div className="relative max-w-6xl mx-auto" style={{ perspective: "2000px" }}>
+            <div className="relative min-h-[700px] flex items-center justify-center">
               
-              {/* Quote Bubble on Hover */}
-              <motion.div
-                className="absolute -top-16 left-1/2 -translate-x-1/2 bg-white dark:bg-gray-800 p-3 rounded-lg shadow-xl border border-pink-400 dark:border-pink-600 w-56"
-                initial={{ opacity: 0, y: 10, scale: 0.8 }}
-                whileHover={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ duration: 0.3 }}
-              >
-                <p className="text-xs text-gray-700 dark:text-gray-300 italic">
-                  "Your timeline is valid, always."
-                </p>
-                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-3 h-3 bg-white dark:bg-gray-800 border-b border-r border-pink-400 dark:border-pink-600 rotate-45" />
-              </motion.div>
-
-              <Button 
-                size="sm" 
-                className="w-full bg-pink-600 text-white"
-                asChild
-              >
-                <a href="https://thexxperiment.com" target="_blank" rel="noopener noreferrer">
-                  Listen Now
-                </a>
-              </Button>
-            </motion.div>
-
-            {/* Right - 3D Hologram Phone */}
-            <motion.div
-              className="absolute right-0 top-1/2 -translate-y-1/2 z-10"
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              onHoverStart={() => setPhoneRotation(5)}
-              onHoverEnd={() => setPhoneRotation(0)}
-              data-testid="hologram-phone"
-            >
-              <motion.div
-                className="relative w-64 h-96 bg-gradient-to-br from-cyan-100 to-blue-100 dark:from-cyan-950/40 dark:to-blue-950/40 rounded-3xl border-4 border-cyan-500 dark:border-cyan-600 p-4"
-                animate={{ 
-                  rotateY: phoneRotation,
-                  boxShadow: phoneRotation > 0 
-                    ? "0 20px 60px rgba(8, 145, 178, 0.4)" 
-                    : "0 10px 40px rgba(8, 145, 178, 0.2)"
-                }}
-                style={{ 
-                  transformStyle: "preserve-3d",
-                  perspective: "1000px"
-                }}
-                transition={{ type: "spring", stiffness: 100 }}
-              >
-                {/* Phone Screen */}
-                <div className="w-full h-full bg-white dark:bg-gray-900 rounded-2xl overflow-hidden relative">
-                  {/* App Preview Screens */}
-                  <motion.div
-                    className="absolute inset-0 flex items-center justify-center"
-                    animate={phoneRotation > 0 ? { opacity: 1 } : { opacity: 0.7 }}
-                  >
-                    <div className="space-y-3 w-full p-4">
-                      {[
-                        { label: "Cycle Tracking", color: "bg-pink-500" },
-                        { label: "Appointments", color: "bg-violet-500" },
-                        { label: "Health Insights", color: "bg-cyan-500" }
-                      ].map((screen, i) => (
-                        <motion.div
-                          key={i}
-                          className={`h-16 ${screen.color} rounded-lg flex items-center justify-center`}
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={phoneRotation > 0 ? { 
-                            opacity: 1, 
-                            y: 0,
-                            boxShadow: `0 0 20px ${screen.color.replace('bg-', 'rgba(').replace('-500', ', 0.6)')}`
-                          } : { opacity: 0.5, y: 0 }}
-                          transition={{ delay: i * 0.1 }}
-                        >
-                          <p className="text-white text-sm font-semibold">{screen.label}</p>
-                        </motion.div>
-                      ))}
-                    </div>
-                  </motion.div>
-
-                  {/* Pulse Effect */}
-                  <motion.div
-                    className="absolute inset-0 border-4 border-cyan-400 rounded-2xl"
-                    animate={{
-                      opacity: [0, 0.5, 0],
-                      scale: [1, 1.05, 1]
-                    }}
-                    transition={{
-                      duration: 2,
-                      repeat: Infinity,
-                      ease: "easeInOut"
-                    }}
+              {/* Voice Wave Connection */}
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <svg className="w-full h-full" viewBox="0 0 1000 600">
+                  <motion.path
+                    d="M 150 300 Q 350 200, 550 300 T 850 300"
+                    stroke="url(#flowGradient)"
+                    strokeWidth="2"
+                    fill="none"
+                    strokeDasharray="8 8"
+                    initial={{ pathLength: 0, opacity: 0 }}
+                    whileInView={{ pathLength: 1, opacity: 0.6 }}
+                    transition={{ duration: 2, ease: "easeInOut" }}
+                    viewport={{ once: true }}
                   />
-                </div>
+                  <defs>
+                    <linearGradient id="flowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="#DB2777" />
+                      <stop offset="100%" stopColor="#0891B2" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </div>
 
-                {/* Phone Notch */}
-                <div className="absolute top-2 left-1/2 -translate-x-1/2 w-24 h-6 bg-gray-900 dark:bg-black rounded-full" />
+              {/* Left - The XXperiment Card */}
+              <motion.div
+                className="absolute left-0 top-1/2 -translate-y-1/2 w-80 z-20"
+                initial={{ opacity: 0, x: -80 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                viewport={{ once: true }}
+                data-testid="xxperiment-card"
+              >
+                <motion.div
+                  className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-2xl border border-pink-200 dark:border-pink-900/50"
+                  whileHover={{ y: -8, boxShadow: "0 30px 60px rgba(219, 39, 119, 0.3)" }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-pink-500 to-violet-500 flex items-center justify-center">
+                      <Mic className="w-8 h-8 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold text-gray-900 dark:text-white">The XXperiment</h3>
+                      <p className="text-sm text-pink-600 dark:text-pink-400">Podcast</p>
+                    </div>
+                  </div>
+                  
+                  <p className="text-gray-600 dark:text-gray-300 mb-6">
+                    Women's health conversations that empower, educate, and inspire change through authentic stories.
+                  </p>
+
+                  {/* Voice Wave Visualization */}
+                  <div className="h-24 mb-6 bg-gradient-to-br from-pink-50 to-violet-50 dark:from-pink-950/20 dark:to-violet-950/20 rounded-xl p-3 flex items-center justify-center">
+                    <div className="flex items-center gap-1 h-full">
+                      {[...Array(20)].map((_, i) => {
+                        const height = Math.abs(Math.sin((i * Math.PI) / 8) * 60 + Math.random() * 15);
+                        return (
+                          <motion.div
+                            key={i}
+                            className="w-1.5 bg-gradient-to-t from-pink-600 to-violet-500 rounded-full"
+                            animate={{ height: `${height}%` }}
+                            transition={{
+                              duration: 0.4 + Math.random() * 0.3,
+                              repeat: Infinity,
+                              repeatType: "reverse",
+                              ease: "easeInOut",
+                              delay: i * 0.03
+                            }}
+                          />
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  <Button 
+                    className="w-full bg-gradient-to-r from-pink-600 to-violet-600 text-white"
+                    asChild
+                    data-testid="button-xxperiment"
+                  >
+                    <a href="https://thexxperiment.com" target="_blank" rel="noopener noreferrer">
+                      Listen Now →
+                    </a>
+                  </Button>
+                </motion.div>
               </motion.div>
-            </motion.div>
+
+              {/* Center - 3D Realistic Phone */}
+              <motion.div
+                className="relative z-30"
+                initial={{ opacity: 0, scale: 0.8, y: 50 }}
+                whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ duration: 1, delay: 0.4, type: "spring" }}
+                viewport={{ once: true }}
+                onHoverStart={() => setPhoneRotation(8)}
+                onHoverEnd={() => setPhoneRotation(0)}
+                data-testid="realistic-phone"
+              >
+                <motion.div
+                  className="relative"
+                  animate={{ 
+                    rotateY: phoneRotation,
+                    rotateX: phoneRotation > 0 ? 2 : 0
+                  }}
+                  style={{ 
+                    transformStyle: "preserve-3d",
+                  }}
+                  transition={{ type: "spring", stiffness: 150, damping: 20 }}
+                >
+                  {/* Phone Body with realistic depth */}
+                  <div 
+                    className="relative w-[320px] h-[640px] rounded-[3rem] bg-gradient-to-br from-gray-900 to-black"
+                    style={{
+                      boxShadow: `
+                        0 50px 100px rgba(0, 0, 0, 0.5),
+                        0 0 0 12px rgba(30, 30, 30, 0.9),
+                        0 0 0 13px rgba(60, 60, 60, 0.5),
+                        inset 0 0 40px rgba(0, 0, 0, 0.5)
+                      `
+                    }}
+                  >
+                    {/* Screen Bezel */}
+                    <div className="absolute inset-[14px] rounded-[2.5rem] bg-black overflow-hidden">
+                      {/* Screen Content */}
+                      <div className="relative w-full h-full bg-gradient-to-br from-gray-900 via-gray-950 to-black">
+                        
+                        {/* Status Bar */}
+                        <div className="absolute top-0 left-0 right-0 h-12 flex items-center justify-between px-8 text-white text-xs">
+                          <span>9:41</span>
+                          <div className="flex gap-1">
+                            <div className="w-4 h-4 border border-white/50 rounded-sm" />
+                            <div className="w-4 h-4 border border-white/50 rounded-sm" />
+                            <div className="w-4 h-4 border border-white/50 rounded-sm" />
+                          </div>
+                        </div>
+
+                        {/* App Screens Toggle */}
+                        <div className="absolute top-16 left-0 right-0 bottom-0 p-6">
+                          {/* The XXperiment Podcast View */}
+                          <motion.div
+                            className="absolute inset-6 bg-gradient-to-br from-pink-500/20 to-violet-500/20 rounded-3xl p-6 border border-pink-500/30"
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: phoneRotation > 0 ? 0 : 1, x: phoneRotation > 0 ? -20 : 0 }}
+                            transition={{ duration: 0.3 }}
+                          >
+                            <div className="flex items-center gap-3 mb-4">
+                              <div className="w-12 h-12 rounded-full bg-pink-500 flex items-center justify-center">
+                                <Mic className="w-6 h-6 text-white" />
+                              </div>
+                              <div>
+                                <p className="text-white font-semibold">The XXperiment</p>
+                                <p className="text-pink-300 text-xs">Latest Episode</p>
+                              </div>
+                            </div>
+                            
+                            {/* Mini Voice Wave */}
+                            <div className="h-16 bg-black/30 rounded-xl flex items-center justify-center gap-1 px-4 mb-4">
+                              {[...Array(15)].map((_, i) => (
+                                <motion.div
+                                  key={i}
+                                  className="w-1 bg-pink-400 rounded-full"
+                                  animate={{ height: `${Math.random() * 60 + 20}%` }}
+                                  transition={{
+                                    duration: 0.5 + Math.random() * 0.3,
+                                    repeat: Infinity,
+                                    repeatType: "reverse"
+                                  }}
+                                />
+                              ))}
+                            </div>
+
+                            <div className="space-y-2">
+                              <p className="text-white text-sm">Fertility & Choice</p>
+                              <p className="text-gray-400 text-xs">Your timeline is valid, always</p>
+                            </div>
+                          </motion.div>
+
+                          {/* Medicoz App View */}
+                          <motion.div
+                            className="absolute inset-6 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 rounded-3xl p-6 border border-cyan-500/30"
+                            initial={{ opacity: 0, x: 20 }}
+                            animate={{ opacity: phoneRotation > 0 ? 1 : 0, x: phoneRotation > 0 ? 0 : 20 }}
+                            transition={{ duration: 0.3 }}
+                          >
+                            <div className="flex items-center justify-between mb-6">
+                              <div className="flex items-center gap-3">
+                                <div className="w-12 h-12 rounded-full bg-cyan-500 flex items-center justify-center">
+                                  <Heart className="w-6 h-6 text-white" />
+                                </div>
+                                <div>
+                                  <p className="text-white font-semibold">Medicoz App</p>
+                                  <Badge className="bg-cyan-500/30 text-cyan-300 border-0 text-xs">Coming Soon</Badge>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="space-y-3">
+                              {[
+                                { icon: Activity, label: "Health Tracking", color: "cyan" },
+                                { icon: Brain, label: "AI Insights", color: "blue" },
+                                { icon: Lock, label: "Private & Secure", color: "violet" }
+                              ].map((feature, i) => (
+                                <motion.div
+                                  key={i}
+                                  className="flex items-center gap-3 p-3 bg-black/30 rounded-xl"
+                                  initial={{ opacity: 0, x: 20 }}
+                                  animate={phoneRotation > 0 ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
+                                  transition={{ delay: i * 0.1 }}
+                                >
+                                  <feature.icon className="w-5 h-5 text-cyan-400" />
+                                  <span className="text-white text-sm">{feature.label}</span>
+                                </motion.div>
+                              ))}
+                            </div>
+
+                            {/* ECG Pulse */}
+                            <div className="mt-6 h-16 bg-black/30 rounded-xl flex items-center justify-center">
+                              <svg viewBox="0 0 150 40" className="w-full h-full px-4">
+                                <motion.path
+                                  d="M 0 20 L 40 20 L 50 10 L 60 30 L 70 5 L 80 35 L 90 20 L 150 20"
+                                  stroke="#06B6D4"
+                                  strokeWidth="2"
+                                  fill="none"
+                                  initial={{ pathLength: 0 }}
+                                  animate={{ pathLength: 1 }}
+                                  transition={{
+                                    duration: 2,
+                                    repeat: Infinity,
+                                    ease: "linear"
+                                  }}
+                                />
+                              </svg>
+                            </div>
+                          </motion.div>
+                        </div>
+
+                        {/* Glass Reflection */}
+                        <div 
+                          className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"
+                          style={{ mixBlendMode: "overlay" }}
+                        />
+                      </div>
+
+                      {/* Notch */}
+                      <div className="absolute top-2 left-1/2 -translate-x-1/2 w-32 h-7 bg-black rounded-full flex items-center justify-center gap-2 z-50">
+                        <div className="w-2 h-2 rounded-full bg-gray-800" />
+                        <div className="w-16 h-1.5 rounded-full bg-gray-800" />
+                      </div>
+                    </div>
+
+                    {/* Side Buttons */}
+                    <div className="absolute right-0 top-32 w-1 h-16 bg-gray-800 rounded-l-sm" />
+                    <div className="absolute left-0 top-24 w-1 h-8 bg-gray-800 rounded-r-sm" />
+                    <div className="absolute left-0 top-36 w-1 h-12 bg-gray-800 rounded-r-sm" />
+                  </div>
+                </motion.div>
+
+                {/* Interaction Hint */}
+                <motion.p
+                  className="text-center mt-8 text-sm text-gray-500 dark:text-gray-400"
+                  animate={{ opacity: phoneRotation > 0 ? 0 : [0.5, 1, 0.5] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
+                  Hover to switch apps
+                </motion.p>
+              </motion.div>
+
+              {/* Right - Medicoz App Card */}
+              <motion.div
+                className="absolute right-0 top-1/2 -translate-y-1/2 w-80 z-20"
+                initial={{ opacity: 0, x: 80 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                viewport={{ once: true }}
+                data-testid="medicoz-card"
+              >
+                <motion.div
+                  className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-2xl border border-cyan-200 dark:border-cyan-900/50"
+                  whileHover={{ y: -8, boxShadow: "0 30px 60px rgba(8, 145, 178, 0.3)" }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-cyan-500 to-blue-500 flex items-center justify-center">
+                      <Smartphone className="w-8 h-8 text-white" />
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Medicoz App</h3>
+                      <Badge className="bg-cyan-100 text-cyan-700 dark:bg-cyan-950/30 dark:text-cyan-400 border-0">Coming Soon</Badge>
+                    </div>
+                  </div>
+                  
+                  <p className="text-gray-600 dark:text-gray-300 mb-6">
+                    Your complete women's health companion — appointments, insights, and personalized care in one app.
+                  </p>
+
+                  {/* Feature List */}
+                  <div className="space-y-3 mb-6">
+                    {[
+                      { icon: Activity, text: "Track your health vitals" },
+                      { icon: Brain, text: "AI-powered insights" },
+                      { icon: Lock, text: "Privacy-first design" }
+                    ].map((item, i) => (
+                      <div key={i} className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-400">
+                        <div className="w-8 h-8 rounded-lg bg-cyan-100 dark:bg-cyan-950/30 flex items-center justify-center">
+                          <item.icon className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
+                        </div>
+                        <span>{item.text}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="space-y-2">
+                    <Button 
+                      className="w-full bg-gradient-to-r from-cyan-600 to-blue-600 text-white"
+                      data-testid="button-waitlist"
+                    >
+                      Join Waitlist
+                    </Button>
+                    <Button 
+                      variant="outline"
+                      className="w-full border-cyan-600 text-cyan-600 dark:border-cyan-400 dark:text-cyan-400"
+                      data-testid="button-notify"
+                    >
+                      Get Notified
+                    </Button>
+                  </div>
+                </motion.div>
+              </motion.div>
+
+            </div>
           </div>
 
           <motion.div
-            className="text-center mt-16"
+            className="text-center mt-20"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
+            transition={{ delay: 0.5 }}
             viewport={{ once: true }}
           >
-            <p className="text-lg text-gray-600 dark:text-gray-400 mb-4 italic">
-              From conversation to care, in your pocket.
+            <p className="text-2xl font-semibold text-gray-800 dark:text-gray-200 mb-2">
+              From conversation to care, in your pocket
             </p>
-            <Button 
-              size="lg" 
-              className="bg-cyan-600 text-white hover:bg-cyan-700"
-              data-testid="button-join-journey"
-            >
-              Join the Journey →
-            </Button>
+            <p className="text-gray-600 dark:text-gray-400">
+              Empowering women's health through knowledge and technology
+            </p>
           </motion.div>
         </div>
       </section>
