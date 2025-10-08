@@ -50,16 +50,6 @@ const frames = [
     color: "#3B82F6",
     icon: Radio
   },
-  { 
-    id: 6, 
-    text: "Medicoz Infosystems", 
-    subtitle: "Technology that cares",
-    description: "Empowering healthcare providers with intelligent, empathetic technology solutions that put patients first. From real-time communication to global connectivity, we bridge the gap between care and technology.",
-    duration: 3000,
-    layout: "finale",
-    color: "#0891B2",
-    icon: Heart
-  },
 ];
 
 interface PreloaderProps {
@@ -291,16 +281,6 @@ export default function Preloader({ onComplete }: PreloaderProps) {
           </div>
         );
       
-      case 5: // Finale - matches hero with handwritten tagline
-        return (
-          <HandwrittenText 
-            text={currentFrameData.subtitle}
-            delay={0}
-            duration={2}
-            className="mb-8"
-          />
-        );
-      
       default:
         return null;
     }
@@ -313,7 +293,6 @@ export default function Preloader({ onComplete }: PreloaderProps) {
       right: "items-center justify-end text-right pr-12",
       split: "items-center justify-center text-center",
       "center-large": "items-center justify-center text-center",
-      finale: "items-center justify-center text-center",
     };
 
     return (
@@ -327,72 +306,34 @@ export default function Preloader({ onComplete }: PreloaderProps) {
           className={`flex flex-col w-full ${layoutClasses[currentFrameData.layout as keyof typeof layoutClasses]}`}
         >
           {/* Visual Element */}
-          {currentFrame !== 5 && (
-            <motion.div
-              className="mb-8"
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: 0.2, duration: 0.6 }}
-            >
-              {renderVisual()}
-            </motion.div>
-          )}
+          <motion.div
+            className="mb-8"
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+          >
+            {renderVisual()}
+          </motion.div>
 
           {/* Text Content */}
-          <div className={currentFrame === 5 ? "space-y-6 max-w-6xl mx-auto" : "space-y-3"}>
-            {currentFrame === 5 ? (
-              // Finale frame - EXACT match to hero
-              <>
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6 }}
-                  className="mb-6"
-                >
-                  <p className="text-xs font-semibold text-cyan-600 dark:text-cyan-400 tracking-[0.2em] uppercase">
-                    Healthcare • Platforms • AI
-                  </p>
-                </motion.div>
-                
-                <motion.h1
-                  className="text-7xl md:text-8xl lg:text-9xl font-bold text-gray-900 dark:text-white"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2, duration: 0.8 }}
-                >
-                  {currentFrameData.text}
-                </motion.h1>
-                
-                <motion.p
-                  className="text-lg md:text-xl text-gray-600 dark:text-gray-300 leading-relaxed max-w-3xl mx-auto"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 3, duration: 0.8 }}
-                >
-                  {currentFrameData.description}
-                </motion.p>
-              </>
-            ) : (
-              <>
-                <motion.h2
-                  className="text-4xl md:text-6xl font-light"
-                  style={{ color: currentFrameData.color }}
-                  initial={{ opacity: 0, x: currentFrameData.layout === 'left' ? -30 : currentFrameData.layout === 'right' ? 30 : 0 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.3 }}
-                >
-                  {currentFrameData.text}
-                </motion.h2>
-                <motion.p
-                  className="text-lg md:text-xl font-light text-gray-600"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.5 }}
-                >
-                  {currentFrameData.subtitle}
-                </motion.p>
-              </>
-            )}
+          <div className="space-y-3">
+            <motion.h2
+              className="text-4xl md:text-6xl font-light"
+              style={{ color: currentFrameData.color }}
+              initial={{ opacity: 0, x: currentFrameData.layout === 'left' ? -30 : currentFrameData.layout === 'right' ? 30 : 0 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.3 }}
+            >
+              {currentFrameData.text}
+            </motion.h2>
+            <motion.p
+              className="text-lg md:text-xl font-light text-gray-600"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+            >
+              {currentFrameData.subtitle}
+            </motion.p>
           </div>
         </motion.div>
       </AnimatePresence>
@@ -400,28 +341,8 @@ export default function Preloader({ onComplete }: PreloaderProps) {
   };
 
   return (
-    <div 
-      className={`fixed inset-0 z-50 flex items-center justify-center overflow-hidden transition-all duration-1000 ${
-        currentFrame === 5 
-          ? 'bg-gradient-to-br from-white via-cyan-50/20 to-violet-50/10' 
-          : 'bg-white'
-      }`}
+    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-white"
     >
-      {/* Real ECG Pattern - only on finale */}
-      {currentFrame === 5 && (
-        <svg className="absolute inset-0 w-full h-full opacity-10" preserveAspectRatio="none">
-          <motion.path
-            d="M 0 50 L 100 50 L 120 30 L 140 70 L 160 50 L 180 50 L 200 40 L 220 60 L 240 50 L 300 50 L 320 20 L 340 80 L 360 50 L 500 50"
-            stroke="#0891B2"
-            strokeWidth="1.5"
-            fill="none"
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={{ duration: 3, ease: "easeInOut", repeat: Infinity, repeatDelay: 1 }}
-            vectorEffect="non-scaling-stroke"
-          />
-        </svg>
-      )}
 
       <div className="max-w-6xl mx-auto px-6 w-full relative z-10 min-h-screen flex flex-col justify-between py-16">
         {/* Main Content */}
