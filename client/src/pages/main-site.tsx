@@ -93,14 +93,18 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
 
   const [hoveredMember, setHoveredMember] = useState<number | null>(null);
   const [formStage, setFormStage] = useState(0);
-  const [selectedCareer, setSelectedCareer] = useState<string | null>(null);
+  const [selectedIntent, setSelectedIntent] = useState<string | null>(null);
   const [messageValue, setMessageValue] = useState("");
 
-  const careers = ["Designer", "Engineer", "Strategist", "Healthcare Expert"];
+  const intents = ["Partnership", "Pilot Project", "Sponsorship", "Careers"];
 
-  const handleCareerSelect = (career: string) => {
-    setSelectedCareer(career);
-    setMessageValue(`I'm passionate about ${career.toLowerCase()} and I would love to contribute to Medicoz Infosystems. `);
+  const handleIntentSelect = (intent: string) => {
+    setSelectedIntent(intent);
+    if (intent === "Careers") {
+      setMessageValue("I'm excited to explore career opportunities with Medicoz Infosystems. ");
+    } else {
+      setMessageValue(`I'm interested in exploring a ${intent.toLowerCase()} with Medicoz Infosystems. `);
+    }
   };
 
   return (
@@ -675,81 +679,125 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
 
         <div className="max-w-4xl mx-auto relative z-10">
           <motion.h2
-            className="text-5xl md:text-6xl font-bold mb-16 text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-violet-400 to-cyan-400"
+            className="text-5xl md:text-6xl font-bold mb-8 text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-violet-400 to-cyan-400"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            Join the Movement
+            Let's build what care deserves
           </motion.h2>
 
-          {/* Holographic career tags */}
+          <motion.p
+            className="text-lg text-center text-gray-300 max-w-3xl mx-auto mb-16"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+          >
+            Have a partnership, pilot, or talent to bring? Tell us how you want to make healthcare more human. 
+            We'll reply within 2 business days.
+          </motion.p>
+
+          {/* Intent chips */}
           <motion.div
             className="flex gap-3 justify-center mb-12 flex-wrap"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
           >
-            {careers.map((career) => (
+            {intents.map((intent) => (
               <motion.button
-                key={career}
+                key={intent}
                 className={`px-6 py-3 rounded-full border-2 transition-all ${
-                  selectedCareer === career
+                  selectedIntent === intent
                     ? 'bg-gradient-to-r from-cyan-500 to-violet-500 border-transparent text-white'
                     : 'border-cyan-400/50 text-cyan-400 hover:border-cyan-400'
                 }`}
-                onClick={() => handleCareerSelect(career)}
+                onClick={() => handleIntentSelect(intent)}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
+                data-testid={`chip-${intent.toLowerCase().replace(' ', '-')}`}
               >
-                {career}
+                {intent}
               </motion.button>
             ))}
           </motion.div>
 
+          {/* Hiring micro-copy when Careers selected */}
+          {selectedIntent === "Careers" && (
+            <motion.p
+              className="text-center text-cyan-400/80 mb-8 italic"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              data-testid="text-careers-info"
+            >
+              We welcome builders from healthcare, design, and engineering. Remote-friendly. Mission-first.
+            </motion.p>
+          )}
+
           {/* Interactive timeline form */}
           <div className="space-y-12">
-            {/* Stage 1 */}
+            {/* Stage 1 - Who are you? */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.2 }}
             >
-              <h3 className="text-2xl font-light text-cyan-400 mb-4">Tell us who you are</h3>
-              <div className="grid md:grid-cols-2 gap-4">
-                <Input
-                  placeholder="Your Name"
-                  className="bg-white/5 border-cyan-400/30 text-white placeholder:text-gray-400 h-12"
-                  data-testid="input-name"
-                />
-                <Input
-                  placeholder="Email Address"
-                  type="email"
-                  className="bg-white/5 border-cyan-400/30 text-white placeholder:text-gray-400 h-12"
-                  data-testid="input-email"
-                />
-              </div>
+              <h3 className="text-2xl font-light text-cyan-400 mb-4">Who are you?</h3>
+              <Input
+                placeholder="Full name"
+                className="bg-white/5 border-cyan-400/30 text-white placeholder:text-gray-400 h-12"
+                data-testid="input-name"
+              />
             </motion.div>
 
-            {/* Stage 2 */}
+            {/* Stage 2 - Where can we reach you? */}
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+            >
+              <h3 className="text-2xl font-light text-violet-400 mb-4">Where can we reach you?</h3>
+              <Input
+                placeholder="Email"
+                type="email"
+                className="bg-white/5 border-violet-400/30 text-white placeholder:text-gray-400 h-12"
+                data-testid="input-email"
+              />
+            </motion.div>
+
+            {/* Stage 3 - How do you want to make healthcare more human? */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.4 }}
             >
-              <h3 className="text-2xl font-light text-violet-400 mb-4">Tell us what drives you</h3>
+              <h3 className="text-2xl font-light text-pink-400 mb-4">How do you want to make healthcare more human?</h3>
               <Textarea
                 value={messageValue}
                 onChange={(e) => setMessageValue(e.target.value)}
-                placeholder="Your story, your passion, your vision..."
-                className="bg-white/5 border-violet-400/30 text-white placeholder:text-gray-400 min-h-32"
+                placeholder="Tell us your goals, constraints, and timeline."
+                className="bg-white/5 border-pink-400/30 text-white placeholder:text-gray-400 min-h-32"
                 data-testid="textarea-message"
               />
             </motion.div>
 
-            {/* Stage 3 */}
+            {/* Stage 4 - Optional attachment note */}
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.5 }}
+            >
+              <p className="text-sm text-gray-400 italic">
+                Optional — Attach a deck or link to your work.
+              </p>
+            </motion.div>
+
+            {/* Submit */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -762,19 +810,15 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                 className="bg-gradient-to-r from-pink-500 via-violet-500 to-cyan-500 text-white text-lg px-12"
                 data-testid="button-send-message"
               >
-                Send Message
+                Send message
               </Button>
               <motion.p
-                className="text-cyan-400 mt-6 text-lg"
-                animate={{
-                  opacity: [0.5, 1, 0.5],
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                }}
+                className="text-cyan-400/80 mt-6 text-lg italic"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1 }}
               >
-                We'll get back within 48 hours
+                Thank you — you've just made healthcare a little more human.
               </motion.p>
             </motion.div>
           </div>
@@ -811,23 +855,35 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
         </svg>
 
         <div className="max-w-7xl mx-auto relative z-10">
-          <div className="grid md:grid-cols-4 gap-12 mb-12">
-            <div className="md:col-span-2">
-              <h3 className="text-3xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-violet-400">
+          <div className="grid md:grid-cols-3 gap-12 mb-12">
+            {/* Left: Company */}
+            <div>
+              <h3 className="text-2xl font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-violet-400">
                 Medicoz Infosystems
               </h3>
-              <motion.p
-                className="text-2xl font-light text-cyan-300 mb-6 italic"
-                animate={{
-                  opacity: [0.6, 1, 0.6],
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                }}
-              >
-                "Connection begins with care."
-              </motion.p>
+              <p className="text-gray-300">Technology that cares.</p>
+            </div>
+
+            {/* Middle: Links */}
+            <div>
+              <nav className="flex flex-wrap gap-4 text-gray-300">
+                <a href="#about" className="hover:text-cyan-400 transition-colors">About</a>
+                <span>•</span>
+                <a href="#services" className="hover:text-cyan-400 transition-colors">Services</a>
+                <span>•</span>
+                <a href="#" className="hover:text-cyan-400 transition-colors">The XXperiment</a>
+                <span>•</span>
+                <a href="#careers" className="hover:text-cyan-400 transition-colors">Careers</a>
+                <span>•</span>
+                <a href="#privacy" className="hover:text-cyan-400 transition-colors">Privacy</a>
+              </nav>
+            </div>
+
+            {/* Right: Contact */}
+            <div className="flex flex-col gap-3">
+              <a href="mailto:hello@medicoz.com" className="text-gray-300 hover:text-cyan-400 transition-colors">
+                hello@medicoz.com
+              </a>
               <div className="flex gap-4">
                 <motion.div whileHover={{ scale: 1.2 }}>
                   <Button
@@ -856,9 +912,11 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                     size="icon"
                     variant="ghost"
                     className="text-white hover:text-violet-400 relative"
-                    data-testid="button-twitter"
+                    data-testid="button-youtube"
                   >
-                    <Twitter className="w-5 h-5" />
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                    </svg>
                     <motion.div
                       className="absolute inset-0 rounded-full bg-violet-400/20"
                       animate={{
@@ -875,28 +933,22 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                 </motion.div>
               </div>
             </div>
-
-            <div>
-              <h4 className="font-semibold mb-4 text-cyan-400">Services</h4>
-              <ul className="space-y-2 text-gray-300">
-                <li>The XXpeirment</li>
-                <li>Medicoz App</li>
-                <li>Healthcare Solutions</li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="font-semibold mb-4 text-violet-400">Company</h4>
-              <ul className="space-y-2 text-gray-300">
-                <li>About Us</li>
-                <li>Careers</li>
-                <li>Contact</li>
-              </ul>
-            </div>
           </div>
 
-          <div className="pt-8 border-t border-gray-700 text-center text-gray-400">
-            <p>© 2025 Medicoz Infosystems. Technology that cares.</p>
+          {/* Bottom micro-tagline */}
+          <div className="pt-8 border-t border-gray-700 text-center">
+            <motion.p
+              className="text-gray-400 italic"
+              animate={{
+                opacity: [0.6, 1, 0.6],
+              }}
+              transition={{
+                duration: 4,
+                repeat: Infinity,
+              }}
+            >
+              Connection begins with care.
+            </motion.p>
           </div>
         </div>
       </footer>
