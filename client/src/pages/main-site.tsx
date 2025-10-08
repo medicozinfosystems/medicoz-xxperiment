@@ -22,7 +22,6 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
   const [hoveredMember, setHoveredMember] = useState<number | null>(null);
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const [pulsePosition, setPulsePosition] = useState(0);
-  const [ecgSpeed, setEcgSpeed] = useState(3);
   
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -104,12 +103,27 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
     }
   }, [mouseX, mouseY]);
 
-  // Footer ECG pulse animation
+  // Footer ECG pulse animation - runs every 8s
   useEffect(() => {
-    const interval = setInterval(() => {
+    const animatePulse = () => {
       setPulsePosition(0);
-      setTimeout(() => setPulsePosition(100), 50);
-    }, 3000);
+      
+      // Animate from 0 to 100 over 3 seconds
+      const duration = 3000;
+      const steps = 60;
+      const stepDuration = duration / steps;
+      
+      for (let i = 0; i <= steps; i++) {
+        setTimeout(() => {
+          setPulsePosition((i / steps) * 100);
+        }, i * stepDuration);
+      }
+    };
+    
+    // Run immediately, then every 8s
+    animatePulse();
+    const interval = setInterval(animatePulse, 8000);
+    
     return () => clearInterval(interval);
   }, []);
 
@@ -243,231 +257,156 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
         </motion.div>
       </section>
 
-      {/* Services Section - Innovated */}
-      <section ref={servicesRef} className="relative py-32 px-6 bg-white dark:bg-gray-950">
-        <div className="max-w-7xl mx-auto relative z-10">
+      {/* Services Section - Split-Pulse Showcase */}
+      <section ref={servicesRef} className="relative min-h-screen flex items-center py-20 px-6 bg-white dark:bg-gray-950 overflow-hidden">
+        <div className="max-w-7xl mx-auto w-full">
+          {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            viewport={{ once: true, margin: "-100px" }}
-            className="text-center mb-20"
+            viewport={{ once: true }}
+            className="text-center mb-16"
           >
-            <h2 className="text-5xl md:text-6xl font-bold mb-6 text-gray-900 dark:text-white">
-              Making Healthcare More Human
+            <h2 className="text-5xl md:text-6xl font-bold mb-4 text-gray-900 dark:text-white">
+              Two rhythms. One purpose.
             </h2>
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-              Through conversations and technology, we're reshaping how care feels
-            </p>
           </motion.div>
 
-          <div className="grid lg:grid-cols-2 gap-16">
-            {/* The XXperiment Podcast - Enhanced Player */}
+          {/* Split Screen Container */}
+          <div className="grid lg:grid-cols-2 gap-0 relative">
+            {/* Traveling Pulse Line */}
             <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
+              className="absolute top-1/2 left-0 w-full h-px bg-cyan-600 dark:bg-cyan-400 z-20"
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              transition={{ duration: 1.5 }}
               viewport={{ once: true }}
             >
-              <div className="relative" data-testid="card-xxperiment">
-                {/* Podcast Header */}
-                <div className="mb-6">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="p-4 rounded-2xl bg-gradient-to-br from-pink-600 to-pink-500 dark:from-pink-500 dark:to-pink-400">
-                      <Mic className="w-8 h-8 text-white" />
-                    </div>
-                    <div>
-                      <Badge className="bg-pink-100 text-pink-700 dark:bg-pink-950/30 dark:text-pink-400 border-0 mb-2">Podcast</Badge>
-                      <h3 className="text-3xl font-bold text-gray-900 dark:text-white">The XXperiment</h3>
-                    </div>
-                  </div>
-                  <p className="text-lg text-pink-600 dark:text-pink-400 font-medium mb-2">
-                    Conversations That Care
-                  </p>
-                  <p className="text-gray-600 dark:text-gray-300">
-                    Women's health, stories, science, and strength. Where voices become change.
-                  </p>
-                </div>
-
-                {/* Enhanced Audio Player */}
-                <div className="bg-gradient-to-br from-pink-50 to-pink-100/50 dark:from-pink-950/30 dark:to-pink-900/20 rounded-2xl p-6 border border-pink-200 dark:border-pink-800">
-                  {/* Episode Info */}
-                  <div className="mb-4">
-                    <p className="text-sm font-semibold text-pink-900 dark:text-pink-300">Now Playing</p>
-                    <p className="text-xs text-pink-700 dark:text-pink-400">Ep. 12: Breaking the Silence</p>
-                  </div>
-
-                  {/* Waveform Visualization - 60 bars */}
-                  <div className="relative h-32 mb-4 bg-white/50 dark:bg-black/20 rounded-xl p-4 overflow-hidden">
-                    <div className="flex items-end justify-center gap-0.5 h-full">
-                      {[...Array(60)].map((_, i) => {
-                        const height = Math.abs(Math.sin((i * Math.PI) / 15) * 80 + Math.random() * 15);
-                        return (
-                          <motion.div
-                            key={i}
-                            className="flex-1 bg-gradient-to-t from-pink-600 to-pink-400 dark:from-pink-500 dark:to-pink-300 rounded-full min-w-[1px]"
-                            initial={{ height: "20%" }}
-                            animate={{ 
-                              height: `${height}%`,
-                            }}
-                            transition={{
-                              duration: 0.4 + Math.random() * 0.3,
-                              repeat: Infinity,
-                              repeatType: "reverse",
-                              ease: "easeInOut",
-                              delay: i * 0.015
-                            }}
-                          />
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                  {/* Progress Bar - Animated */}
-                  <div className="mb-4">
-                    <div className="h-1.5 bg-pink-200 dark:bg-pink-900 rounded-full overflow-hidden">
-                      <motion.div
-                        className="h-full bg-pink-600 dark:bg-pink-400"
-                        initial={{ width: "0%" }}
-                        animate={{ width: ["0%", "100%"] }}
-                        transition={{ 
-                          duration: 28,
-                          ease: "linear",
-                          repeat: Infinity
-                        }}
-                      />
-                    </div>
-                    <div className="flex justify-between text-xs text-pink-700 dark:text-pink-400 mt-1">
-                      <span>2:34</span>
-                      <span>45:12</span>
-                    </div>
-                  </div>
-
-                  {/* Play Controls */}
-                  <div className="flex items-center justify-center gap-4">
-                    <Button 
-                      size="icon" 
-                      variant="ghost" 
-                      className="text-pink-600 dark:text-pink-400"
-                    >
-                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M6 6h2v12H6zm10 0h2v12h-2z"/>
-                      </svg>
-                    </Button>
-                    <Button 
-                      size="icon"
-                      className="w-14 h-14 bg-pink-600 dark:bg-pink-500 text-white rounded-full"
-                      data-testid="button-play"
-                    >
-                      <Play className="w-6 h-6 ml-0.5" fill="currentColor" />
-                    </Button>
-                    <Button 
-                      size="icon" 
-                      variant="ghost" 
-                      className="text-pink-600 dark:text-pink-400"
-                    >
-                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
-                      </svg>
-                    </Button>
-                  </div>
-                </div>
-
-                <Button 
-                  size="lg" 
-                  className="w-full mt-6 bg-pink-600 dark:bg-pink-500 text-white"
-                  data-testid="button-xxperiment"
-                >
-                  Listen on The XXperiment
-                </Button>
-              </div>
+              <motion.div
+                className="absolute w-8 h-8 bg-cyan-600 dark:bg-cyan-400 rounded-full"
+                style={{
+                  top: "-16px",
+                  filter: "drop-shadow(0 0 8px rgba(8, 145, 178, 0.6))"
+                }}
+                animate={{
+                  left: ["0%", "100%"],
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "linear"
+                }}
+              />
             </motion.div>
 
-            {/* Medicoz App */}
+            {/* Left - The XXperiment (Voice Wave) */}
             <motion.div
-              initial={{ opacity: 0, x: 30 }}
+              className="p-12 bg-gradient-to-br from-pink-50 to-violet-50 dark:from-pink-950/20 dark:to-violet-950/20"
+              initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
             >
-              <div className="relative h-full" data-testid="card-medicoz-app">
-                <div className="mb-6">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="p-4 rounded-2xl bg-gradient-to-br from-cyan-600 to-cyan-500 dark:from-cyan-500 dark:to-cyan-400">
-                      <Smartphone className="w-8 h-8 text-white" />
-                    </div>
-                    <div>
-                      <Badge className="bg-blue-100 text-blue-700 dark:bg-blue-950/30 dark:text-blue-400 border-0 mb-2">Coming Soon</Badge>
-                      <h3 className="text-3xl font-bold text-gray-900 dark:text-white">Medicoz App</h3>
-                    </div>
-                  </div>
-                  <p className="text-lg text-cyan-600 dark:text-cyan-400 font-medium mb-2">
-                    Care in Your Pocket
-                  </p>
-                  <p className="text-gray-600 dark:text-gray-300 mb-8">
-                    Appointments, insights, and support — seamlessly integrated in one beautiful experience.
-                  </p>
+              <div className="mb-8">
+                <Mic className="w-12 h-12 text-pink-600 dark:text-pink-400 mb-4" />
+                <h3 className="text-3xl font-bold mb-3 text-gray-900 dark:text-white">The XXperiment</h3>
+                <p className="text-lg text-pink-600 dark:text-pink-400 font-medium mb-2">Conversations That Care</p>
+                <p className="text-gray-600 dark:text-gray-300 mb-6">
+                  Women's health, stories, science, and strength. Where voices become change.
+                </p>
+              </div>
+
+              {/* Voice Wave Visualization */}
+              <div className="h-32 mb-8 bg-white/50 dark:bg-black/20 rounded-xl p-4 overflow-hidden">
+                <div className="flex items-center justify-center gap-1 h-full">
+                  {[...Array(40)].map((_, i) => {
+                    const height = Math.abs(Math.sin((i * Math.PI) / 10) * 70 + Math.random() * 20);
+                    return (
+                      <motion.div
+                        key={i}
+                        className="w-1 bg-gradient-to-t from-pink-600 to-violet-500 dark:from-pink-500 dark:to-violet-400 rounded-full"
+                        animate={{ 
+                          height: `${height}%`,
+                        }}
+                        transition={{
+                          duration: 0.5 + Math.random() * 0.4,
+                          repeat: Infinity,
+                          repeatType: "reverse",
+                          ease: "easeInOut",
+                          delay: i * 0.02
+                        }}
+                      />
+                    );
+                  })}
                 </div>
+              </div>
 
-                {/* Feature Pills */}
-                <div className="space-y-4 mb-8">
-                  <motion.div 
-                    className="flex items-center gap-4 p-4 bg-gradient-to-r from-cyan-50 to-blue-50 dark:from-cyan-950/30 dark:to-blue-950/30 rounded-xl border border-cyan-200 dark:border-cyan-800"
-                    whileHover={{ scale: 1.02, x: 5 }}
-                  >
-                    <div className="p-3 rounded-lg bg-cyan-600 dark:bg-cyan-500">
-                      <Activity className="w-6 h-6 text-white" />
-                    </div>
-                    <div>
-                      <p className="font-semibold text-gray-900 dark:text-white">Multilingual Support</p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">Speak your language, get heard</p>
-                    </div>
-                  </motion.div>
+              <Button 
+                size="lg" 
+                className="w-full bg-pink-600 dark:bg-pink-500 text-white"
+                asChild
+                data-testid="button-xxperiment"
+              >
+                <a href="https://thexxperiment.com" target="_blank" rel="noopener noreferrer">
+                  Listen on The XXperiment →
+                </a>
+              </Button>
+            </motion.div>
 
-                  <motion.div 
-                    className="flex items-center gap-4 p-4 bg-gradient-to-r from-blue-50 to-violet-50 dark:from-blue-950/30 dark:to-violet-950/30 rounded-xl border border-blue-200 dark:border-blue-800"
-                    whileHover={{ scale: 1.02, x: 5 }}
-                  >
-                    <div className="p-3 rounded-lg bg-blue-600 dark:bg-blue-500">
-                      <Lock className="w-6 h-6 text-white" />
-                    </div>
-                    <div>
-                      <p className="font-semibold text-gray-900 dark:text-white">Private by Design</p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">Your data, your control</p>
-                    </div>
-                  </motion.div>
+            {/* Right - Medicoz App (Heartbeat UI) */}
+            <motion.div
+              className="p-12 bg-gradient-to-br from-cyan-50 to-blue-50 dark:from-cyan-950/20 dark:to-blue-950/20"
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            >
+              <div className="mb-8">
+                <Smartphone className="w-12 h-12 text-cyan-600 dark:text-cyan-400 mb-4" />
+                <h3 className="text-3xl font-bold mb-3 text-gray-900 dark:text-white">Medicoz App</h3>
+                <Badge className="bg-blue-100 text-blue-700 dark:bg-blue-950/30 dark:text-blue-400 border-0 mb-3">Coming Soon</Badge>
+                <p className="text-lg text-cyan-600 dark:text-cyan-400 font-medium mb-2">Care in Your Pocket</p>
+                <p className="text-gray-600 dark:text-gray-300 mb-6">
+                  Appointments, insights, and support — seamlessly integrated in one beautiful experience.
+                </p>
+              </div>
 
-                  <motion.div 
-                    className="flex items-center gap-4 p-4 bg-gradient-to-r from-violet-50 to-pink-50 dark:from-violet-950/30 dark:to-pink-950/30 rounded-xl border border-violet-200 dark:border-violet-800"
-                    whileHover={{ scale: 1.02, x: 5 }}
-                  >
-                    <div className="p-3 rounded-lg bg-violet-600 dark:bg-violet-500">
-                      <Heart className="w-6 h-6 text-white" />
-                    </div>
-                    <div>
-                      <p className="font-semibold text-gray-900 dark:text-white">Clinical-Grade UX</p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">Designed with care, built for trust</p>
-                    </div>
-                  </motion.div>
-                </div>
+              {/* Heartbeat Visualization */}
+              <div className="h-32 mb-8 bg-white/50 dark:bg-black/20 rounded-xl p-4 overflow-hidden flex items-center justify-center">
+                <svg viewBox="0 0 200 60" className="w-full h-full">
+                  <motion.path
+                    d="M 0 30 L 60 30 L 70 20 L 80 40 L 90 10 L 100 50 L 110 30 L 200 30"
+                    stroke="#0891B2"
+                    strokeWidth="3"
+                    fill="none"
+                    initial={{ pathLength: 0 }}
+                    animate={{ pathLength: 1 }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: "linear"
+                    }}
+                  />
+                </svg>
+              </div>
 
-                <div className="space-y-3">
-                  <Button 
-                    size="lg" 
-                    className="w-full bg-cyan-600 dark:bg-cyan-500 text-white"
-                    data-testid="button-waitlist"
-                  >
-                    Join the Waitlist
-                  </Button>
-                  <Button 
-                    size="lg" 
-                    variant="outline"
-                    className="w-full border-cyan-600 text-cyan-600 dark:border-cyan-400 dark:text-cyan-400"
-                    data-testid="button-notify"
-                  >
-                    Get Notified
-                  </Button>
-                </div>
+              <div className="space-y-3">
+                <Button 
+                  size="lg" 
+                  className="w-full bg-cyan-600 dark:bg-cyan-500 text-white"
+                  data-testid="button-waitlist"
+                >
+                  Join the Waitlist
+                </Button>
+                <Button 
+                  size="lg" 
+                  variant="outline"
+                  className="w-full border-cyan-600 text-cyan-600 dark:border-cyan-400 dark:text-cyan-400"
+                  data-testid="button-notify"
+                >
+                  Get Notified
+                </Button>
               </div>
             </motion.div>
           </div>
@@ -733,21 +672,30 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                     <motion.div
                       initial={{ scale: 0.9, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
-                      className="bg-emerald-50 dark:bg-emerald-950/30 border-2 border-emerald-200 dark:border-emerald-800 rounded-xl p-6 text-center"
+                      className="bg-emerald-50 dark:bg-emerald-950/30 border-2 border-emerald-200 dark:border-emerald-800 rounded-xl p-6"
                     >
-                      <motion.div
-                        animate={{ scale: [1, 1.2, 1] }}
-                        transition={{ duration: 0.6 }}
-                        className="text-5xl mb-3"
-                      >
-                        ✓
-                      </motion.div>
-                      <p className="text-emerald-800 dark:text-emerald-300 font-semibold text-lg">
-                        Message Received!
+                      <p className="text-emerald-800 dark:text-emerald-300 font-semibold text-lg mb-4 text-center">
+                        Message received. We'll reply within 48h.
                       </p>
-                      <p className="text-emerald-700 dark:text-emerald-400 text-sm mt-2">
-                        We'll respond within 2 business days
-                      </p>
+                      
+                      {/* Pulse ID Line */}
+                      <div className="relative h-16 flex items-center justify-center mb-2">
+                        <div className="absolute w-full h-px bg-emerald-300 dark:bg-emerald-700" />
+                        <motion.div
+                          className="absolute w-3 h-3 bg-emerald-600 dark:bg-emerald-400 rounded-full"
+                          initial={{ left: "0%" }}
+                          animate={{ left: "100%" }}
+                          transition={{ duration: 2, ease: "easeInOut" }}
+                          style={{
+                            filter: "drop-shadow(0 0 6px rgba(5, 150, 105, 0.6))"
+                          }}
+                        />
+                        <div className="relative bg-emerald-50 dark:bg-emerald-950/30 px-4 py-2 rounded-lg border border-emerald-300 dark:border-emerald-700">
+                          <p className="text-sm font-mono text-emerald-700 dark:text-emerald-300">
+                            Pulse ID: {Math.random().toString(36).substring(2, 10).toUpperCase()}
+                          </p>
+                        </div>
+                      </div>
                     </motion.div>
                   ) : (
                     <Button 
@@ -766,46 +714,44 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
         </div>
       </section>
 
-      {/* Footer - "A Quiet Pulse" */}
+      {/* Footer - "Living ECG Rail" */}
       <footer 
         ref={footerRef}
         className="relative bg-white dark:bg-gray-950 py-16 px-6 overflow-hidden"
-        onMouseEnter={() => setEcgSpeed(1.5)}
-        onMouseLeave={() => setEcgSpeed(3)}
       >
-        {/* Animated ECG Line */}
-        <div className="absolute top-0 left-0 w-full h-px overflow-hidden">
-          <svg className="w-full h-8" preserveAspectRatio="none" viewBox="0 0 1200 30">
+        {/* Living ECG Line */}
+        <div className="absolute top-0 left-0 w-full h-12 overflow-hidden">
+          <svg className="w-full h-full" preserveAspectRatio="none" viewBox="0 0 1200 50">
             {/* Base ECG Line */}
             <path
-              d="M 0 15 L 300 15 L 320 5 L 340 25 L 360 15 L 1200 15"
+              d="M 0 25 L 1200 25"
               stroke="#0891B2"
-              strokeWidth="2"
+              strokeWidth="1"
               fill="none"
               opacity="0.3"
             />
             
-            {/* Traveling Pulse */}
+            {/* Traveling Pulse - runs every 8s */}
             <motion.path
-              d="M 0 15 L 20 15 L 25 5 L 30 25 L 35 15 L 50 15"
+              d="M 0 25 L 20 25 L 25 15 L 30 35 L 35 25 L 50 25"
               stroke="#0891B2"
-              strokeWidth="3"
+              strokeWidth="2"
               fill="none"
               animate={{ 
                 x: pulsePosition === 100 ? [0, 1200] : 0,
                 opacity: pulsePosition === 100 ? [0, 1, 1, 0.8, 0] : 0
               }}
               transition={{ 
-                duration: ecgSpeed,
+                duration: 3,
                 ease: "linear",
                 times: pulsePosition === 100 ? [0, 0.1, 0.5, 0.9, 1] : [0]
               }}
-              filter="url(#glow)"
+              filter="url(#footerGlow)"
             />
             
             <defs>
-              <filter id="glow">
-                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+              <filter id="footerGlow">
+                <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
                 <feMerge>
                   <feMergeNode in="coloredBlur"/>
                   <feMergeNode in="SourceGraphic"/>
@@ -816,15 +762,19 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
         </div>
 
         <div className="max-w-7xl mx-auto relative z-10">
-          <div className="grid md:grid-cols-3 gap-12 mb-12">
+          <div className="grid md:grid-cols-3 gap-12 mb-8">
             {/* Left */}
             <div>
               <h3 className="text-3xl font-bold mb-3 text-gray-900 dark:text-white">
                 Medicoz Infosystems
               </h3>
-              <p className="text-gray-600 dark:text-gray-400 text-lg mb-4">
-                Technology that cares.
-              </p>
+              <HandwrittenText 
+                text="Connection begins with care"
+                delay={0.5}
+                duration={2}
+                color="cyan"
+                className="text-lg"
+              />
             </div>
             
             {/* Middle - Links */}
@@ -842,35 +792,22 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
               </nav>
             </div>
             
-            {/* Right - Social Icons with Pulse Interaction */}
+            {/* Right - Social Icons with Pulse Glow */}
             <div className="space-y-3">
               <p className="text-gray-600 dark:text-gray-400">hello@medicoz.com</p>
               <div className="flex gap-4">
                 <motion.div
                   animate={{
-                    scale: pulsePosition > 80 && pulsePosition < 100 ? [1, 1.2, 1] : 1,
+                    filter: pulsePosition > 70 && pulsePosition < 100 
+                      ? "drop-shadow(0 0 8px rgba(8, 145, 178, 0.8))" 
+                      : "drop-shadow(0 0 0px rgba(8, 145, 178, 0))",
                   }}
-                  transition={{ duration: 0.3 }}
+                  transition={{ duration: 0.2 }}
                 >
                   <Button 
                     size="icon" 
                     variant="ghost" 
-                    className="text-gray-600 dark:text-gray-400 hover:text-cyan-600 dark:hover:text-cyan-400"
-                    data-testid="button-linkedin"
-                  >
-                    <Linkedin className="w-5 h-5" />
-                  </Button>
-                </motion.div>
-                <motion.div
-                  animate={{
-                    scale: pulsePosition > 85 && pulsePosition < 100 ? [1, 1.2, 1] : 1,
-                  }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <Button 
-                    size="icon" 
-                    variant="ghost" 
-                    className="text-gray-600 dark:text-gray-400 hover:text-pink-600 dark:hover:text-pink-400"
+                    className="text-gray-600 dark:text-gray-400"
                     data-testid="button-mail"
                   >
                     <Mail className="w-5 h-5" />
@@ -878,14 +815,33 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                 </motion.div>
                 <motion.div
                   animate={{
-                    scale: pulsePosition > 90 && pulsePosition < 100 ? [1, 1.2, 1] : 1,
+                    filter: pulsePosition > 80 && pulsePosition < 100 
+                      ? "drop-shadow(0 0 8px rgba(8, 145, 178, 0.8))" 
+                      : "drop-shadow(0 0 0px rgba(8, 145, 178, 0))",
                   }}
-                  transition={{ duration: 0.3 }}
+                  transition={{ duration: 0.2 }}
                 >
                   <Button 
                     size="icon" 
                     variant="ghost" 
-                    className="text-gray-600 dark:text-gray-400 hover:text-violet-600 dark:hover:text-violet-400"
+                    className="text-gray-600 dark:text-gray-400"
+                    data-testid="button-linkedin"
+                  >
+                    <Linkedin className="w-5 h-5" />
+                  </Button>
+                </motion.div>
+                <motion.div
+                  animate={{
+                    filter: pulsePosition > 90 && pulsePosition < 100 
+                      ? "drop-shadow(0 0 8px rgba(8, 145, 178, 0.8))" 
+                      : "drop-shadow(0 0 0px rgba(8, 145, 178, 0))",
+                  }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Button 
+                    size="icon" 
+                    variant="ghost" 
+                    className="text-gray-600 dark:text-gray-400"
                     data-testid="button-youtube"
                   >
                     <Youtube className="w-5 h-5" />
@@ -897,9 +853,6 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
           
           {/* Bottom */}
           <div className="pt-8 border-t border-gray-200 dark:border-gray-800 text-center">
-            <p className="text-gray-600 dark:text-gray-400 text-sm mb-2" style={{ fontFamily: "'Caveat', cursive", fontSize: "1.1rem" }}>
-              Connection begins with care.
-            </p>
             <p className="text-gray-500 dark:text-gray-500 text-xs">© 2025 Medicoz Infosystems</p>
           </div>
         </div>
