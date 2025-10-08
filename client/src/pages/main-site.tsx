@@ -205,57 +205,74 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
           onMouseEnter={() => setIsHoveringTagline(true)}
           onMouseLeave={() => setIsHoveringTagline(false)}
         >
+          {/* Eyebrow */}
+          <motion.p
+            className="text-sm md:text-base text-muted-foreground mb-4 tracking-wider uppercase"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            data-testid="text-eyebrow"
+          >
+            Healthcare • Platforms • AI
+          </motion.p>
+
+          {/* Headline with type-in effect */}
           <motion.h1 className="text-6xl md:text-8xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 via-blue-600 to-violet-600">
-            {"Medicoz Infosystems".split("").map((letter, i) => (
+            {"Technology that cares".split("").map((letter, i) => (
               <motion.span
                 key={i}
                 className="inline-block"
-                animate={{
-                  scale: isHoveringTagline ? [1, 1.1, 1] : 1,
-                }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 transition={{
-                  duration: 0.3,
-                  delay: i * 0.03,
-                  repeat: isHoveringTagline ? Infinity : 0,
-                  repeatDelay: 1,
+                  duration: 0.1,
+                  delay: 0.5 + i * 0.05,
                 }}
               >
                 {letter === " " ? "\u00A0" : letter}
               </motion.span>
             ))}
           </motion.h1>
-          
-          <motion.p
-            className="text-2xl md:text-3xl text-blue-800 mb-8 font-light tracking-wide"
-            animate={{
-              opacity: [0.7, 1, 0.7],
-            }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          >
-            technology that cares
-          </motion.p>
 
+          {/* Support line */}
+          <motion.p
+            className="text-xl md:text-3xl text-foreground/80 mb-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 3 }}
+            data-testid="text-support-line"
+          >
+            Health, made human.
+          </motion.p>
+          
           <motion.div
             className="flex gap-4 justify-center flex-wrap"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{
               duration: 0.6,
-              delay: showButtonsImmediately ? 0 : 1.2
+              delay: showButtonsImmediately ? 0 : 3.5
             }}
           >
-            <Button size="lg" className="text-lg px-8" data-testid="button-get-started">
-              Get Started
+            <Button size="lg" className="text-lg px-8" data-testid="button-explore-services">
+              Explore our services
             </Button>
-            <Button size="lg" variant="outline" className="text-lg px-8" data-testid="button-learn-more">
-              Learn More
+            <Button size="lg" variant="outline" className="text-lg px-8" data-testid="button-partner">
+              Partner with us
             </Button>
           </motion.div>
         </motion.div>
+
+        {/* Micro-line bottom-right */}
+        <motion.p
+          className="absolute bottom-8 right-8 text-sm text-muted-foreground/60 max-w-xs text-right"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 4 }}
+          data-testid="text-micro-line"
+        >
+          Designed with empathy. Built for scale.
+        </motion.p>
       </section>
 
       {/* Services - Bento Story Grid */}
@@ -267,7 +284,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            Our Services
+            Two Ways We Make Care More Human
           </motion.h2>
 
           {/* Diagonal Bento Grid */}
@@ -314,23 +331,28 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                   <div className="relative z-10">
                     <div className="flex items-center gap-3 mb-4">
                       <Mic className="w-10 h-10 text-pink-600" />
-                      <Badge className="bg-emerald-500 text-white">Live Now</Badge>
+                      <Badge className="bg-pink-500 text-white">Podcast</Badge>
                     </div>
                     <h3 className="text-4xl font-bold mb-3 text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-violet-600">
-                      The XXpeirment
+                      The XXperiment — Conversations that care
                     </h3>
                     <p className="text-lg text-violet-600 font-medium mb-4">
-                      A Podcast for All Things Women
+                      Women's health, stories, science, and strength.
                     </p>
-                    <p className="text-muted-foreground mb-6">
-                      Empowering conversations that celebrate women's voices, stories, and experiences.
-                    </p>
+                    <motion.p
+                      className="text-muted-foreground mb-6 italic"
+                      initial={{ opacity: 0 }}
+                      whileHover={{ opacity: 1 }}
+                      data-testid="text-xxperiment-hover"
+                    >
+                      Where voices become change.
+                    </motion.p>
                     <Button
                       size="lg"
                       className="bg-gradient-to-r from-pink-600 to-violet-600 text-white"
-                      data-testid="button-xxpeirment"
+                      data-testid="button-xxperiment"
                     >
-                      Listen Now
+                      Go to The XXperiment
                     </Button>
                   </div>
 
@@ -396,32 +418,51 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                       <Badge variant="secondary">Coming Soon</Badge>
                     </div>
                     <h3 className="text-4xl font-bold mb-3 text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-emerald-600">
-                      Medicoz App
+                      Medicoz App — Care in your pocket
                     </h3>
                     <p className="text-lg text-cyan-600 font-medium mb-4">
-                      Care. Anywhere.
+                      Appointments, insights, and support — in one place.
                     </p>
-                    <p className="text-muted-foreground mb-6">
-                      Revolutionary healthcare platform connecting patients and providers seamlessly.
-                    </p>
-                    <motion.div whileTap={{ scale: 0.95 }}>
+                    
+                    {/* Auto-cycling feature bullets */}
+                    <motion.div className="mb-6 h-8">
+                      {["Multilingual", "Private by design", "Clinical-grade UX"].map((feature, i) => (
+                        <motion.p
+                          key={feature}
+                          className="text-muted-foreground absolute"
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{
+                            opacity: [0, 1, 1, 0],
+                            y: [10, 0, 0, -10],
+                          }}
+                          transition={{
+                            duration: 3,
+                            repeat: Infinity,
+                            delay: i * 3,
+                            times: [0, 0.1, 0.9, 1],
+                          }}
+                        >
+                          {feature}
+                        </motion.p>
+                      ))}
+                    </motion.div>
+
+                    <div className="flex gap-3 flex-wrap">
                       <Button
                         size="lg"
-                        className="bg-gradient-to-r from-cyan-600 to-emerald-600 text-white relative overflow-hidden group"
-                        data-testid="button-medicoz-app"
+                        className="bg-gradient-to-r from-cyan-600 to-emerald-600 text-white"
+                        data-testid="button-join-waitlist"
                       >
-                        <motion.div
-                          className="absolute inset-0 bg-white/20"
-                          initial={{ scale: 0, opacity: 0 }}
-                          whileHover={{
-                            scale: 2,
-                            opacity: [0, 0.5, 0],
-                          }}
-                          transition={{ duration: 0.6 }}
-                        />
-                        <span className="relative z-10">Notify Me</span>
+                        Join the waitlist
                       </Button>
-                    </motion.div>
+                      <Button
+                        size="lg"
+                        variant="outline"
+                        data-testid="button-notify-me"
+                      >
+                        Notify me
+                      </Button>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
