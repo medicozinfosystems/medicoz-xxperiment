@@ -10,8 +10,7 @@ const frames = [
     subtitle: "Every heartbeat tells a story",
     duration: 2500,
     layout: "center",
-    color: "#06B6D4", // cyan-500
-    bgGradient: "from-cyan-500/30 via-blue-500/20 to-violet-500/10",
+    color: "#0891B2",
     icon: Heart
   },
   { 
@@ -20,8 +19,7 @@ const frames = [
     subtitle: "Connecting those who heal",
     duration: 2500,
     layout: "left",
-    color: "#7C3AED", // violet-600
-    bgGradient: "from-violet-500/30 via-pink-500/20 to-cyan-500/10",
+    color: "#7C3AED",
     icon: MessageSquare
   },
   { 
@@ -30,8 +28,7 @@ const frames = [
     subtitle: "When every second counts",
     duration: 2800,
     layout: "right",
-    color: "#DB2777", // pink-600
-    bgGradient: "from-pink-500/30 via-violet-500/20 to-blue-500/10",
+    color: "#DB2777",
     icon: Activity
   },
   { 
@@ -40,8 +37,7 @@ const frames = [
     subtitle: "Healthcare without boundaries",
     duration: 2800,
     layout: "split",
-    color: "#10B981", // emerald-500
-    bgGradient: "from-emerald-500/30 via-cyan-500/20 to-blue-500/10",
+    color: "#059669",
     icon: Globe
   },
   { 
@@ -50,19 +46,17 @@ const frames = [
     subtitle: "Intelligent care, human touch",
     duration: 3000,
     layout: "center-large",
-    color: "#3B82F6", // blue-500
-    bgGradient: "from-blue-500/30 via-violet-500/20 to-pink-500/10",
+    color: "#3B82F6",
     icon: Radio
   },
   { 
     id: 6, 
     text: "Medicoz Infosystems", 
-    subtitle: "technology that cares",
+    subtitle: "Technology that cares",
     description: "Empowering healthcare providers with intelligent, empathetic technology solutions that put patients first. From real-time communication to global connectivity, we bridge the gap between care and technology.",
     duration: 3000,
     layout: "finale",
-    color: "#06B6D4", // cyan-500 to match hero particles
-    bgGradient: "from-white via-cyan-50/30 to-violet-50/20", // Match hero background
+    color: "#0891B2",
     icon: Heart
   },
 ];
@@ -86,18 +80,6 @@ export default function Preloader({ onComplete }: PreloaderProps) {
     }
     onComplete();
   };
-
-  // Pre-compute stable particle positions
-  const particles = useMemo(() => 
-    [...Array(20)].map(() => ({
-      left: Math.random() * 100,
-      top: Math.random() * 100,
-      xOffset: Math.random() * 50 - 25,
-      duration: 3 + Math.random() * 2,
-      delay: Math.random() * 2,
-    })),
-    []
-  );
 
   useEffect(() => {
     let elapsedTime = 0;
@@ -132,61 +114,37 @@ export default function Preloader({ onComplete }: PreloaderProps) {
   // Render different visual based on frame
   const renderVisual = () => {
     switch (currentFrame) {
-      case 0: // Pulse - ECG wave with heart
+      case 0: // Pulse - Real ECG wave
         return (
           <div className="relative w-full h-48 flex items-center justify-center">
             <svg className="w-full h-full absolute" viewBox="0 0 800 200">
-              <defs>
-                <linearGradient id="pulseGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor={currentFrameData.color} stopOpacity="0.2" />
-                  <stop offset="50%" stopColor={currentFrameData.color} stopOpacity="1" />
-                  <stop offset="100%" stopColor={currentFrameData.color} stopOpacity="0.2" />
-                </linearGradient>
-              </defs>
               <motion.path
                 d="M 0 100 L 200 100 L 250 50 L 280 150 L 310 100 L 800 100"
-                stroke="url(#pulseGrad)"
-                strokeWidth="3"
+                stroke={currentFrameData.color}
+                strokeWidth="2.5"
                 fill="none"
                 initial={{ pathLength: 0, opacity: 0 }}
                 animate={{ pathLength: 1, opacity: 1 }}
                 transition={{ duration: 1.5, ease: "easeInOut" }}
               />
-              <motion.circle
-                cx="280"
-                cy="100"
-                r="30"
-                fill={currentFrameData.color}
-                opacity="0.3"
-                initial={{ scale: 0 }}
-                animate={{ scale: [1, 2, 1], opacity: [0.5, 0, 0.5] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              />
             </svg>
             <motion.div 
               className="absolute z-10"
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ 
-                scale: [1, 1.1, 1],
-                opacity: [0.7, 1, 0.7]
-              }}
-              transition={{ 
-                duration: 1.5,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 0.6, ease: "backOut" }}
             >
-              <Heart 
-                className="w-20 h-20" 
-                style={{ color: currentFrameData.color }}
-                fill={currentFrameData.color}
-                fillOpacity={0.2}
-              />
+              <div className="w-16 h-16 rounded-full flex items-center justify-center" style={{ backgroundColor: `${currentFrameData.color}30` }}>
+                <Heart 
+                  className="w-10 h-10" 
+                  style={{ color: currentFrameData.color }}
+                />
+              </div>
             </motion.div>
           </div>
         );
       
-      case 1: // Message - Chat bubbles with network
+      case 1: // Message - Network visualization
         return (
           <div className="relative w-full h-48 flex items-center justify-center">
             <svg className="w-full h-full absolute" viewBox="0 0 400 200">
@@ -195,7 +153,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
                   <motion.circle
                     cx={80 + i * 60}
                     cy={100 + (i % 2 === 0 ? -30 : 30)}
-                    r="8"
+                    r="6"
                     fill={currentFrameData.color}
                     initial={{ scale: 0, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
@@ -220,67 +178,41 @@ export default function Preloader({ onComplete }: PreloaderProps) {
             </svg>
             <motion.div 
               className="absolute z-10"
-              initial={{ scale: 0, x: -20 }}
-              animate={{ scale: 1, x: 0 }}
-              transition={{ duration: 0.8, ease: "backOut" }}
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 0.6, ease: "backOut" }}
             >
-              <MessageSquare 
-                className="w-24 h-24" 
-                style={{ color: currentFrameData.color }}
-                fill={currentFrameData.color}
-                fillOpacity={0.1}
-              />
+              <div className="w-20 h-20 rounded-full flex items-center justify-center" style={{ backgroundColor: `${currentFrameData.color}20` }}>
+                <MessageSquare 
+                  className="w-12 h-12" 
+                  style={{ color: currentFrameData.color }}
+                />
+              </div>
             </motion.div>
           </div>
         );
       
-      case 2: // Help - Medical cross with Activity icon
+      case 2: // Help - Medical cross
         return (
           <div className="relative w-full h-48 flex items-center justify-center">
-            <svg className="w-full h-full absolute" viewBox="0 0 400 200">
-              <defs>
-                <linearGradient id="handGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor={currentFrameData.color} stopOpacity="0.8" />
-                  <stop offset="100%" stopColor={currentFrameData.color} stopOpacity="0.3" />
-                </linearGradient>
-              </defs>
-              <motion.path
-                d="M 80 120 Q 120 80, 160 100 Q 180 110, 200 100"
-                stroke="url(#handGrad)"
-                strokeWidth="20"
-                strokeLinecap="round"
-                fill="none"
-                initial={{ pathLength: 0 }}
-                animate={{ pathLength: 1 }}
-                transition={{ duration: 1.2 }}
-              />
-              <motion.path
-                d="M 320 120 Q 280 80, 240 100 Q 220 110, 200 100"
-                stroke="url(#handGrad)"
-                strokeWidth="20"
-                strokeLinecap="round"
-                fill="none"
-                initial={{ pathLength: 0 }}
-                animate={{ pathLength: 1 }}
-                transition={{ duration: 1.2, delay: 0.3 }}
-              />
-            </svg>
             <motion.div 
-              className="absolute z-10"
+              className="absolute"
               initial={{ scale: 0, rotate: -90 }}
               animate={{ scale: 1, rotate: 0 }}
               transition={{ duration: 0.8, ease: "backOut" }}
             >
-              <Activity 
-                className="w-24 h-24" 
-                style={{ color: currentFrameData.color }}
-                strokeWidth={2.5}
-              />
+              <div className="w-24 h-24 rounded-full flex items-center justify-center" style={{ backgroundColor: `${currentFrameData.color}20` }}>
+                <Activity 
+                  className="w-16 h-16" 
+                  style={{ color: currentFrameData.color }}
+                  strokeWidth={2}
+                />
+              </div>
             </motion.div>
           </div>
         );
       
-      case 3: // Miles - Globe with connections
+      case 3: // Miles - Globe
         return (
           <div className="relative w-full h-48 flex items-center justify-center">
             <svg className="w-full h-full absolute" viewBox="0 0 400 200">
@@ -314,74 +246,51 @@ export default function Preloader({ onComplete }: PreloaderProps) {
             <motion.div 
               className="absolute z-10"
               initial={{ scale: 0 }}
-              animate={{ 
-                scale: 1,
-                rotate: [0, 360]
-              }}
-              transition={{ 
-                scale: { duration: 0.6 },
-                rotate: { duration: 20, repeat: Infinity, ease: "linear" }
-              }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 0.6 }}
             >
-              <Globe 
-                className="w-20 h-20" 
-                style={{ color: currentFrameData.color }}
-                fill={currentFrameData.color}
-                fillOpacity={0.1}
-              />
+              <div className="w-20 h-20 rounded-full flex items-center justify-center" style={{ backgroundColor: `${currentFrameData.color}20` }}>
+                <Globe 
+                  className="w-12 h-12" 
+                  style={{ color: currentFrameData.color }}
+                />
+              </div>
             </motion.div>
           </div>
         );
       
-      case 4: // Technology - Sound waves with Radio icon
+      case 4: // Technology
         return (
           <div className="relative w-full h-48 flex items-center justify-center">
-            <svg className="w-full h-full absolute" viewBox="0 0 400 200">
-              <motion.path
-                d="M 150 80 Q 180 60, 200 80 Q 220 60, 250 80 L 250 120 Q 220 140, 200 120 Q 180 140, 150 120 Z"
-                stroke={currentFrameData.color}
-                strokeWidth="2"
-                fill={currentFrameData.color}
-                fillOpacity="0.1"
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 1 }}
-              />
-              {[...Array(5)].map((_, i) => (
-                <motion.circle
+            <div className="flex items-end gap-1 h-20">
+              {[...Array(8)].map((_, i) => (
+                <motion.div
                   key={i}
-                  cx={170 + i * 15}
-                  cy={100}
-                  r="3"
-                  fill={currentFrameData.color}
-                  initial={{ scale: 0 }}
-                  animate={{ scale: [1, 1.5, 1] }}
-                  transition={{ delay: i * 0.2, duration: 0.8, repeat: Infinity }}
+                  className="w-8 rounded-t-md"
+                  style={{ backgroundColor: currentFrameData.color }}
+                  initial={{ height: "20%" }}
+                  animate={{ height: `${30 + (i % 3) * 25}%` }}
+                  transition={{ delay: i * 0.1, duration: 0.6 }}
                 />
               ))}
-            </svg>
+            </div>
             <motion.div 
               className="absolute z-10"
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ 
-                scale: [1, 1.15, 1],
-                opacity: [0.8, 1, 0.8]
-              }}
-              transition={{ 
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
             >
-              <Radio 
-                className="w-20 h-20" 
-                style={{ color: currentFrameData.color }}
-              />
+              <div className="w-20 h-20 rounded-full flex items-center justify-center bg-white shadow-lg">
+                <Radio 
+                  className="w-12 h-12" 
+                  style={{ color: currentFrameData.color }}
+                />
+              </div>
             </motion.div>
           </div>
         );
       
-      case 5: // Finale - no visual here, orbs rendered separately to match hero structure
+      case 5: // Finale - matches hero exactly
         return null;
       
       default:
@@ -403,72 +312,68 @@ export default function Preloader({ onComplete }: PreloaderProps) {
       <AnimatePresence mode="wait">
         <motion.div
           key={currentFrame}
-          initial={{ 
-            opacity: 0, 
-            y: 50,
-            scale: 0.9,
-            filter: "blur(10px)"
-          }}
-          animate={{ 
-            opacity: 1, 
-            y: 0,
-            scale: 1,
-            filter: "blur(0px)"
-          }}
-          exit={{ 
-            opacity: 0, 
-            y: -50,
-            scale: 1.05,
-            filter: "blur(10px)"
-          }}
-          transition={{ 
-            duration: 0.7,
-            ease: [0.43, 0.13, 0.23, 0.96]
-          }}
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -30 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
           className={`flex flex-col w-full ${layoutClasses[currentFrameData.layout as keyof typeof layoutClasses]}`}
         >
           {/* Visual Element */}
-          <motion.div
-            className="mb-8"
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.8 }}
-          >
-            {renderVisual()}
-          </motion.div>
+          {currentFrame !== 5 && (
+            <motion.div
+              className="mb-8"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 0.2, duration: 0.6 }}
+            >
+              {renderVisual()}
+            </motion.div>
+          )}
 
           {/* Text Content */}
-          <div className={currentFrame === 5 ? "space-y-6 max-w-4xl mx-auto" : "space-y-3"}>
+          <div className={currentFrame === 5 ? "space-y-6 max-w-6xl mx-auto" : "space-y-3"}>
             {currentFrame === 5 ? (
+              // Finale frame - EXACT match to hero
               <>
-                <motion.h1
-                  className="text-6xl md:text-7xl lg:text-8xl font-bold"
-                  style={{
-                    background: `linear-gradient(135deg, #0891B2, #7C3AED, #DB2777)`,
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    backgroundClip: "text",
-                    filter: "drop-shadow(0 0 30px rgba(8, 145, 178, 0.3))",
-                  }}
-                  initial={{ opacity: 0, y: 30 }}
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4, duration: 0.8 }}
+                  transition={{ duration: 0.6 }}
+                  className="mb-6"
+                >
+                  <p className="text-xs font-semibold text-cyan-600 tracking-[0.2em] uppercase">
+                    Healthcare • Platforms • AI
+                  </p>
+                </motion.div>
+                
+                <motion.h1
+                  className="text-7xl md:text-8xl lg:text-9xl font-bold text-gray-900"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2, duration: 0.8 }}
                 >
                   {currentFrameData.text}
                 </motion.h1>
+                
                 <motion.p
-                  className="text-2xl md:text-3xl text-blue-800 font-light tracking-wide"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.6 }}
+                  className="text-4xl md:text-5xl lg:text-6xl"
+                  style={{ 
+                    fontFamily: "'Caveat', cursive",
+                    color: "#7C3AED",
+                    fontWeight: 600
+                  }}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.6, duration: 1, ease: "easeOut" }}
                 >
                   {currentFrameData.subtitle}
                 </motion.p>
+                
                 <motion.p
-                  className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto"
+                  className="text-lg md:text-xl text-gray-600 leading-relaxed max-w-3xl mx-auto"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ delay: 0.8 }}
+                  transition={{ delay: 1, duration: 0.8 }}
                 >
                   {currentFrameData.description}
                 </motion.p>
@@ -480,15 +385,15 @@ export default function Preloader({ onComplete }: PreloaderProps) {
                   style={{ color: currentFrameData.color }}
                   initial={{ opacity: 0, x: currentFrameData.layout === 'left' ? -30 : currentFrameData.layout === 'right' ? 30 : 0 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.4 }}
+                  transition={{ delay: 0.3 }}
                 >
                   {currentFrameData.text}
                 </motion.h2>
                 <motion.p
-                  className="text-lg md:text-xl font-light text-foreground/70"
+                  className="text-lg md:text-xl font-light text-gray-600"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ delay: 0.6 }}
+                  transition={{ delay: 0.5 }}
                 >
                   {currentFrameData.subtitle}
                 </motion.p>
@@ -500,119 +405,28 @@ export default function Preloader({ onComplete }: PreloaderProps) {
     );
   };
 
-  // Hero-style particles for finale frame (exact match)
-  const finaleParticles = useMemo(() => 
-    [...Array(15)].map(() => ({
-      left: Math.random() * 100,
-      top: Math.random() * 100,
-      xOffset: Math.random() * 40 - 20,
-      duration: 4 + Math.random() * 2,
-      delay: Math.random() * 3,
-    })),
-    []
-  );
-
-  const activeParticles = currentFrame === 5 ? finaleParticles : particles;
-  const particleYTravel = currentFrame === 5 ? -80 : -100;
-
   return (
-    <div className={`fixed inset-0 z-50 bg-gradient-to-br ${currentFrameData.bgGradient} backdrop-blur-sm flex items-center justify-center overflow-hidden transition-all duration-1000`}>
-      {/* Floating particles */}
-      {activeParticles.map((particle, i) => (
-        <motion.div
-          key={i}
-          className="absolute w-1 h-1 rounded-full"
-          style={{
-            background: currentFrameData.color,
-            left: `${particle.left}%`,
-            top: `${particle.top}%`,
-          }}
-          animate={{
-            y: [0, particleYTravel, 0],
-            x: [0, particle.xOffset, 0],
-            opacity: [0, currentFrame === 5 ? 0.5 : 0.6, 0],
-            scale: [0, 1, 0],
-          }}
-          transition={{
-            duration: particle.duration,
-            repeat: Infinity,
-            delay: particle.delay,
-            ease: "easeInOut",
-          }}
-        />
-      ))}
-
-      {/* Dynamic gradient orbs - hide on finale frame to match hero exactly */}
-      {currentFrame !== 5 && (
-        <>
-          <motion.div
-            className="absolute w-[800px] h-[800px] rounded-full blur-3xl"
-            animate={{
-              background: `radial-gradient(circle, ${currentFrameData.color}30, transparent)`,
-              x: currentFrame % 2 === 0 ? 300 : -300,
-              y: currentFrame % 3 === 0 ? -200 : 200,
-              scale: [1, 1.2, 1],
-            }}
-            transition={{ duration: 3, ease: "easeInOut" }}
-          />
-          
-          {/* Secondary orb for depth */}
-          <motion.div
-            className="absolute w-[600px] h-[600px] rounded-full blur-3xl"
-            animate={{
-              background: `radial-gradient(circle, ${currentFrameData.color}20, transparent)`,
-              x: currentFrame % 2 === 0 ? -250 : 250,
-              y: currentFrame % 3 === 0 ? 150 : -150,
-              scale: [1.2, 1, 1.2],
-            }}
-            transition={{ duration: 4, ease: "easeInOut" }}
-          />
-        </>
-      )}
-
-      {/* Finale ambient orbs - exact match to hero structure */}
+    <div 
+      className={`fixed inset-0 z-50 flex items-center justify-center overflow-hidden transition-all duration-1000 ${
+        currentFrame === 5 
+          ? 'bg-gradient-to-br from-white via-cyan-50/20 to-violet-50/10' 
+          : 'bg-white'
+      }`}
+    >
+      {/* Real ECG Pattern - only on finale */}
       {currentFrame === 5 && (
-        <div className="absolute inset-0 opacity-40">
-          <motion.div 
-            className="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl"
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{
-              scale: [1, 1.2, 1],
-              opacity: [0.3, 0.5, 0.3],
-            }}
-            transition={{
-              duration: 4,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
+        <svg className="absolute inset-0 w-full h-full opacity-10" preserveAspectRatio="none">
+          <motion.path
+            d="M 0 50 L 100 50 L 120 30 L 140 70 L 160 50 L 180 50 L 200 40 L 220 60 L 240 50 L 300 50 L 320 20 L 340 80 L 360 50 L 500 50"
+            stroke="#0891B2"
+            strokeWidth="1.5"
+            fill="none"
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: 1 }}
+            transition={{ duration: 3, ease: "easeInOut", repeat: Infinity, repeatDelay: 1 }}
+            vectorEffect="non-scaling-stroke"
           />
-          <motion.div 
-            className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-violet-500/20 rounded-full blur-3xl"
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{
-              scale: [1.2, 1, 1.2],
-              opacity: [0.5, 0.3, 0.5],
-            }}
-            transition={{
-              duration: 5,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          />
-          <motion.div 
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-pink-500/15 rounded-full blur-2xl"
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{
-              scale: [1, 1.3, 1],
-              opacity: [0.2, 0.4, 0.2],
-            }}
-            transition={{
-              duration: 6,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          />
-        </div>
+        </svg>
       )}
 
       <div className="max-w-6xl mx-auto px-6 w-full relative z-10 min-h-screen flex flex-col justify-between py-16">
@@ -631,7 +445,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
           <Button 
             variant="ghost" 
             onClick={handleSkip}
-            className="text-muted-foreground hover:text-foreground"
+            className="text-gray-500 hover:text-gray-900"
             data-testid="button-skip-preloader"
           >
             Skip

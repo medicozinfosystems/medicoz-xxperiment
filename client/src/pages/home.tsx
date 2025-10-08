@@ -17,7 +17,7 @@ export default function Home() {
           <motion.div
             key="preloader"
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.6 }}
           >
             <Preloader onComplete={handlePreloaderComplete} />
           </motion.div>
@@ -26,9 +26,9 @@ export default function Home() {
             key="main-site"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.6 }}
           >
-            <MainSite />
+            <MainSite showButtonsImmediately={true} />
           </motion.div>
         )}
       </AnimatePresence>
