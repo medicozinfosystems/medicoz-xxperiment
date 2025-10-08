@@ -22,6 +22,9 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
   const [hoveredMember, setHoveredMember] = useState<number | null>(null);
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const [pulsePosition, setPulsePosition] = useState(0);
+  const [selectedConstellation, setSelectedConstellation] = useState<string | null>(null);
+  const [hoveredEpisode, setHoveredEpisode] = useState<number | null>(null);
+  const [phoneRotation, setPhoneRotation] = useState(0);
   
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -413,6 +416,377 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
         </div>
       </section>
 
+      {/* Care Constellation Section */}
+      <section className="relative py-32 px-6 bg-gradient-to-br from-violet-950 via-gray-950 to-cyan-950 overflow-hidden">
+        <div className="max-w-7xl mx-auto relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-5xl md:text-6xl font-bold mb-6 text-white">
+              Care Constellation
+            </h2>
+            <p className="text-xl text-cyan-400 max-w-3xl mx-auto mb-8">
+              Explore our universe of women's health — where stories and features align like stars
+            </p>
+          </motion.div>
+
+          {/* Interactive Starfield */}
+          <div className="relative min-h-[600px]">
+            {/* Background stars */}
+            <div className="absolute inset-0">
+              {[...Array(100)].map((_, i) => (
+                <motion.div
+                  key={i}
+                  className="absolute w-1 h-1 bg-white rounded-full"
+                  style={{
+                    left: `${Math.random() * 100}%`,
+                    top: `${Math.random() * 100}%`,
+                    opacity: Math.random() * 0.5 + 0.3
+                  }}
+                  animate={{
+                    opacity: [0.3, 0.8, 0.3],
+                    scale: [1, 1.5, 1]
+                  }}
+                  transition={{
+                    duration: Math.random() * 3 + 2,
+                    repeat: Infinity,
+                    delay: Math.random() * 2
+                  }}
+                />
+              ))}
+            </div>
+
+            {/* Constellations */}
+            <div className="relative grid md:grid-cols-2 gap-16 max-w-5xl mx-auto">
+              {/* Left - XXperiment Constellation */}
+              <motion.div
+                className="relative p-8 rounded-2xl border border-pink-500/30 bg-pink-950/20 cursor-pointer"
+                whileHover={{ scale: 1.02, borderColor: "rgba(219, 39, 119, 0.6)" }}
+                onClick={() => setSelectedConstellation(selectedConstellation === 'podcast' ? null : 'podcast')}
+                data-testid="constellation-podcast"
+              >
+                <Mic className="w-12 h-12 text-pink-400 mb-4" />
+                <h3 className="text-2xl font-bold text-white mb-3">The XXperiment Stories</h3>
+                <p className="text-pink-300 mb-6">Click to explore episodes as constellations</p>
+
+                {/* Episode Stars */}
+                {selectedConstellation === 'podcast' && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="space-y-3"
+                  >
+                    {[
+                      { title: "Fertility Journey", quote: "Your body, your timeline, your story" },
+                      { title: "Mental Wellness", quote: "Strength isn't silence, it's speaking up" },
+                      { title: "Menopause Myths", quote: "Rewriting what comes next" }
+                    ].map((episode, i) => (
+                      <motion.div
+                        key={i}
+                        className="flex items-center gap-3 p-3 rounded-lg bg-pink-900/30 border border-pink-500/30"
+                        onHoverStart={() => setHoveredEpisode(i)}
+                        onHoverEnd={() => setHoveredEpisode(null)}
+                        whileHover={{ x: 5, backgroundColor: "rgba(131, 24, 67, 0.5)" }}
+                        data-testid={`episode-${i}`}
+                      >
+                        <motion.div
+                          className="w-3 h-3 rounded-full bg-pink-400"
+                          animate={{
+                            boxShadow: hoveredEpisode === i 
+                              ? "0 0 20px rgba(244, 114, 182, 0.8)" 
+                              : "0 0 10px rgba(244, 114, 182, 0.4)"
+                          }}
+                        />
+                        <div className="flex-1">
+                          <p className="text-sm font-semibold text-white">{episode.title}</p>
+                          {hoveredEpisode === i && (
+                            <motion.p
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: "auto" }}
+                              className="text-xs text-pink-300 italic mt-1"
+                            >
+                              "{episode.quote}"
+                            </motion.p>
+                          )}
+                        </div>
+                      </motion.div>
+                    ))}
+                  </motion.div>
+                )}
+
+                {!selectedConstellation && (
+                  <p className="text-sm text-gray-400">Select to reveal episode stars</p>
+                )}
+              </motion.div>
+
+              {/* Right - App Features Constellation */}
+              <motion.div
+                className="relative p-8 rounded-2xl border border-cyan-500/30 bg-cyan-950/20 cursor-pointer"
+                whileHover={{ scale: 1.02, borderColor: "rgba(8, 145, 178, 0.6)" }}
+                onClick={() => setSelectedConstellation(selectedConstellation === 'app' ? null : 'app')}
+                data-testid="constellation-app"
+              >
+                <Smartphone className="w-12 h-12 text-cyan-400 mb-4" />
+                <h3 className="text-2xl font-bold text-white mb-3">Medicoz App Universe</h3>
+                <p className="text-cyan-300 mb-6">Click to explore features as planets</p>
+
+                {/* Feature Planets */}
+                {selectedConstellation === 'app' && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="space-y-3"
+                  >
+                    {[
+                      { icon: Activity, name: "Health Tracking", desc: "Your vitals, visualized" },
+                      { icon: Brain, name: "AI Insights", desc: "Personalized care guidance" },
+                      { icon: Lock, name: "Private & Secure", desc: "Your data, your control" }
+                    ].map((feature, i) => (
+                      <motion.div
+                        key={i}
+                        className="flex items-center gap-3 p-3 rounded-lg bg-cyan-900/30 border border-cyan-500/30"
+                        whileHover={{ x: 5, backgroundColor: "rgba(8, 51, 68, 0.5)" }}
+                        data-testid={`feature-${i}`}
+                      >
+                        <motion.div
+                          className="w-10 h-10 rounded-full bg-cyan-500/20 flex items-center justify-center"
+                          animate={{
+                            boxShadow: "0 0 20px rgba(6, 182, 212, 0.4)"
+                          }}
+                        >
+                          <feature.icon className="w-5 h-5 text-cyan-400" />
+                        </motion.div>
+                        <div className="flex-1">
+                          <p className="text-sm font-semibold text-white">{feature.name}</p>
+                          <p className="text-xs text-cyan-300">{feature.desc}</p>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </motion.div>
+                )}
+
+                {!selectedConstellation && (
+                  <p className="text-sm text-gray-400">Select to reveal feature planets</p>
+                )}
+              </motion.div>
+            </div>
+
+            <motion.div
+              className="text-center mt-12"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              viewport={{ once: true }}
+            >
+              <Button 
+                size="lg" 
+                className="bg-violet-600 text-white hover:bg-violet-700"
+                data-testid="button-map-care-sky"
+              >
+                Map my care sky →
+              </Button>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Hologram Phone + Voice Ribbon Section */}
+      <section className="relative py-32 px-6 bg-white dark:bg-gray-950">
+        <div className="max-w-7xl mx-auto relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-5xl md:text-6xl font-bold mb-6 text-gray-900 dark:text-white">
+              From Conversation to Care
+            </h2>
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+              Watch knowledge flow from podcast to your pocket
+            </p>
+          </motion.div>
+
+          <div className="relative max-w-6xl mx-auto min-h-[500px] flex items-center justify-center">
+            {/* Voice Ribbon Stream */}
+            <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 1 }}>
+              <motion.path
+                d="M 100 250 Q 300 150, 500 250 T 900 250"
+                stroke="url(#voiceGradient)"
+                strokeWidth="3"
+                fill="none"
+                initial={{ pathLength: 0, opacity: 0 }}
+                whileInView={{ pathLength: 1, opacity: 1 }}
+                transition={{ duration: 2, ease: "easeInOut" }}
+                viewport={{ once: true }}
+              />
+              <defs>
+                <linearGradient id="voiceGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#DB2777" />
+                  <stop offset="50%" stopColor="#7C3AED" />
+                  <stop offset="100%" stopColor="#0891B2" />
+                </linearGradient>
+              </defs>
+
+              {/* Animated particles along ribbon */}
+              {[0, 0.25, 0.5, 0.75].map((offset) => (
+                <motion.circle
+                  key={offset}
+                  r="4"
+                  fill="#DB2777"
+                  initial={{ offsetDistance: `${offset * 100}%` }}
+                  animate={{ offsetDistance: "100%" }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "linear",
+                    delay: offset * 0.75
+                  }}
+                  style={{ offsetPath: "path('M 100 250 Q 300 150, 500 250 T 900 250')" }}
+                />
+              ))}
+            </svg>
+
+            {/* Left - Podcast Tile */}
+            <motion.div
+              className="absolute left-0 top-1/2 -translate-y-1/2 w-64 p-6 bg-gradient-to-br from-pink-100 to-violet-100 dark:from-pink-950/40 dark:to-violet-950/40 rounded-2xl border-2 border-pink-400 dark:border-pink-600 z-10"
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              whileHover={{ scale: 1.05 }}
+              data-testid="podcast-tile"
+            >
+              <Mic className="w-10 h-10 text-pink-600 dark:text-pink-400 mb-3" />
+              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">The XXperiment</h3>
+              <p className="text-sm text-gray-700 dark:text-gray-300 mb-3">Latest: Fertility & Choice</p>
+              
+              {/* Quote Bubble on Hover */}
+              <motion.div
+                className="absolute -top-16 left-1/2 -translate-x-1/2 bg-white dark:bg-gray-800 p-3 rounded-lg shadow-xl border border-pink-400 dark:border-pink-600 w-56"
+                initial={{ opacity: 0, y: 10, scale: 0.8 }}
+                whileHover={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.3 }}
+              >
+                <p className="text-xs text-gray-700 dark:text-gray-300 italic">
+                  "Your timeline is valid, always."
+                </p>
+                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-3 h-3 bg-white dark:bg-gray-800 border-b border-r border-pink-400 dark:border-pink-600 rotate-45" />
+              </motion.div>
+
+              <Button 
+                size="sm" 
+                className="w-full bg-pink-600 text-white"
+                asChild
+              >
+                <a href="https://thexxperiment.com" target="_blank" rel="noopener noreferrer">
+                  Listen Now
+                </a>
+              </Button>
+            </motion.div>
+
+            {/* Right - 3D Hologram Phone */}
+            <motion.div
+              className="absolute right-0 top-1/2 -translate-y-1/2 z-10"
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              onHoverStart={() => setPhoneRotation(5)}
+              onHoverEnd={() => setPhoneRotation(0)}
+              data-testid="hologram-phone"
+            >
+              <motion.div
+                className="relative w-64 h-96 bg-gradient-to-br from-cyan-100 to-blue-100 dark:from-cyan-950/40 dark:to-blue-950/40 rounded-3xl border-4 border-cyan-500 dark:border-cyan-600 p-4"
+                animate={{ 
+                  rotateY: phoneRotation,
+                  boxShadow: phoneRotation > 0 
+                    ? "0 20px 60px rgba(8, 145, 178, 0.4)" 
+                    : "0 10px 40px rgba(8, 145, 178, 0.2)"
+                }}
+                style={{ 
+                  transformStyle: "preserve-3d",
+                  perspective: "1000px"
+                }}
+                transition={{ type: "spring", stiffness: 100 }}
+              >
+                {/* Phone Screen */}
+                <div className="w-full h-full bg-white dark:bg-gray-900 rounded-2xl overflow-hidden relative">
+                  {/* App Preview Screens */}
+                  <motion.div
+                    className="absolute inset-0 flex items-center justify-center"
+                    animate={phoneRotation > 0 ? { opacity: 1 } : { opacity: 0.7 }}
+                  >
+                    <div className="space-y-3 w-full p-4">
+                      {[
+                        { label: "Cycle Tracking", color: "bg-pink-500" },
+                        { label: "Appointments", color: "bg-violet-500" },
+                        { label: "Health Insights", color: "bg-cyan-500" }
+                      ].map((screen, i) => (
+                        <motion.div
+                          key={i}
+                          className={`h-16 ${screen.color} rounded-lg flex items-center justify-center`}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={phoneRotation > 0 ? { 
+                            opacity: 1, 
+                            y: 0,
+                            boxShadow: `0 0 20px ${screen.color.replace('bg-', 'rgba(').replace('-500', ', 0.6)')}`
+                          } : { opacity: 0.5, y: 0 }}
+                          transition={{ delay: i * 0.1 }}
+                        >
+                          <p className="text-white text-sm font-semibold">{screen.label}</p>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </motion.div>
+
+                  {/* Pulse Effect */}
+                  <motion.div
+                    className="absolute inset-0 border-4 border-cyan-400 rounded-2xl"
+                    animate={{
+                      opacity: [0, 0.5, 0],
+                      scale: [1, 1.05, 1]
+                    }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                  />
+                </div>
+
+                {/* Phone Notch */}
+                <div className="absolute top-2 left-1/2 -translate-x-1/2 w-24 h-6 bg-gray-900 dark:bg-black rounded-full" />
+              </motion.div>
+            </motion.div>
+          </div>
+
+          <motion.div
+            className="text-center mt-16"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            viewport={{ once: true }}
+          >
+            <p className="text-lg text-gray-600 dark:text-gray-400 mb-4 italic">
+              From conversation to care, in your pocket.
+            </p>
+            <Button 
+              size="lg" 
+              className="bg-cyan-600 text-white hover:bg-cyan-700"
+              data-testid="button-join-journey"
+            >
+              Join the Journey →
+            </Button>
+          </motion.div>
+        </div>
+      </section>
+
       {/* About & Team Section - Orbit Design */}
       <section ref={teamRef} className="relative py-32 px-6 bg-white dark:bg-gray-950">
         <div className="max-w-7xl mx-auto relative z-10">
@@ -477,13 +851,12 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                   animate={{
                     x: isHovered ? x * 0.9 : x,
                     y: isHovered ? y * 0.9 : y,
-                    rotate: isHovered ? 0 : -angle
+                    rotate: 0
                   }}
                   transition={{ 
                     type: "spring", 
                     stiffness: 100, 
-                    damping: 15,
-                    rotate: { duration: 0.3 }
+                    damping: 15
                   }}
                   onHoverStart={() => setHoveredMember(index)}
                   onHoverEnd={() => setHoveredMember(null)}
