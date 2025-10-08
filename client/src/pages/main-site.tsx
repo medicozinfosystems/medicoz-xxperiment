@@ -1898,11 +1898,52 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
 
             {/* Door panels */}
             <div className="lg:col-span-3 relative">
+              {/* Cable pulley system at top */}
+              <div className="absolute -top-8 left-1/2 -ml-12 w-24 h-8 z-30 hidden lg:block">
+                {/* Pulley wheel */}
+                <motion.div 
+                  className="absolute top-0 left-1/2 -ml-6 w-12 h-12 rounded-full border-4 border-gray-600"
+                  style={{
+                    background: 'radial-gradient(circle at 30% 30%, #4a4d55, #2a2d35)',
+                    boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.5), 0 1px 2px rgba(255,255,255,0.1)'
+                  }}
+                  animate={{
+                    rotate: elevatorMoving ? 360 : 0
+                  }}
+                  transition={{
+                    duration: 1,
+                    repeat: elevatorMoving ? Infinity : 0,
+                    ease: "linear"
+                  }}
+                >
+                  {/* Pulley spokes */}
+                  {[0, 60, 120, 180, 240, 300].map((angle) => (
+                    <div
+                      key={angle}
+                      className="absolute top-1/2 left-1/2 w-1 h-4 bg-gray-700 -ml-0.5"
+                      style={{
+                        transform: `rotate(${angle}deg) translateY(-50%)`,
+                        transformOrigin: '50% 0'
+                      }}
+                    />
+                  ))}
+                </motion.div>
+                
+                {/* Cables going down */}
+                <div className="absolute top-8 left-1/2 -ml-1 w-2 h-8 bg-gradient-to-b from-gray-500 to-gray-600 opacity-80" style={{
+                  boxShadow: '0 0 8px rgba(0,0,0,0.5)'
+                }} />
+              </div>
+
               {/* Elevator doors */}
               <div className="relative overflow-hidden rounded-2xl">
-                {/* Left door */}
+                {/* Left door with brushed metal texture */}
                 <motion.div
-                  className="absolute top-0 left-0 h-full w-1/2 bg-gray-800 dark:bg-gray-900 z-10 border-r-2 border-gray-700"
+                  className="absolute top-0 left-0 h-full w-1/2 z-10 border-r-2 border-gray-700"
+                  style={{
+                    background: 'linear-gradient(90deg, #2a2d35 0%, #3a3d45 50%, #2a2d35 100%)',
+                    backgroundSize: '200% 100%',
+                  }}
                   animate={{ 
                     x: elevatorMoving ? 0 : "-100%"
                   }}
@@ -1910,10 +1951,23 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                     duration: 0.42, 
                     ease: [0.4, 0, 0.2, 1]
                   }}
-                />
-                {/* Right door */}
+                >
+                  {/* Brushed metal texture */}
+                  <div className="absolute inset-0 opacity-30" style={{
+                    background: 'repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255,255,255,0.05) 2px, rgba(255,255,255,0.05) 4px)'
+                  }} />
+                  
+                  {/* Vertical seam */}
+                  <div className="absolute right-0 top-0 h-full w-0.5 bg-gradient-to-b from-transparent via-gray-900 to-transparent" />
+                </motion.div>
+
+                {/* Right door with brushed metal texture */}
                 <motion.div
-                  className="absolute top-0 right-0 h-full w-1/2 bg-gray-800 dark:bg-gray-900 z-10 border-l-2 border-gray-700"
+                  className="absolute top-0 right-0 h-full w-1/2 z-10 border-l-2 border-gray-700"
+                  style={{
+                    background: 'linear-gradient(270deg, #2a2d35 0%, #3a3d45 50%, #2a2d35 100%)',
+                    backgroundSize: '200% 100%',
+                  }}
                   animate={{ 
                     x: elevatorMoving ? 0 : "100%"
                   }}
@@ -1921,7 +1975,15 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                     duration: 0.42,
                     ease: [0.4, 0, 0.2, 1]
                   }}
-                />
+                >
+                  {/* Brushed metal texture */}
+                  <div className="absolute inset-0 opacity-30" style={{
+                    background: 'repeating-linear-gradient(270deg, transparent, transparent 2px, rgba(255,255,255,0.05) 2px, rgba(255,255,255,0.05) 4px)'
+                  }} />
+                  
+                  {/* Vertical seam */}
+                  <div className="absolute left-0 top-0 h-full w-0.5 bg-gradient-to-b from-transparent via-gray-900 to-transparent" />
+                </motion.div>
 
                 {/* Ding indicator */}
                 <AnimatePresence>
