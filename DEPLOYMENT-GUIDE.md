@@ -33,7 +33,7 @@ git init
 git add .
 git commit -m "Initial commit - production ready"
 git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/medicoz-xxperiment.git
+git remote add origin https://github.com/medicozinfosystems/medicoz-xxperiment.git
 git push -u origin main
 ```
 
