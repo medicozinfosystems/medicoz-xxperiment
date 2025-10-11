@@ -44,7 +44,13 @@ export default function Forum() {
         credentials: 'include' // Important: Send cookies with request
       });
       const data = await response.json();
+      console.log('🔐 Forum auth check:', data);
       setIsAuthenticated(data.authenticated);
+      if (data.authenticated && data.user) {
+        console.log('✅ User authenticated:', data.user.username);
+      } else {
+        console.log('❌ User not authenticated');
+      }
     } catch (error) {
       console.error('Auth check failed:', error);
     }

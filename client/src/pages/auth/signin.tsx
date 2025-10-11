@@ -32,7 +32,8 @@ export default function SignIn() {
           title: 'Welcome back!',
           description: 'You have successfully signed in.',
         });
-        setLocation('/forum');
+        // Use window.location.href for full page reload to ensure auth state is fresh
+        window.location.href = '/forum';
       } else {
         toast({
           title: 'Sign in failed',
