@@ -685,44 +685,7 @@ function initScrollAnimations() {
         ease: 'power2.out'
     });
 
-    // About section animations
-    gsap.from('#about .section-title', {
-        scrollTrigger: {
-            trigger: '#about',
-            start: 'top 80%',
-            toggleActions: 'play none none reverse'
-        },
-        opacity: 0,
-        y: 40,
-        duration: 0.8,
-        ease: 'power2.out'
-    });
-
-    gsap.from('#about .lead', {
-        scrollTrigger: {
-            trigger: '#about',
-            start: 'top 75%',
-            toggleActions: 'play none none reverse'
-        },
-        opacity: 0,
-        y: 30,
-        duration: 0.8,
-        delay: 0.2,
-        ease: 'power2.out'
-    });
-
-    // Vinyl player animation
-    gsap.from('.vinyl-grid', {
-        scrollTrigger: {
-            trigger: '.vinyl-grid',
-            start: 'top 80%',
-            toggleActions: 'play none none reverse'
-        },
-        opacity: 0,
-        scale: 0.9,
-        duration: 1,
-        ease: 'power2.out'
-    });
+    // About section animations - REMOVED for performance
 
     // Episodes section
     gsap.from('#episodes .section-title', {
@@ -843,69 +806,6 @@ function initScrollAnimations() {
     });
 }
 
-// ==================== STICKY HEADER ====================
-function initStickyHeader() {
-    const header = document.getElementById('header') || document.querySelector('header');
-    if (!header) return;
-    
-    // Force sticky header on mobile
-    if (window.innerWidth <= 768) {
-        console.log('📌 Forcing sticky header on mobile');
-        
-        const forceFixed = () => {
-            header.style.cssText = `
-                position: fixed !important;
-                top: 0 !important;
-                left: 0 !important;
-                right: 0 !important;
-                width: 100% !important;
-                z-index: 9997 !important;
-                transform: translateZ(0) !important;
-                -webkit-transform: translateZ(0) !important;
-            `;
-        };
-        
-        // Initial force
-        forceFixed();
-        
-        // Monitor on scroll
-        let scrollCount = 0;
-        window.addEventListener('scroll', () => {
-            scrollCount++;
-            const rect = header.getBoundingClientRect();
-            const computedTop = getComputedStyle(header).top;
-            
-            if (rect.top !== 0 || computedTop !== '0px') {
-                console.warn(`⚠️ Scroll ${scrollCount}: Header moved! rect.top=${rect.top}, computed.top=${computedTop}`);
-            }
-            
-            forceFixed();
-        }, { passive: true });
-        
-        // Monitor with MutationObserver
-        const observer = new MutationObserver(() => {
-            console.log('🔄 Header DOM changed, re-forcing...');
-            forceFixed();
-        });
-        
-        observer.observe(header, {
-            attributes: true,
-            attributeFilter: ['style', 'class']
-        });
-        
-        // Check every 500ms
-        setInterval(() => {
-            const rect = header.getBoundingClientRect();
-            if (rect.top !== 0) {
-                console.warn(`⚠️ Periodic check: Header at top=${rect.top}, forcing back!`);
-                forceFixed();
-            }
-        }, 500);
-        
-        console.log('✅ Sticky header monitors active');
-    }
-}
-
 // ==================== INITIALIZATION ====================
 function init() {
     checkMobile();
@@ -915,7 +815,6 @@ function init() {
     initEventListeners();
     initNavHoverEffects();
     setupForumNavigation(); // Initialize forum navigation
-    initStickyHeader(); // Force sticky header
     
     // Initialize scroll animations after a short delay to ensure DOM is ready
     setTimeout(initScrollAnimations, 100);
