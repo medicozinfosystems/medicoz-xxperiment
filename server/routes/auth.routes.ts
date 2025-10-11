@@ -47,12 +47,22 @@ router.post('/signup', async (req: Request, res: Response) => {
     const verificationUrl = `${process.env.CLIENT_URL || 'http://localhost:3000'}/auth/verify-email?token=${verificationToken}`;
     const emailHtml = createEmailVerificationEmail(user.displayName || user.username, verificationUrl);
     
+    console.log('[Signup] Attempting to send verification email to:', user.email);
+    
     // Send email (async, don't wait)
     sendEmail({
       to: user.email,
       subject: 'Verify your email - The XXperiment',
       html: emailHtml
-    }).catch(err => console.error('[Signup] Failed to send verification email:', err));
+    }).then(result => {
+      if (result.success) {
+        console.log('[Signup] ✅ Verification email sent successfully to:', user.email);
+      } else {
+        console.error('[Signup] ❌ Failed to send verification email:', result.error);
+      }
+    }).catch(err => {
+      console.error('[Signup] ❌ Error sending verification email:', err);
+    });
     
     // Create session
     req.session.userId = user._id!.toString();
