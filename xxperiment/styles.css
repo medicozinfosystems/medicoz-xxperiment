@@ -2764,11 +2764,24 @@ footer{
 
 /* Mobile-First Responsive Design */
 @media (max-width: 768px) {
-  /* Ensure header stays fixed on mobile */
-  header {
+  /* Ensure header stays fixed on mobile - Safari iOS fix */
+  header, #header {
     position: fixed !important;
     top: 0 !important;
     z-index: 9997 !important;
+    width: 100% !important;
+    left: 0 !important;
+    right: 0 !important;
+    transform: translateZ(0) !important; /* Force GPU acceleration */
+    -webkit-transform: translateZ(0) !important;
+    backface-visibility: hidden !important;
+    -webkit-backface-visibility: hidden !important;
+  }
+  
+  /* Fix for iOS Safari scrolling issues */
+  body {
+    position: relative !important;
+    -webkit-overflow-scrolling: touch !important;
   }
   
   /* Mobile Navigation */
