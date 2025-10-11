@@ -844,6 +844,7 @@ function init() {
     initMobileMenu();
     initEventListeners();
     initNavHoverEffects();
+    setupForumNavigation(); // Initialize forum navigation
     
     // Initialize scroll animations after a short delay to ensure DOM is ready
     setTimeout(initScrollAnimations, 100);
@@ -871,6 +872,7 @@ async function checkAuthStatus() {
 }
 
 function setupForumNavigation() {
+    console.log('🔧 Setting up forum navigation...');
     const forumButtons = [
         document.getElementById('forum-btn'),
         document.getElementById('mobile-forum-btn'),
@@ -879,17 +881,21 @@ function setupForumNavigation() {
 
     forumButtons.forEach(button => {
         if (button) {
+            console.log('✅ Found forum button:', button.id);
             button.addEventListener('click', (e) => {
+                console.log('🖱️ Forum button clicked!', button.id);
                 e.preventDefault();
                 e.stopPropagation();
                 // Close mobile menu if open
                 const mobileMenu = document.getElementById('mobile-nav');
                 if (mobileMenu && mobileMenu.classList.contains('open')) {
+                    console.log('📱 Closing mobile menu...');
                     mobileMenu.classList.remove('open');
                     document.getElementById('mobile-menu-overlay').classList.remove('active');
                     document.body.style.overflow = '';
                 }
                 // Navigate after a short delay
+                console.log('🚀 Navigating to /forum...');
                 setTimeout(() => {
                     window.location.href = '/forum';
                 }, 100);
@@ -899,6 +905,7 @@ function setupForumNavigation() {
     
     // Check authentication and update UI
     checkAuthStatus().then(user => {
+        console.log('👤 Auth status checked:', user ? user.username : 'Not signed in');
         const desktopSigninBtn = document.getElementById('signin-btn');
         const mobileSigninBtn = document.getElementById('mobile-signin-btn');
         
@@ -917,19 +924,23 @@ function setupForumNavigation() {
             
             // Update mobile button
             if (mobileSigninBtn) {
+                console.log('✅ Setting up mobile signin button for logged in user');
                 mobileSigninBtn.textContent = `Welcome, ${displayName}`;
                 mobileSigninBtn.style.cursor = 'pointer';
                 mobileSigninBtn.addEventListener('click', (e) => {
+                    console.log('🖱️ Mobile signin button clicked (logged in)');
                     e.preventDefault();
                     e.stopPropagation();
                     // Close mobile menu if open
                     const mobileMenu = document.getElementById('mobile-nav');
                     if (mobileMenu && mobileMenu.classList.contains('open')) {
+                        console.log('📱 Closing mobile menu...');
                         mobileMenu.classList.remove('open');
                         document.getElementById('mobile-menu-overlay').classList.remove('active');
                         document.body.style.overflow = '';
                     }
                     // Navigate after a short delay
+                    console.log('🚀 Navigating to /profile...');
                     setTimeout(() => {
                         window.location.href = '/profile';
                     }, 100);
@@ -944,17 +955,21 @@ function setupForumNavigation() {
             }
             
             if (mobileSigninBtn) {
+                console.log('✅ Setting up mobile signin button for guest user');
                 mobileSigninBtn.addEventListener('click', (e) => {
+                    console.log('🖱️ Mobile signin button clicked (guest)');
                     e.preventDefault();
                     e.stopPropagation();
                     // Close mobile menu if open
                     const mobileMenu = document.getElementById('mobile-nav');
                     if (mobileMenu && mobileMenu.classList.contains('open')) {
+                        console.log('📱 Closing mobile menu...');
                         mobileMenu.classList.remove('open');
                         document.getElementById('mobile-menu-overlay').classList.remove('active');
                         document.body.style.overflow = '';
                     }
                     // Navigate after a short delay
+                    console.log('🚀 Navigating to /auth/signin...');
                     setTimeout(() => {
                         window.location.href = '/auth/signin';
                     }, 100);
@@ -963,9 +978,3 @@ function setupForumNavigation() {
         }
     });
 }
-
-// Initialize forum navigation when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-    setupForumNavigation();
-});
-
