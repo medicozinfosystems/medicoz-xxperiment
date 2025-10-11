@@ -87,12 +87,16 @@ router.post('/signin', async (req: Request, res: Response) => {
     req.session.userId = user._id!.toString();
     req.session.role = user.role;
     
+    console.log('[Signin] Session created for user:', user.username, 'Session ID:', req.sessionID);
+    
     // Explicitly save session before sending response
     req.session.save((err) => {
       if (err) {
-        console.error('Session save error:', err);
+        console.error('[Signin] Session save error:', err);
         return res.status(500).json({ error: 'Failed to save session' });
       }
+      
+      console.log('[Signin] Session saved successfully for user:', user.username);
       
       res.json({
         message: 'Signed in successfully',
@@ -123,16 +127,23 @@ router.get('/me', requireAuth, async (req: Request, res: Response) => {
 
 // Check authentication status
 router.get('/status', async (req: Request, res: Response) => {
+  console.log('[Status] Check - Session ID:', req.sessionID, 'User ID:', req.session?.userId);
+  
   if (req.session && req.session.userId) {
     try {
       const user = await getUserById(req.session.userId);
       
       if (user && !user.isBanned) {
+        console.log('[Status] Authenticated user:', user.username);
         return res.json({ authenticated: true, user: getPublicUserData(user) });
+      } else {
+        console.log('[Status] User not found or banned');
       }
     } catch (error) {
-      console.error('Status check error:', error);
+      console.error('[Status] Check error:', error);
     }
+  } else {
+    console.log('[Status] No session or userId');
   }
   
   res.json({ authenticated: false });

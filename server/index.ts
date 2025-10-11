@@ -11,6 +11,10 @@ import forumRoutes from "./routes/forum.routes";
 import notificationsRoutes from "./routes/notifications.routes";
 
 const app = express();
+
+// Trust proxy - Required for Render (behind reverse proxy)
+app.set('trust proxy', 1);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
