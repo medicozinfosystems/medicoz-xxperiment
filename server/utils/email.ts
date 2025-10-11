@@ -15,34 +15,16 @@ export async function sendEmail({ to, subject, html, from }: SendEmailOptions) {
     console.log('[EMAIL - Not Configured] Would send email:');
     console.log('  To:', to);
     console.log('  Subject:', subject);
-    console.log('  From:', from || 'The XXperiment <noreply@yourdomain.com>');
+    console.log('  From:', from || 'The XXperiment <noreply@medicozinfosystems.com>');
     return { success: false, error: 'Resend API key not configured' };
   }
 
   try {
-    // TESTING MODE: Send all emails to verified address until domain is verified
-    // Replace with actual recipient email once domain is verified at resend.com/domains
-    const testMode = !process.env.RESEND_DOMAIN_VERIFIED;
-    const testEmail = 'cto@medicoz.info'; // Your verified email in Resend
-    
-    const recipientEmail = testMode ? testEmail : (Array.isArray(to) ? to : [to]);
-    
-    if (testMode) {
-      console.log(`[EMAIL - TEST MODE] Sending to ${testEmail} instead of ${to}`);
-    }
-    
     const { data, error } = await resend.emails.send({
-      from: from || 'The XXperiment <onboarding@resend.dev>', // Update with your verified domain
-      to: Array.isArray(recipientEmail) ? recipientEmail : [recipientEmail],
-      subject: testMode ? `[TEST] ${subject}` : subject,
-      html: testMode ? `
-        <div style="background: #fff3cd; border: 2px solid #856404; padding: 15px; margin-bottom: 20px; border-radius: 8px;">
-          <strong>🧪 TEST MODE:</strong> This email was intended for: <strong>${to}</strong>
-          <br>
-          <small>To send to real recipients, verify your domain at <a href="https://resend.com/domains">resend.com/domains</a></small>
-        </div>
-        ${html}
-      ` : html,
+      from: from || 'The XXperiment <noreply@medicozinfosystems.com>',
+      to: Array.isArray(to) ? to : [to],
+      subject: subject,
+      html: html,
     });
 
     if (error) {
@@ -50,7 +32,7 @@ export async function sendEmail({ to, subject, html, from }: SendEmailOptions) {
       return { success: false, error };
     }
 
-    console.log('[EMAIL] Sent successfully:', data);
+    console.log('[EMAIL] Sent successfully to:', to);
     return { success: true, data };
   } catch (error) {
     console.error('[EMAIL] Error:', error);
