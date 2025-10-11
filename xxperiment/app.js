@@ -520,6 +520,12 @@ function initMobileMenu() {
     // Close when clicking overlay
     overlay.addEventListener('click', closeMenu);
 
+    // Stop propagation from menu to overlay
+    menu.addEventListener('click', (e) => {
+        console.log('🔘 Click inside mobile menu:', e.target);
+        e.stopPropagation(); // Prevent clicks inside menu from reaching overlay
+    });
+
     // Close when clicking a link
     links.forEach(link => {
         link.addEventListener('click', closeMenu);
