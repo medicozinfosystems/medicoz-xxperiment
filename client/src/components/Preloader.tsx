@@ -273,7 +273,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
               animate={{ scale: 1 }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              <div className="w-20 h-20 rounded-full flex items-center justify-center bg-white shadow-lg">
+              <div className="w-20 h-20 rounded-full flex items-center justify-center bg-white dark:bg-gray-800 shadow-lg">
                 <Radio 
                   className="w-12 h-12" 
                   style={{ color: currentFrameData.color }}
@@ -291,8 +291,8 @@ export default function Preloader({ onComplete }: PreloaderProps) {
   const renderContent = () => {
     const layoutClasses = {
       center: "items-center justify-center text-center",
-      left: "items-center justify-start text-left pl-12",
-      right: "items-center justify-end text-right pr-12",
+      left: "items-center justify-center sm:justify-start text-center sm:text-left sm:pl-12 px-6",
+      right: "items-center justify-center sm:justify-end text-center sm:text-right sm:pr-12 px-6",
       split: "items-center justify-center text-center",
       "center-large": "items-center justify-center text-center",
     };
@@ -309,7 +309,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
         >
           {/* Visual Element */}
           <motion.div
-            className="mb-8"
+            className="mb-10 sm:mb-8"
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.6 }}
@@ -318,9 +318,9 @@ export default function Preloader({ onComplete }: PreloaderProps) {
           </motion.div>
 
           {/* Text Content */}
-          <div className="space-y-3">
+          <div className="space-y-4 sm:space-y-3 px-4">
             <motion.h2
-              className="text-4xl md:text-6xl font-light"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light"
               style={{ color: currentFrameData.color }}
               initial={{ opacity: 0, x: currentFrameData.layout === 'left' ? -30 : currentFrameData.layout === 'right' ? 30 : 0 }}
               animate={{ opacity: 1, x: 0 }}
@@ -329,7 +329,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
               {currentFrameData.text}
             </motion.h2>
             <motion.p
-              className="text-lg md:text-xl font-light text-gray-600"
+              className="text-base sm:text-lg md:text-xl font-light text-gray-600 dark:text-gray-400"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
@@ -343,10 +343,10 @@ export default function Preloader({ onComplete }: PreloaderProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-white"
+    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden bg-white dark:bg-gray-900"
     >
 
-      <div className="max-w-6xl mx-auto px-6 w-full relative z-10 min-h-screen flex flex-col justify-between py-16">
+      <div className="max-w-6xl mx-auto px-6 sm:px-8 md:px-6 w-full relative z-10 min-h-screen flex flex-col justify-between py-12 sm:py-16">
         {/* Main Content */}
         <div className="flex-1 flex items-center justify-center">
           {renderContent()}
@@ -354,7 +354,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
 
         {/* Skip Button */}
         <motion.div
-          className="w-full flex justify-end"
+          className="w-full flex justify-center sm:justify-end px-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1, duration: 0.5 }}
@@ -362,7 +362,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
           <Button
             variant="ghost"
             onClick={handleSkip}
-            className="text-gray-500 hover:text-gray-900"
+            className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 text-base sm:text-base min-h-[48px] sm:min-h-0 px-6"
             data-testid="button-skip-preloader"
           >
             {t("preloader.skip")}

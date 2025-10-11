@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform, useMotionValue, useSpring, AnimatePresence } from "framer-motion";
-import { Mic, Smartphone, Mail, Linkedin, Youtube, Heart, Lock, Brain, Leaf, Activity, Play, ArrowRight, ArrowLeft, ChevronRight, Check, Phone, Upload, Shield, Calendar, Building2 } from "lucide-react";
+import { Mic, Smartphone, Mail, Linkedin, Youtube, Heart, Lock, Brain, Leaf, Activity, Play, ArrowRight, ArrowLeft, ChevronRight, ChevronLeft, Check, Phone, Upload, Shield, Calendar, Building2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -12,6 +12,7 @@ import HandwrittenText from "@/components/HandwrittenText";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { LanguageToggle } from "@/components/LanguageToggle";
 import { useTranslation } from "@/contexts/TranslationContext";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface MainSiteProps {
   showButtonsImmediately?: boolean;
@@ -19,6 +20,7 @@ interface MainSiteProps {
 
 export default function MainSite({ showButtonsImmediately = false }: MainSiteProps) {
   const { t } = useTranslation();
+  const isMobile = useIsMobile();
   const heroRef = useRef<HTMLDivElement>(null);
   const servicesRef = useRef<HTMLDivElement>(null);
   const teamRef = useRef<HTMLDivElement>(null);
@@ -26,6 +28,8 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
   const [selectedIntent, setSelectedIntent] = useState<string | null>(null);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [hoveredMember, setHoveredMember] = useState<number | null>(null);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [showIntents, setShowIntents] = useState(true);
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const [pulsePosition, setPulsePosition] = useState(0);
   const [selectedConstellation, setSelectedConstellation] = useState<string | null>(null);
@@ -156,21 +160,21 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
   return (
     <div className="min-h-screen bg-background">
       {/* Fixed Header with Theme and Language Toggles */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
-        <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-2.5 sm:py-3 flex items-center justify-between">
-          <div className="flex items-center gap-1.5 sm:gap-2">
-            <Activity className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
-            <span className="text-base sm:text-lg font-bold text-foreground">{t("header.brand")}</span>
+      <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-3.5 flex items-center justify-between">
+          <div className="flex items-center gap-2 sm:gap-2.5">
+            <Activity className="w-6 h-6 sm:w-6 sm:h-6 text-primary" />
+            <span className="text-lg sm:text-xl font-bold text-foreground">{t("header.brand")}</span>
           </div>
           <div className="flex items-center gap-2 sm:gap-3">
-            <LanguageToggle />
+              <LanguageToggle />
             <ThemeToggle />
           </div>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-white via-cyan-50/20 to-violet-50/10 dark:from-gray-950 dark:via-cyan-950/20 dark:to-violet-950/10 pt-20">
+      <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-white via-cyan-50/20 to-violet-50/10 dark:from-gray-950 dark:via-cyan-950/20 dark:to-violet-950/10 pt-24 sm:pt-20">
         
         {/* Cursor Ripple Effect */}
         <motion.div
@@ -236,7 +240,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
         </motion.div>
 
         <motion.div
-          className="max-w-6xl mx-auto px-4 sm:px-6 text-center relative z-10"
+          className="max-w-6xl mx-auto px-6 sm:px-8 md:px-6 text-center relative z-10"
           style={{ opacity: heroOpacity }}
         >
           {/* Eyebrow */}
@@ -244,16 +248,16 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="mb-3 sm:mb-6"
+            className="mb-4 sm:mb-6"
           >
-            <p className="text-[0.65rem] sm:text-xs font-semibold text-primary tracking-[0.15em] sm:tracking-[0.2em] uppercase">
+            <p className="text-xs sm:text-sm font-semibold text-primary tracking-[0.15em] sm:tracking-[0.2em] uppercase">
               {t("hero.eyebrow")}
             </p>
           </motion.div>
 
           {/* Main Title */}
           <motion.h1
-            className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-bold mb-3 sm:mb-4 text-foreground leading-tight"
+            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold mb-4 sm:mb-5 text-black dark:text-white leading-tight px-2"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.8 }}
@@ -272,7 +276,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
 
           {/* Support Text */}
           <motion.p
-            className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto mb-6 sm:mb-8 md:mb-12 leading-relaxed px-2"
+            className="text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground max-w-3xl mx-auto mb-8 sm:mb-10 md:mb-12 leading-relaxed px-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.2, duration: 0.8 }}
@@ -282,7 +286,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
 
           {/* CTAs */}
           <motion.div
-            className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-4"
+            className="flex flex-col sm:flex-row gap-4 sm:gap-4 justify-center items-stretch sm:items-center px-6 max-w-lg sm:max-w-none mx-auto"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{
@@ -290,10 +294,10 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
               delay: showButtonsImmediately ? 0 : 1.6
             }}
           >
-            <Button size="lg" className="w-full sm:w-auto text-base sm:text-lg px-6 sm:px-8 bg-cyan-600 dark:bg-cyan-500" data-testid="button-explore-services">
+            <Button size="lg" className="w-full sm:w-auto text-lg sm:text-lg px-8 sm:px-8 py-6 sm:py-3 bg-cyan-600 dark:bg-cyan-500 min-h-[56px] sm:min-h-0" data-testid="button-explore-services">
               {t("hero.cta.primary")}
             </Button>
-            <Button size="lg" variant="outline" className="w-full sm:w-auto text-base sm:text-lg px-6 sm:px-8 border-cyan-600 text-cyan-600 dark:border-cyan-400 dark:text-cyan-400" data-testid="button-partner">
+            <Button size="lg" variant="outline" className="w-full sm:w-auto text-lg sm:text-lg px-8 sm:px-8 py-6 sm:py-3 border-cyan-600 text-cyan-600 dark:border-cyan-400 dark:text-cyan-400 min-h-[56px] sm:min-h-0" data-testid="button-partner">
               {t("hero.cta.secondary")}
             </Button>
           </motion.div>
@@ -301,19 +305,19 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
       </section>
 
       {/* From Conversation to Care Section */}
-      <section ref={servicesRef} className="relative min-h-screen py-12 px-4 sm:px-6 bg-gradient-to-br from-muted via-background to-muted/50 overflow-hidden flex items-center">
+      <section ref={servicesRef} className="relative min-h-screen py-16 sm:py-20 px-6 sm:px-8 md:px-6 bg-gradient-to-br from-muted via-background to-muted/50 overflow-hidden flex items-center">
         <div className="max-w-7xl mx-auto w-full">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="text-center mb-6"
+            className="text-center mb-10 sm:mb-12"
           >
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 text-foreground px-2">
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 text-foreground px-2">
               {t("service.title")}
             </h2>
-            <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-3xl mx-auto px-4">
+            <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto px-4">
               {t("service.subtitle")}
             </p>
           </motion.div>
@@ -347,7 +351,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
 
               {/* Left - The XXperiment Card */}
               <motion.div
-                className="relative md:absolute md:left-0 md:top-[40%] md:-translate-y-1/2 w-full max-w-sm md:w-72 z-20"
+                className="relative md:absolute md:left-0 md:top-[40%] md:-translate-y-1/2 w-full max-w-md md:max-w-sm md:w-72 z-20"
                 initial={{ opacity: 0, x: -80 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
@@ -355,7 +359,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                 data-testid="xxperiment-card"
               >
                 <motion.div
-                  className="bg-card rounded-2xl p-4 sm:p-5 shadow-2xl border border-pink-200 dark:border-pink-900/50"
+                  className="bg-card rounded-2xl p-5 sm:p-6 md:p-5 shadow-2xl border border-pink-200 dark:border-pink-900/50"
                   whileHover={{ y: -8, boxShadow: "0 30px 60px rgba(219, 39, 119, 0.3)" }}
                   transition={{ type: "spring", stiffness: 300 }}
                 >
@@ -590,7 +594,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
 
               {/* Right - Medicoz App Card */}
               <motion.div
-                className="relative md:absolute md:right-0 md:top-[40%] md:-translate-y-1/2 w-full max-w-sm md:w-72 z-20"
+                className="relative md:absolute md:right-0 md:top-[40%] md:-translate-y-1/2 w-full max-w-md md:max-w-sm md:w-72 z-20"
                 initial={{ opacity: 0, x: 80 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
@@ -598,7 +602,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                 data-testid="medicoz-card"
               >
                 <motion.div
-                  className="bg-card rounded-2xl p-4 sm:p-5 shadow-2xl border border-cyan-200 dark:border-cyan-900/50"
+                  className="bg-card rounded-2xl p-5 sm:p-6 md:p-5 shadow-2xl border border-cyan-200 dark:border-cyan-900/50"
                   whileHover={{ y: -8, boxShadow: "0 30px 60px rgba(8, 145, 178, 0.3)" }}
                   transition={{ type: "spring", stiffness: 300 }}
                 >
@@ -654,16 +658,16 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
           </div>
 
           <motion.div
-            className="text-center mt-12 sm:mt-16 md:mt-20 px-4"
+            className="text-center mt-16 sm:mt-20 md:mt-24 px-6"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
             viewport={{ once: true }}
           >
-            <p className="text-xl sm:text-2xl font-semibold text-foreground mb-2">
+            <p className="text-2xl sm:text-3xl md:text-2xl font-semibold text-foreground mb-3">
               {t("service.closing")}
             </p>
-            <p className="text-sm sm:text-base text-muted-foreground">
+            <p className="text-base sm:text-lg md:text-base text-muted-foreground">
               {t("service.closingSubtitle")}
             </p>
           </motion.div>
@@ -671,19 +675,19 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
       </section>
 
       {/* About & Team Section - Orbit Design */}
-      <section ref={teamRef} className="relative min-h-screen py-12 px-4 sm:px-6 bg-background flex items-center">
+      <section ref={teamRef} className="relative min-h-screen py-16 sm:py-20 px-6 sm:px-8 md:px-6 bg-background flex items-center">
         <div className="max-w-7xl mx-auto w-full">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true, margin: "-100px" }}
-            className="text-center mb-10"
+            className="text-center mb-12 sm:mb-14"
           >
-            <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 text-foreground px-2">
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-5 text-foreground px-2">
               {t("team.title")}
             </h2>
-            <p className="text-lg sm:text-xl md:text-2xl font-semibold text-primary px-4">
+            <p className="text-xl sm:text-2xl md:text-3xl font-semibold text-primary px-4">
               {t("team.subtitle")}
             </p>
           </motion.div>
@@ -803,64 +807,137 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
             })}
           </div>
 
-          {/* Mobile Team Grid */}
-          <div className="lg:hidden grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 max-w-4xl mx-auto">
-            {teamMembers.map((member, index) => (
+          {/* Mobile Team Carousel */}
+          <div className="lg:hidden relative max-w-md mx-auto">
+            {/* Carousel Container */}
+            <div className="overflow-hidden">
               <motion.div
-                key={member.name}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="bg-card rounded-xl p-4 sm:p-6 shadow-lg border-2"
-                style={{ borderColor: member.color }}
-                data-testid={`team-card-${member.name.toLowerCase().replace(' ', '-')}`}
+                className="flex"
+                drag="x"
+                dragConstraints={{ left: 0, right: 0 }}
+                dragElastic={0.2}
+                onDragEnd={(e, { offset, velocity }) => {
+                  const swipe = Math.abs(offset.x) * velocity.x;
+                  if (swipe < -1000 && currentSlide < teamMembers.length - 1) {
+                    setCurrentSlide(currentSlide + 1);
+                  } else if (swipe > 1000 && currentSlide > 0) {
+                    setCurrentSlide(currentSlide - 1);
+                  }
+                }}
+                animate={{
+                  x: `-${currentSlide * 100}%`
+                }}
+                transition={{
+                  type: "spring",
+                  stiffness: 300,
+                  damping: 30
+                }}
               >
-                <div className="flex flex-col items-center text-center">
-                  <div
-                    className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden border-4 mb-4"
-                    style={{ borderColor: member.color }}
+                {teamMembers.map((member, index) => (
+                  <motion.div
+                    key={member.name}
+                    className="w-full flex-shrink-0 px-4"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.5 }}
                   >
-                    <img
-                      src={member.image}
-                      alt={member.name}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <h3 className="text-lg sm:text-xl font-bold text-foreground mb-1">{member.name}</h3>
-                  <p className="text-xs sm:text-sm font-semibold mb-2" style={{ color: member.color }}>
-                    {member.role}
-                  </p>
-                  <p className="text-xs sm:text-sm text-muted-foreground italic">
-                    "{member.tagline}"
-                  </p>
-                </div>
+                    <div
+                      className="bg-card rounded-2xl p-8 shadow-lg border-2"
+                      style={{ borderColor: member.color }}
+                      data-testid={`team-card-${member.name.toLowerCase().replace(' ', '-')}`}
+                    >
+                      <div className="flex flex-col items-center text-center">
+                        <div
+                          className="w-32 h-32 rounded-full overflow-hidden border-4 mb-6"
+                          style={{ borderColor: member.color }}
+                        >
+                          <img
+                            src={member.image}
+                            alt={member.name}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <h3 className="text-2xl font-bold text-foreground mb-2">{member.name}</h3>
+                        <p className="text-base font-semibold mb-4" style={{ color: member.color }}>
+                          {member.role}
+                        </p>
+                        <p className="text-base text-muted-foreground italic leading-relaxed">
+                          "{member.tagline}"
+                        </p>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
               </motion.div>
-            ))}
+            </div>
+
+            {/* Navigation Buttons */}
+            <div className="flex justify-center items-center gap-4 mt-6">
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => setCurrentSlide((prev) => Math.max(0, prev - 1))}
+                disabled={currentSlide === 0}
+                className="rounded-full w-12 h-12"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </Button>
+
+              {/* Dots Indicator */}
+              <div className="flex gap-2">
+                {teamMembers.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentSlide(index)}
+                    className="w-2.5 h-2.5 rounded-full transition-all duration-300"
+                    style={{
+                      backgroundColor: currentSlide === index ? teamMembers[currentSlide].color : '#D1D5DB',
+                      width: currentSlide === index ? '2rem' : '0.625rem'
+                    }}
+                    aria-label={`Go to slide ${index + 1}`}
+                  />
+                ))}
+              </div>
+
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => setCurrentSlide((prev) => Math.min(teamMembers.length - 1, prev + 1))}
+                disabled={currentSlide === teamMembers.length - 1}
+                className="rounded-full w-12 h-12"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </Button>
+            </div>
+
+            {/* Swipe hint text */}
+            <p className="text-center text-sm text-muted-foreground mt-4">
+              {currentSlide + 1} / {teamMembers.length}
+            </p>
           </div>
 
         </div>
       </section>
 
       {/* Contact Section - Innovated */}
-      <section className="relative min-h-screen py-12 px-4 sm:px-6 bg-gradient-to-br from-muted via-background to-muted/50 flex items-center">
+      <section className="relative py-12 sm:py-16 lg:py-20 px-6 sm:px-8 md:px-6 bg-gradient-to-br from-muted via-background to-muted/50">
         <div className="max-w-6xl mx-auto w-full">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true, margin: "-100px" }}
-            className="text-center mb-10"
+            className="text-center mb-8 sm:mb-10 lg:mb-12"
           >
-            <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 text-foreground px-2">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 sm:mb-4 text-foreground px-2">
               {t("contact.title")}
             </h2>
-            <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto px-4">
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground max-w-3xl mx-auto px-4">
               {t("contact.subtitle")}
             </p>
           </motion.div>
 
-          <div className="grid lg:grid-cols-2 gap-6 lg:gap-8">
+          <div className="grid lg:grid-cols-2 gap-6 lg:gap-10">
             {/* Left - Intent Selection */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
@@ -869,55 +946,95 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
               viewport={{ once: true }}
               className="space-y-4"
             >
-              <div>
-                <h3 className="text-lg sm:text-xl font-bold mb-2 text-foreground">{t("contact.pathTitle")}</h3>
-                <p className="text-xs sm:text-sm text-muted-foreground mb-3">{t("contact.pathSubtitle")}</p>
-
-                <div className="space-y-2">
-                  {intents.map((intent, index) => {
-                    const colorMap: Record<string, { bg: string; border: string; text: string; icon: string }> = {
-                      "Partnership": { bg: "bg-cyan-50 dark:bg-cyan-950/30", border: "border-cyan-600 dark:border-cyan-400", text: "text-cyan-600 dark:text-cyan-400", icon: "🤝" },
-                      "Pilot / Demo": { bg: "bg-violet-50 dark:bg-violet-950/30", border: "border-violet-600 dark:border-violet-400", text: "text-violet-600 dark:text-violet-400", icon: "🚀" },
-                      "Careers": { bg: "bg-emerald-50 dark:bg-emerald-950/30", border: "border-emerald-600 dark:border-emerald-400", text: "text-emerald-600 dark:text-emerald-400", icon: "💼" },
-                      "General Inquiry": { bg: "bg-pink-50 dark:bg-pink-950/30", border: "border-pink-600 dark:border-pink-400", text: "text-pink-600 dark:text-pink-400", icon: "💬" }
-                    };
-
-                    const colors = colorMap[intent] || colorMap["General Inquiry"];
-
-                    return (
-                      <motion.div
-                        key={intent}
-                        className={`p-2 sm:p-3 rounded-xl border-2 cursor-pointer transition-all ${
-                          selectedIntent === intent
-                            ? `${colors.bg} ${colors.border}`
-                            : "bg-card border-border hover:border-border/80"
-                        }`}
-                        onClick={() => setSelectedIntent(intent)}
-                        whileHover={{ scale: 1.02, x: 5 }}
-                        data-testid={`chip-${intent.toLowerCase().replace(" ", "-").replace("/", "")}`}
-                      >
-                        <div className="flex items-center gap-2">
-                          <span className="text-lg sm:text-xl">{colors.icon}</span>
-                          <div className="flex-1 min-w-0">
-                            <p className={`text-xs sm:text-sm font-semibold ${selectedIntent === intent ? colors.text : "text-foreground"}`}>
-                              {intent}
-                            </p>
-                            {selectedIntent === intent && intent === "Careers" && (
-                              <motion.p
-                                initial={{ opacity: 0, height: 0 }}
-                                animate={{ opacity: 1, height: "auto" }}
-                                className="text-xs text-emerald-700 dark:text-emerald-300 mt-1"
-                              >
-                                {t("contact.intent.careers.note")}
-                              </motion.p>
-                            )}
-                          </div>
-                        </div>
-                      </motion.div>
-                    );
-                  })}
-                </div>
+              {/* Mobile: Collapsible Header */}
+              <div className="lg:hidden">
+                <button
+                  onClick={() => setShowIntents(!showIntents)}
+                  className="w-full flex items-center justify-between p-4 bg-card rounded-xl border-2 border-border"
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="text-lg font-bold text-foreground">{t("contact.pathTitle")}</span>
+                    {selectedIntent && (
+                      <Badge variant="secondary" className="ml-2">
+                        {selectedIntent}
+                      </Badge>
+                    )}
+                  </div>
+                  <motion.div
+                    animate={{ rotate: showIntents ? 180 : 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <ChevronRight className="w-5 h-5 rotate-90" />
+                  </motion.div>
+                </button>
               </div>
+
+              {/* Desktop: Always visible title */}
+              <div className="hidden lg:block">
+                <h3 className="text-xl sm:text-2xl font-bold mb-2 text-foreground">{t("contact.pathTitle")}</h3>
+                <p className="text-sm sm:text-base text-muted-foreground mb-4">{t("contact.pathSubtitle")}</p>
+              </div>
+
+              {/* Intent Options - Collapsible on mobile */}
+              <AnimatePresence>
+                {(showIntents || !isMobile) && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="space-y-2 pt-2 lg:pt-0">
+                      {intents.map((intent, index) => {
+                        const colorMap: Record<string, { bg: string; border: string; text: string; icon: string }> = {
+                          "Partnership": { bg: "bg-cyan-50 dark:bg-cyan-950/30", border: "border-cyan-600 dark:border-cyan-400", text: "text-cyan-600 dark:text-cyan-400", icon: "🤝" },
+                          "Pilot / Demo": { bg: "bg-violet-50 dark:bg-violet-950/30", border: "border-violet-600 dark:border-violet-400", text: "text-violet-600 dark:text-violet-400", icon: "🚀" },
+                          "Careers": { bg: "bg-emerald-50 dark:bg-emerald-950/30", border: "border-emerald-600 dark:border-emerald-400", text: "text-emerald-600 dark:text-emerald-400", icon: "💼" },
+                          "General Inquiry": { bg: "bg-pink-50 dark:bg-pink-950/30", border: "border-pink-600 dark:border-pink-400", text: "text-pink-600 dark:text-pink-400", icon: "💬" }
+                        };
+
+                        const colors = colorMap[intent] || colorMap["General Inquiry"];
+
+                        return (
+                          <motion.div
+                            key={intent}
+                            className={`p-3 lg:p-4 rounded-xl border-2 cursor-pointer transition-all ${
+                              selectedIntent === intent
+                                ? `${colors.bg} ${colors.border}`
+                                : "bg-card border-border hover:border-border/80"
+                            }`}
+                            onClick={() => {
+                              setSelectedIntent(intent);
+                              if (isMobile) setShowIntents(false);
+                            }}
+                            whileHover={{ scale: 1.02, x: 5 }}
+                            data-testid={`chip-${intent.toLowerCase().replace(" ", "-").replace("/", "")}`}
+                          >
+                            <div className="flex items-center gap-2 lg:gap-3">
+                              <span className="text-xl lg:text-2xl">{colors.icon}</span>
+                              <div className="flex-1 min-w-0">
+                                <p className={`text-sm lg:text-base font-semibold ${selectedIntent === intent ? colors.text : "text-foreground"}`}>
+                                  {intent}
+                                </p>
+                                {selectedIntent === intent && intent === "Careers" && (
+                                  <motion.p
+                                    initial={{ opacity: 0, height: 0 }}
+                                    animate={{ opacity: 1, height: "auto" }}
+                                    className="text-xs text-emerald-700 dark:text-emerald-300 mt-1"
+                                  >
+                                    {t("contact.intent.careers.note")}
+                                  </motion.p>
+                                )}
+                              </div>
+                            </div>
+                          </motion.div>
+                        );
+                      })}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
 
             {/* Right - Contact Form */}
@@ -927,31 +1044,31 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
             >
-              <div className="bg-card rounded-2xl p-3 sm:p-4 md:p-6 shadow-xl border border-border">
-                <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
+              <div className="bg-card rounded-2xl p-4 sm:p-5 lg:p-6 shadow-xl border border-border">
+                <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-4">
                   <div>
-                    <label className="text-xs sm:text-sm font-semibold mb-1.5 block text-foreground">{t("contact.form.name")}</label>
+                    <label className="text-sm font-semibold mb-1.5 block text-foreground">{t("contact.form.name")}</label>
                     <Input
                       placeholder={t("contact.form.namePlaceholder")}
-                      className="h-9 sm:h-10"
+                      className="h-11 text-sm sm:text-base"
                       data-testid="input-name"
                       required
                     />
                   </div>
 
                   <div>
-                    <label className="text-xs sm:text-sm font-semibold mb-1.5 block text-foreground">{t("contact.form.email")}</label>
+                    <label className="text-sm font-semibold mb-1.5 block text-foreground">{t("contact.form.email")}</label>
                     <Input
                       placeholder={t("contact.form.emailPlaceholder")}
                       type="email"
-                      className="h-9 sm:h-10"
+                      className="h-11 text-sm sm:text-base"
                       data-testid="input-email"
                       required
                     />
                   </div>
 
                   <div>
-                    <label className="text-xs sm:text-sm font-semibold mb-1.5 block text-foreground">{t("contact.form.message")}</label>
+                    <label className="text-sm font-semibold mb-1.5 block text-foreground">{t("contact.form.message")}</label>
                     <Textarea
                       placeholder={t("contact.form.messagePlaceholder")}
                       rows={3}
@@ -962,13 +1079,13 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                   </div>
 
                   <div>
-                    <label className="text-xs sm:text-sm font-semibold mb-1.5 block text-foreground">
+                    <label className="text-sm font-semibold mb-1.5 block text-foreground">
                       {t("contact.form.links")}
                     </label>
                     <Input
                       placeholder={t("contact.form.linksPlaceholder")}
                       type="url"
-                      className="h-9 sm:h-10"
+                      className="h-11 text-sm sm:text-base"
                       data-testid="input-attachment"
                     />
                   </div>
@@ -1006,7 +1123,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                     <Button
                       type="submit"
                       size="lg"
-                      className="w-full bg-cyan-600 dark:bg-cyan-500 text-white text-base sm:text-lg h-11 sm:h-14"
+                      className="w-full bg-cyan-600 dark:bg-cyan-500 text-white text-base sm:text-lg h-12 sm:h-14"
                       data-testid="button-send-message"
                     >
                       {t("contact.form.submit")} →
@@ -1023,7 +1140,7 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
       {/* Footer - "Living ECG Rail" */}
       <footer
         ref={footerRef}
-        className="relative bg-white dark:bg-gray-950 py-12 sm:py-16 px-4 sm:px-6 overflow-hidden"
+        className="relative bg-white dark:bg-gray-950 py-16 sm:py-20 px-6 sm:px-8 md:px-6 overflow-hidden"
       >
         {/* Living ECG Line */}
         <div className="absolute top-0 left-0 w-full h-12 overflow-hidden">
@@ -1068,10 +1185,10 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
         </div>
 
         <div className="max-w-7xl mx-auto relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 md:gap-12 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 sm:gap-12 md:gap-14 mb-10">
             {/* About Column */}
             <div className="lg:col-span-2">
-              <h3 className="text-2xl sm:text-3xl font-bold mb-3 text-foreground">
+              <h3 className="text-3xl sm:text-4xl font-bold mb-4 text-foreground">
                 {t("footer.title")}
               </h3>
               <HandwrittenText
@@ -1079,17 +1196,17 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
                 delay={0.5}
                 duration={2}
                 color="cyan"
-                className="text-base sm:text-lg mb-4"
+                className="text-lg sm:text-xl mb-5"
               />
-              <p className="text-sm text-muted-foreground leading-relaxed">
+              <p className="text-base sm:text-base text-muted-foreground leading-relaxed">
                 {t("footer.about")}
               </p>
             </div>
 
             {/* Quick Links Column */}
             <div>
-              <h4 className="text-base sm:text-lg font-semibold mb-4 text-foreground">Quick Links</h4>
-              <nav className="flex flex-col gap-3 text-sm">
+              <h4 className="text-lg sm:text-xl font-semibold mb-5 text-foreground">Quick Links</h4>
+              <nav className="flex flex-col gap-4 text-base">
                 <a href="#about" className="text-muted-foreground hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors" data-testid="link-about">{t("footer.links.about")}</a>
                 <a href="#services" className="text-muted-foreground hover:text-pink-600 dark:hover:text-pink-400 transition-colors" data-testid="link-services">{t("footer.links.services")}</a>
                 <a href="/xxperiment/" rel="noopener noreferrer" className="text-muted-foreground hover:text-violet-600 dark:hover:text-violet-400 transition-colors" data-testid="link-xxperiment">{t("footer.links.xxperiment")}</a>
@@ -1099,14 +1216,14 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
 
             {/* Contact & Social Column */}
             <div>
-              <h4 className="text-base sm:text-lg font-semibold mb-4 text-foreground">{t("footer.contact.title")}</h4>
-              <div className="space-y-3 text-sm">
+              <h4 className="text-lg sm:text-xl font-semibold mb-5 text-foreground">{t("footer.contact.title")}</h4>
+              <div className="space-y-3 text-base">
                 <p className="text-muted-foreground">{t("footer.contact.email")}</p>
                 <p className="text-muted-foreground">{t("footer.contact.phone")}</p>
                 <p className="text-muted-foreground">{t("footer.contact.address")}</p>
               </div>
 
-              <h5 className="text-sm font-semibold mt-6 mb-3 text-foreground">{t("footer.social")}</h5>
+              <h5 className="text-base font-semibold mt-7 mb-4 text-foreground">{t("footer.social")}</h5>
               <div className="flex gap-3">
                 <motion.div
                   animate={{
@@ -1162,12 +1279,12 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
               </div>
             </div>
           </div>
-          
+
           {/* Bottom */}
-          <div className="pt-6 sm:pt-8 border-t border-border">
-            <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs sm:text-sm">
+          <div className="pt-8 sm:pt-10 border-t border-border">
+            <div className="flex flex-col sm:flex-row justify-between items-center gap-5 text-sm sm:text-base">
               <p className="text-muted-foreground text-center sm:text-left">{t("footer.copyright")}</p>
-              <div className="flex gap-4 text-muted-foreground">
+              <div className="flex gap-5 text-muted-foreground">
                 <a href="#privacy" className="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">{t("footer.links.privacy")}</a>
                 <span>•</span>
                 <a href="#terms" className="hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors">{t("footer.links.terms")}</a>

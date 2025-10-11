@@ -2768,11 +2768,11 @@ footer{
   }
   
   .mobile-nav {
-    display: none !important;
+    right: -100% !important;
   }
   
   .mobile-nav.open {
-    display: flex !important;
+    right: 0 !important;
   }
   
   /* Mobile navigation positioning */
@@ -2808,11 +2808,12 @@ footer{
   }
   
   .mobile-nav {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    z-index: 1000;
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 100%;
+    height: 100vh;
+    z-index: 9999;
     background: rgba(12, 11, 11, 0.98);
     backdrop-filter: blur(20px);
     border-top: 1px solid rgba(226, 214, 199, 0.1);
@@ -2972,26 +2973,26 @@ footer{
     padding-bottom: 0 !important;
   }
   
-  /* Reduce gap between marquee and about section */
+  /* Add gap between marquee and about section on mobile */
   .marquee + .about,
   .marquee + #about {
-    margin-top: -4rem !important;
-    padding-top: 0 !important;
-    transform: translateY(-2rem) !important;
+    margin-top: 2rem !important;
+    padding-top: 0rem !important;
+    transform: translateY(0) !important;
   }
   
   /* Target about section that comes after marquee */
   .marquee ~ .about {
-    margin-top: -4rem !important;
-    padding-top: 0 !important;
-    transform: translateY(-2rem) !important;
+    margin-top: 2rem !important;
+    padding-top: 0rem !important;
+    transform: translateY(0) !important;
   }
   
   /* Ultra specific targeting for marquee to about gap */
   div.marquee ~ section#about {
-    margin-top: -4rem !important;
-    padding-top: 0 !important;
-    transform: translateY(-2rem) !important;
+    margin-top: 2rem !important;
+    padding-top: 0rem !important;
+    transform: translateY(0) !important;
   }
   
   /* Target the hero buttons specifically to reduce bottom spacing */
@@ -3033,65 +3034,58 @@ footer{
   
   .about h2,
   .about .section-title {
-    font-size: clamp(2.2rem, 8vw, 3.2rem) !important;
-    margin-bottom: 1.5rem !important;
+    font-size: clamp(1.8rem, 7vw, 3.2rem) !important;
+    margin-bottom: 1.25rem !important;
     font-weight: 900 !important;
-    line-height: 1.0 !important;
+    line-height: 1.2 !important;
     white-space: nowrap !important;
+    overflow: visible !important;
   }
   
   .about p,
   .about .lead {
-    font-size: clamp(1.4rem, 6vw, 1.8rem) !important;
-    line-height: 1.6 !important;
-    margin-bottom: 0 !important;
-    padding-bottom: 0 !important;
-    font-weight: 600 !important;
+    display: none !important;
   }
   
   /* Target about section content specifically */
   .about * {
-    margin-bottom: 0 !important;
+    /* Allow natural spacing */
   }
   
   /* Ultra specific targeting for about section */
   section#about .section-title {
-    font-size: clamp(2.2rem, 8vw, 3.2rem) !important;
-    margin-bottom: 1.5rem !important;
+    font-size: clamp(1.8rem, 7vw, 3.2rem) !important;
+    margin-bottom: 1.25rem !important;
     font-weight: 900 !important;
-    line-height: 1.0 !important;
+    line-height: 1.2 !important;
     white-space: nowrap !important;
+    overflow: visible !important;
   }
   
   section#about .lead {
-    font-size: clamp(1.4rem, 6vw, 1.8rem) !important;
-    line-height: 1.6 !important;
-    margin-bottom: 0 !important;
-    padding-bottom: 0 !important;
-    font-weight: 600 !important;
+    display: none !important;
   }
   
   /* Target about section inner content */
   .about > * {
-    margin-bottom: 0 !important;
-    padding-bottom: 0 !important;
+    /* Allow natural spacing */
   }
   
   /* Reduce gap between about title and vinyl player */
   .about .section-title {
-    margin-bottom: -6rem !important;
+    margin-bottom: 1.25rem !important;
     padding-bottom: 0 !important;
   }
   
   /* Target vinyl grid within about section */
   .about .vinyl-grid {
-    margin-top: 1rem !important;
-    padding-top: 1rem !important;
+    margin-top: 0rem !important;
+    padding-top: 0rem !important;
   }
   
   /* Target lead paragraph between title and vinyl */
   .about .lead {
-    margin-bottom: -5rem !important;
+    margin-bottom: 0 !important;
     padding-bottom: 0 !important;
   }
   
@@ -3103,34 +3097,34 @@ footer{
   
   /* Ultra specific targeting */
   section#about .section-title {
-    margin-bottom: -6rem !important;
+    margin-bottom: 1.25rem !important;
     padding-bottom: 0 !important;
-    transform: translateY(-2rem) !important;
+    transform: translateY(0) !important;
   }
   
   section#about .vinyl-grid {
-    margin-top: 1rem !important;
-    padding-top: 1rem !important;
+    margin-top: 0rem !important;
+    padding-top: 0rem !important;
     transform: none !important;
   }
   
   section#about .lead {
-    margin-bottom: -5rem !important;
+    margin-bottom: 0 !important;
     padding-bottom: 0 !important;
-    transform: translateY(-1.5rem) !important;
+    transform: translateY(0) !important;
   }
   
   /* Maximum gap elimination */
   .about .section-title,
   .about .lead {
-    margin-bottom: -6rem !important;
+    margin-bottom: 1.25rem !important;
     padding-bottom: 0 !important;
   }
   
   /* Fix vinyl grid spacing */
   .about .vinyl-grid {
-    margin-top: 1rem !important;
-    padding-top: 1rem !important;
+    margin-top: 0rem !important;
+    padding-top: 0rem !important;
     margin-bottom: 1rem !important;
     padding-bottom: 1rem !important;
   }
@@ -3150,8 +3144,7 @@ footer{
   
   /* Target vinyl plinth */
   .plinth {
-    margin-bottom: 0.5rem !important;
-    padding-bottom: 0.5rem !important;
+    display: none !important;
   }
   
   /* Fix vinyl panel */
@@ -3182,24 +3175,26 @@ footer{
   .arm,
   .rod,
   .head {
+    display: block !important;
+    visibility: visible !important;
+  }
+  
+  .arm {
+    z-index: 20 !important;
+  }
+  
+  /* Hide discovery hint on mobile */
+  .discovery-hint {
     display: none !important;
   }
   
   /* Clean vinyl player elements */
   .plinth {
-    display: block !important;
-    background: rgba(226, 214, 199, 0.1) !important;
-    border-radius: 8px !important;
-    padding: 0.5rem !important;
-    margin: 0.5rem 0 !important;
+    display: none !important;
   }
   
   .badge {
-    display: block !important;
-    font-size: 0.8rem !important;
-    color: var(--xx-cream) !important;
-    text-align: center !important;
-    margin-bottom: 0.5rem !important;
+    display: none !important;
   }
   
   .power-led {
@@ -3217,6 +3212,25 @@ footer{
   .pivot {
     display: block !important;
     visibility: visible !important;
+    z-index: 1 !important;
+  }
+  
+  .stages {
+    z-index: 0 !important;
+  }
+  
+  .disc {
+    z-index: 1 !important;
+    animation: spin 3s linear infinite !important;
+  }
+  
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
   }
   
   
@@ -3273,21 +3287,22 @@ footer{
     background: transparent !important;
     border: none !important;
     padding: 0.5rem !important;
-    margin: 0.5rem 0 !important;
+    margin: 0 auto !important;
   }
   
   /* Clean vinyl grid layout */
   .vinyl-grid {
     display: flex !important;
     flex-direction: column !important;
-    gap: 2rem !important;
-    padding: 2rem !important;
+    align-items: center !important;
+    gap: 1rem !important;
+    padding: 1.5rem !important;
     background: rgba(226, 214, 199, 0.05) !important;
     border-radius: 12px !important;
     border: 1px solid rgba(226, 214, 199, 0.1) !important;
-    margin: 2rem 0 !important;
-    padding-bottom: 25rem !important;
-    height: 10px !important;
+    margin: 2rem auto !important;
+    padding-bottom: 8rem !important;
+    height: auto !important;
   }
   
   /* Override desktop grid layout for mobile */
@@ -3313,8 +3328,9 @@ footer{
     grid-template-columns: 1fr 1fr !important;
     gap: 1rem !important;
     width: 100% !important;
-    margin-top: 2rem !important;
-    padding: 0 2rem !important;
+    max-width: 100% !important;
+    margin: 2rem auto !important;
+    padding: 0 1rem !important;
     z-index: 10 !important;
   }
   
@@ -3347,21 +3363,23 @@ footer{
     display: grid !important;
     grid-template-columns: 1fr 1fr !important;
     gap: 0.5rem !important;
-    padding: 0 0.8rem !important;
+    padding: 0 1rem !important;
     width: 100% !important;
-    margin-bottom: 1rem !important;
+    margin: 0 auto 1rem auto !important;
     z-index: 15 !important;
   }
   
   /* Make vinyl player container relative for absolute positioning */
   .vinyl-grid .player {
     position: relative !important;
+    margin: 0 auto !important;
   }
   
   /* Make vinyl-grid use flexbox for proper ordering */
   .vinyl-grid {
     display: flex !important;
     flex-direction: column !important;
+    align-items: center !important;
   }
   
   /* Completely reset label positioning */
@@ -4559,6 +4577,25 @@ footer{
   }
 }
 
+/* Mobile Menu Overlay Backdrop - Hidden/Transparent */
+.mobile-menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: transparent;
+    z-index: 9998;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+.mobile-menu-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
 /* Desktop Navigation */
 @media (min-width: 769px) {
   .mobile-menu-toggle {
@@ -4570,6 +4607,10 @@ footer{
   }
   
   .mobile-nav {
+    display: none !important;
+  }
+  
+  .mobile-menu-overlay {
     display: none !important;
   }
 }
@@ -4636,76 +4677,130 @@ footer{
 
 /* Mobile Navigation */
 .mobile-nav {
-    display: none;
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(135deg, #7f1e16 0%, #5a120e 100%);
+    display: flex;
     flex-direction: column;
-    background: rgba(12, 11, 11, 0.98);
-    backdrop-filter: blur(20px);
-    border-top: 1px solid rgba(226, 214, 199, 0.1);
-    padding: 1rem;
-    gap: 1rem;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    z-index: 9999;
+    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-y: auto;
 }
 
 .mobile-nav.open {
-    display: flex;
+    right: 0;
 }
 
 .mobile-menu-close {
-    background: transparent;
-    border: none;
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: rgba(226, 214, 199, 0.1);
+    border: 2px solid #e2d6c7;
     color: #e2d6c7;
-    font-size: 1.5rem;
+    font-size: 2rem;
     cursor: pointer;
-    padding: 0.25rem;
+    padding: 0.5rem 1rem;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    line-height: 1;
+}
+
+.mobile-menu-close:hover {
+    background: #e2d6c7;
+    color: #7f1e16;
+    transform: rotate(90deg);
 }
 
 .mobile-nav-links {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+    width: 100%;
+    max-width: 400px;
 }
 
 .mobile-nav-link {
     color: #e2d6c7;
     text-decoration: none;
-    font-size: 1.1rem;
-    font-weight: 500;
-    padding: 0.75rem 0;
-    border-bottom: 1px solid rgba(226, 214, 199, 0.1);
+    font-size: 2rem;
+    font-weight: 700;
+    text-align: center;
+    padding: 1rem 0;
+    border-bottom: 2px solid rgba(226, 214, 199, 0.2);
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.mobile-nav-link:hover {
+    color: #fff;
+    border-bottom-color: #e2d6c7;
+    transform: translateX(10px);
 }
 
 .mobile-nav-actions {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
-    padding-top: 0.5rem;
-    border-top: 1px solid rgba(226, 214, 199, 0.1);
+    gap: 1rem;
+    width: 100%;
+    max-width: 400px;
+    padding-top: 2rem;
+    border-top: 2px solid rgba(226, 214, 199, 0.2);
 }
 
 .mobile-forum-button {
-    background: linear-gradient(135deg, #7f1e16, #5a1510);
-    color: #ffffff;
-    border: none;
-    padding: 0.75rem 1.5rem;
-    border-radius: 25px;
+    background: #e2d6c7;
+    color: #7f1e16;
+    border: 2px solid #e2d6c7;
+    padding: 1rem 2rem;
+    border-radius: 50px;
     cursor: pointer;
-    font-size: 1rem;
-    font-weight: 600;
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.mobile-forum-button:hover {
+    background: transparent;
+    color: #e2d6c7;
+    transform: scale(1.05);
 }
 
 .mobile-signin-button {
     background: transparent;
     color: #e2d6c7;
-    border: 1px solid #e2d6c7;
-    padding: 0.75rem 1.5rem;
-    border-radius: 25px;
+    border: 2px solid #e2d6c7;
+    padding: 1rem 2rem;
+    border-radius: 50px;
     cursor: pointer;
-    font-size: 1rem;
-    font-weight: 500;
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.mobile-signin-button:hover {
+    background: #e2d6c7;
+    color: #7f1e16;
+    transform: scale(1.05);
 }
 
 /* Community Forum Button */
@@ -4844,3 +4939,434 @@ footer{
     gap: 1rem;
 }
 
+/* Removed experimental mobile overrides (xx-mobile) to restore original look */
+
+/* ==================== CLEAN MOBILE FIX ==================== */
+@media (max-width: 768px) {
+  /* Fix episodes section height causing issues */
+  #episodes {
+    min-height: auto !important;
+    padding: 4rem 1rem !important;
+  }
+  
+  .episodes-stage {
+    min-height: auto !important;
+  }
+  
+  /* Fix about section spacing */
+  #about {
+    padding: 4rem 1rem !important;
+  }
+  
+  /* Ensure sections don't create their own scroll */
+  section {
+    overflow-x: hidden !important;
+  }
+  
+  /* Fix section inner padding */
+  .section-inner {
+    padding: 0 1rem !important;
+  }
+  
+  /* Proper spacing between sections */
+  section + section {
+    margin-top: 2rem !important;
+  }
+  
+  .marquee + section {
+    margin-top: 0 !important;
+  }
+  
+  /* Hero adjustments */
+  .hero {
+    padding: 10vh 1rem 4rem !important;
+    min-height: 90vh !important;
+  }
+  
+  /* Gallery spacing */
+  #gallery {
+    padding: 4rem 1rem !important;
+  }
+  
+  .gallery {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 2rem !important;
+  }
+  
+  .polaroid {
+    max-width: 90% !important;
+  }
+  
+  /* Community section */
+  #community {
+    padding: 4rem 1rem !important;
+  }
+  
+  /* Subscribe section */
+  #subscribe {
+    padding: 4rem 1rem !important;
+  }
+}
+
+/* Fix About section internal scroll */
+@media (max-width: 768px) {
+  #about,
+  #about *,
+  .vinyl-grid,
+  .vinyl-panel,
+  .player {
+    overflow: visible !important;
+    max-height: none !important;
+    height: auto !important;
+  }
+  
+  .vinyl-panel {
+    min-height: auto !important;
+  }
+}
+
+/* Fix Episodes section overlap with vinyl grid on mobile */
+@media (max-width: 768px) {
+  /* Add large bottom padding to About section */
+  #about {
+    padding-bottom: 8rem !important;
+    margin-bottom: 4rem !important;
+  }
+  
+  /* Add top margin to Episodes section */
+  #episodes {
+    margin-top: 6rem !important;
+    padding-top: 6rem !important;
+  }
+  
+  /* Ensure vinyl grid has proper bottom spacing */
+  .vinyl-grid {
+    margin-bottom: 4rem !important;
+    padding-bottom: 2rem !important;
+  }
+  
+  /* Ensure vinyl panel doesn't extend too far */
+  .vinyl-panel {
+    margin-bottom: 3rem !important;
+  }
+  
+  /* Add spacing after vinyl footer hint */
+  .vinyl-footer-hint {
+    margin-bottom: 4rem !important;
+    padding-bottom: 2rem !important;
+  }
+}
+
+/* Reduce gap between Episodes title and carousel */
+@media (max-width: 768px) {
+  #episodes .section-title {
+    margin-bottom: 1rem !important;
+  }
+  
+  #episodes .lead {
+    margin-bottom: 1.5rem !important;
+  }
+  
+  .xx-coverflow-container {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+}
+
+/* Further reduce gap in episodes section */
+@media (max-width: 768px) {
+  #episodes .section-title {
+    margin-bottom: 0.5rem !important;
+  }
+  
+  #episodes .lead {
+    margin-bottom: 0.75rem !important;
+  }
+  
+  #episodes .section-inner {
+    padding-bottom: 0 !important;
+  }
+}
+
+/* FINAL FIX: Tight spacing in episodes section - overrides all previous */
+@media (max-width: 768px) {
+  #episodes {
+    padding-top: 2rem !important;
+    margin-top: 2rem !important;
+  }
+  
+  #episodes .section-inner {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+  }
+  
+  #episodes h2.section-title {
+    margin-top: 0 !important;
+    margin-bottom: 0.5rem !important;
+    padding-top: 0 !important;
+  }
+  
+  #episodes p.lead {
+    margin-top: 0 !important;
+    margin-bottom: 1rem !important;
+    padding-top: 0 !important;
+  }
+  
+  .xx-coverflow-container {
+    margin-top: 0.5rem !important;
+    padding-top: 0.5rem !important;
+  }
+}
+
+/* Fix overlap - increase spacing between About and Episodes */
+@media (max-width: 768px) {
+  /* Increase About section bottom spacing */
+  #about {
+    padding-bottom: 10rem !important;
+    margin-bottom: 6rem !important;
+  }
+  
+  /* Increase Episodes section top spacing */
+  #episodes {
+    padding-top: 4rem !important;
+    margin-top: 8rem !important;
+  }
+  
+  /* Ensure vinyl elements have extra bottom spacing */
+  .vinyl-grid {
+    margin-bottom: 6rem !important;
+    padding-bottom: 3rem !important;
+  }
+  
+  .vinyl-footer-hint {
+    margin-bottom: 6rem !important;
+    padding-bottom: 3rem !important;
+  }
+}
+
+/* Make gap between Latest Episodes heading and carousel almost none */
+@media (max-width: 768px) {
+  #episodes h2.section-title {
+    margin-bottom: 0.25rem !important;
+    padding-bottom: 0 !important;
+  }
+  
+  #episodes p.lead {
+    margin-bottom: 0.5rem !important;
+    padding-bottom: 0 !important;
+  }
+  
+  .xx-coverflow-container {
+    margin-top: 0 !important;
+    padding-top: 0.25rem !important;
+  }
+  
+  #episodes .section-inner {
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+  }
+}
+
+/* PERFECT MOBILE EPISODE CAROUSEL */
+@media (max-width: 768px) {
+  /* Container setup */
+  .xx-coverflow-container {
+    height: auto !important;
+    min-height: 520px !important;
+    padding: 2rem 0 !important;
+    overflow: visible !important;
+  }
+  
+  /* Wrapper - horizontal scroll */
+  .xx-coverflow-wrapper {
+    overflow-x: auto !important;
+    overflow-y: visible !important;
+    -webkit-overflow-scrolling: touch !important;
+    scroll-snap-type: x mandatory !important;
+    padding: 1rem !important;
+    display: flex !important;
+    align-items: flex-start !important;
+  }
+  
+  /* Track */
+  .xx-coverflow-track {
+    display: flex !important;
+    gap: 1.5rem !important;
+    padding: 0.5rem !important;
+    min-height: 480px !important;
+  }
+  
+  /* Episode Cards */
+  .xx-episode-card {
+    flex-shrink: 0 !important;
+    width: 85vw !important;
+    max-width: 340px !important;
+    height: auto !important;
+    min-height: 480px !important;
+    scroll-snap-align: center !important;
+    position: relative !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+  
+  /* Card sleeve */
+  .xx-episode-sleeve {
+    position: relative !important;
+    height: 100% !important;
+    min-height: 480px !important;
+    padding: 1.5rem !important;
+    border-radius: 16px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: visible !important;
+  }
+  
+  /* Episode content area */
+  .xx-episode-content {
+    position: relative !important;
+    bottom: auto !important;
+    left: auto !important;
+    right: auto !important;
+    margin-top: auto !important;
+    padding: 1.25rem !important;
+    border-radius: 12px !important;
+    background: rgba(0, 0, 0, 0.85) !important;
+    backdrop-filter: blur(10px) !important;
+    transform: none !important;
+    opacity: 1 !important;
+    overflow: visible !important;
+  }
+  
+  /* Content typography */
+  .xx-episode-content h3 {
+    font-size: 1.25rem !important;
+    line-height: 1.3 !important;
+    margin-bottom: 0.75rem !important;
+    color: var(--xx-cream) !important;
+    overflow: visible !important;
+    white-space: normal !important;
+    text-overflow: clip !important;
+  }
+  
+  .xx-episode-content p {
+    font-size: 0.95rem !important;
+    line-height: 1.6 !important;
+    margin-bottom: 0.75rem !important;
+    color: rgba(226, 214, 199, 0.9) !important;
+    overflow: visible !important;
+    white-space: normal !important;
+    text-overflow: clip !important;
+  }
+  
+  .xx-episode-meta {
+    font-size: 0.85rem !important;
+    opacity: 0.8 !important;
+    overflow: visible !important;
+  }
+  
+  /* Remove hidden overflow from all episode elements */
+  .xx-episode-card,
+  .xx-episode-card *,
+  .xx-episode-sleeve,
+  .xx-episode-content,
+  .xx-episode-content * {
+    overflow: visible !important;
+    max-height: none !important;
+    text-overflow: clip !important;
+  }
+  
+  /* Hide navigation arrows on mobile */
+  .xx-coverflow-nav {
+    display: none !important;
+  }
+  
+  /* Style scroll indicator */
+  .xx-scroll-indicator {
+    margin-top: 1.5rem !important;
+    text-align: center !important;
+    font-size: 0.85rem !important;
+    color: var(--xx-cream) !important;
+    opacity: 0.7 !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .xx-episode-card {
+    width: 90vw !important;
+    max-width: 300px !important;
+    min-height: 460px !important;
+  }
+  
+  .xx-episode-sleeve {
+    min-height: 460px !important;
+    padding: 1.25rem !important;
+  }
+  
+  .xx-episode-content h3 {
+    font-size: 1.15rem !important;
+  }
+  
+  .xx-episode-content p {
+    font-size: 0.9rem !important;
+  }
+}
+
+/* Move navigation buttons up on mobile */
+@media (max-width: 768px) {
+  .xx-coverflow-nav {
+    top: 40% !important;
+    transform: translateY(-50%) !important;
+  }
+  
+  .xx-coverflow-nav.prev {
+    left: 0.5rem !important;
+  }
+  
+  .xx-coverflow-nav.next {
+    right: 0.5rem !important;
+  }
+}
+
+/* For desktop - move buttons up slightly */
+@media (min-width: 769px) {
+  .xx-coverflow-nav {
+    top: 45% !important;
+  }
+}
+
+/* Center Join the Conversation section on mobile */
+@media (max-width: 768px) {
+  #community {
+    text-align: center !important;
+  }
+  
+  #community .section-inner {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+  
+  #community h2,
+  #community .lead,
+  #community p {
+    text-align: center !important;
+  }
+  
+  #community > div > div:nth-child(2) {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    width: 100% !important;
+  }
+  
+  #community > div > div:nth-child(2) > div {
+    max-width: 400px !important;
+    width: 100% !important;
+  }
+  
+  .community-forum-button {
+    margin: 0 auto !important;
+  }
+}

@@ -1,7 +1,46 @@
-node_modules
-dist
+# Dependencies
+node_modules/
+package-lock.json
+
+# Build outputs
+dist/
+build/
+server/public/
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
 .DS_Store
-server/public
-vite.config.ts.*
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Testing
+coverage/
+
+# Misc
 *.tar.gz
 .local/
+vite.config.ts.*
+
+# Screenshots and test images (keep if needed, otherwise remove)
+*.png
+!xxperiment/*.png
+
+# Temporary files
+*.tmp
+*.temp

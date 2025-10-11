@@ -1,5 +1,58 @@
 // XXperiment - Vanilla JavaScript Application
 
+// ==================== VIDEO PRELOADER ====================
+function initVideoPreloader() {
+    const preloader = document.getElementById('video-preloader');
+    const video = document.getElementById('preloader-video');
+    const skipBtn = document.getElementById('skip-preloader');
+    
+    if (!preloader || !video) return;
+    
+    function hidePreloader() {
+        // Fade out and scale down the video
+        video.style.transition = 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s ease-out';
+        video.style.transform = 'scale(1.2)';
+        video.style.opacity = '0';
+        
+        // Fade out skip button
+        if (skipBtn) {
+            skipBtn.style.transition = 'opacity 0.5s ease-out';
+            skipBtn.style.opacity = '0';
+        }
+        
+        // Fade out preloader container
+        setTimeout(() => {
+            preloader.style.transition = 'opacity 0.6s ease-out';
+            preloader.style.opacity = '0';
+        }, 300);
+        
+        // Remove from DOM
+        setTimeout(() => {
+            preloader.style.display = 'none';
+        }, 1200);
+    }
+    
+    // Hide preloader when video ends
+    video.addEventListener('ended', hidePreloader);
+    
+    // Fallback: if video fails to load, hide after 3 seconds
+    video.addEventListener('error', () => {
+        console.warn('Preloader video failed to load');
+        setTimeout(hidePreloader, 1000);
+    });
+    
+    // Skip button functionality
+    if (skipBtn) {
+        skipBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent event bubbling
+            hidePreloader();
+        });
+    }
+}
+
+// Initialize preloader immediately
+initVideoPreloader();
+
 // ==================== DATA ====================
 const vinylSections = [
     { title: "Who we are", slug: "who", angle: 225, copy: "We're a small, scrappy crew obsessed with evidence, empathy, and telling women's health stories the way they deserve to be told — nuanced, nerdy, and never boring." },
@@ -437,32 +490,45 @@ function initMobileMenu() {
     const toggle = document.getElementById('mobile-menu-toggle');
     const close = document.getElementById('mobile-menu-close');
     const menu = document.getElementById('mobile-nav');
+    const overlay = document.getElementById('mobile-menu-overlay');
     const links = document.querySelectorAll('.mobile-nav-link');
 
-    toggle.addEventListener('click', () => {
-        state.isMobileMenuOpen = !state.isMobileMenuOpen;
-        menu.classList.toggle('open', state.isMobileMenuOpen);
-    });
+    function openMenu() {
+        state.isMobileMenuOpen = true;
+        menu.classList.add('open');
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    }
 
-    close.addEventListener('click', () => {
+    function closeMenu() {
         state.isMobileMenuOpen = false;
         menu.classList.remove('open');
+        overlay.classList.remove('active');
+        document.body.style.overflow = ''; // Re-enable scrolling
+    }
+
+    toggle.addEventListener('click', () => {
+        if (state.isMobileMenuOpen) {
+            closeMenu();
+        } else {
+            openMenu();
+        }
     });
 
+    close.addEventListener('click', closeMenu);
+
+    // Close when clicking overlay
+    overlay.addEventListener('click', closeMenu);
+
+    // Close when clicking a link
     links.forEach(link => {
-        link.addEventListener('click', () => {
-            state.isMobileMenuOpen = false;
-            menu.classList.remove('open');
-        });
+        link.addEventListener('click', closeMenu);
     });
 
-    // Close on outside click
-    document.addEventListener('click', (e) => {
-        if (state.isMobileMenuOpen &&
-            !e.target.closest('.mobile-nav') &&
-            !e.target.closest('.mobile-menu-toggle')) {
-            state.isMobileMenuOpen = false;
-            menu.classList.remove('open');
+    // Close on escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && state.isMobileMenuOpen) {
+            closeMenu();
         }
     });
 }
@@ -549,6 +615,227 @@ function initNavHoverEffects() {
     });
 }
 
+// ==================== SCROLL ANIMATIONS ====================
+function initScrollAnimations() {
+    // Check if GSAP and ScrollTrigger are available
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+        console.warn('GSAP or ScrollTrigger not loaded');
+        return;
+    }
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Hero section animations
+    gsap.from('.kicker', {
+        scrollTrigger: {
+            trigger: '.hero',
+            start: 'top 80%',
+            toggleActions: 'play none none reverse'
+        },
+        opacity: 0,
+        y: 30,
+        duration: 0.8,
+        ease: 'power2.out'
+    });
+
+    gsap.from('.hero-title', {
+        scrollTrigger: {
+            trigger: '.hero',
+            start: 'top 80%',
+            toggleActions: 'play none none reverse'
+        },
+        opacity: 0,
+        y: 50,
+        duration: 1,
+        delay: 0.2,
+        ease: 'power2.out'
+    });
+
+    gsap.from('.hero-sub', {
+        scrollTrigger: {
+            trigger: '.hero',
+            start: 'top 80%',
+            toggleActions: 'play none none reverse'
+        },
+        opacity: 0,
+        y: 30,
+        duration: 0.8,
+        delay: 0.4,
+        ease: 'power2.out'
+    });
+
+    gsap.from('.cta-row .btn', {
+        scrollTrigger: {
+            trigger: '.hero',
+            start: 'top 80%',
+            toggleActions: 'play none none reverse'
+        },
+        opacity: 0,
+        y: 30,
+        duration: 0.8,
+        delay: 0.6,
+        stagger: 0.2,
+        ease: 'power2.out'
+    });
+
+    // About section animations
+    gsap.from('#about .section-title', {
+        scrollTrigger: {
+            trigger: '#about',
+            start: 'top 80%',
+            toggleActions: 'play none none reverse'
+        },
+        opacity: 0,
+        y: 40,
+        duration: 0.8,
+        ease: 'power2.out'
+    });
+
+    gsap.from('#about .lead', {
+        scrollTrigger: {
+            trigger: '#about',
+            start: 'top 75%',
+            toggleActions: 'play none none reverse'
+        },
+        opacity: 0,
+        y: 30,
+        duration: 0.8,
+        delay: 0.2,
+        ease: 'power2.out'
+    });
+
+    // Vinyl player animation
+    gsap.from('.vinyl-grid', {
+        scrollTrigger: {
+            trigger: '.vinyl-grid',
+            start: 'top 80%',
+            toggleActions: 'play none none reverse'
+        },
+        opacity: 0,
+        scale: 0.9,
+        duration: 1,
+        ease: 'power2.out'
+    });
+
+    // Episodes section
+    gsap.from('#episodes .section-title', {
+        scrollTrigger: {
+            trigger: '#episodes',
+            start: 'top 80%',
+            toggleActions: 'play none none reverse'
+        },
+        opacity: 0,
+        y: 40,
+        duration: 0.8,
+        ease: 'power2.out'
+    });
+
+    gsap.from('#episodes .lead', {
+        scrollTrigger: {
+            trigger: '#episodes',
+            start: 'top 75%',
+            toggleActions: 'play none none reverse'
+        },
+        opacity: 0,
+        y: 30,
+        duration: 0.8,
+        delay: 0.2,
+        ease: 'power2.out'
+    });
+
+    gsap.from('.coverflow', {
+        scrollTrigger: {
+            trigger: '.coverflow',
+            start: 'top 80%',
+            toggleActions: 'play none none reverse'
+        },
+        opacity: 0,
+        y: 50,
+        duration: 1,
+        delay: 0.3,
+        ease: 'power2.out'
+    });
+
+    // Subscribe section
+    gsap.from('#subscribe .section-title', {
+        scrollTrigger: {
+            trigger: '#subscribe',
+            start: 'top 80%',
+            toggleActions: 'play none none reverse'
+        },
+        opacity: 0,
+        y: 40,
+        duration: 0.8,
+        ease: 'power2.out'
+    });
+
+    gsap.from('#subscribe .lead', {
+        scrollTrigger: {
+            trigger: '#subscribe',
+            start: 'top 75%',
+            toggleActions: 'play none none reverse'
+        },
+        opacity: 0,
+        y: 30,
+        duration: 0.8,
+        delay: 0.2,
+        ease: 'power2.out'
+    });
+
+    gsap.from('.subscribe-card', {
+        scrollTrigger: {
+            trigger: '.subscribe-card',
+            start: 'top 80%',
+            toggleActions: 'play none none reverse'
+        },
+        opacity: 0,
+        y: 50,
+        duration: 1,
+        delay: 0.3,
+        ease: 'power2.out'
+    });
+
+    // Stagger animation for platform links
+    gsap.from('.platforms a', {
+        scrollTrigger: {
+            trigger: '.platforms',
+            start: 'top 80%',
+            toggleActions: 'play none none reverse'
+        },
+        opacity: 0,
+        y: 20,
+        duration: 0.6,
+        stagger: 0.1,
+        ease: 'power2.out'
+    });
+
+    // Footer animations
+    gsap.from('footer .footer-content > *', {
+        scrollTrigger: {
+            trigger: 'footer',
+            start: 'top 90%',
+            toggleActions: 'play none none reverse'
+        },
+        opacity: 0,
+        y: 30,
+        duration: 0.8,
+        stagger: 0.15,
+        ease: 'power2.out'
+    });
+
+    // Animate stickers with parallax
+    gsap.to('.sticker', {
+        scrollTrigger: {
+            trigger: '.hero',
+            start: 'top top',
+            end: 'bottom top',
+            scrub: 1
+        },
+        y: (i, target) => -ScrollTrigger.maxScroll(window) * target.dataset.depth * 0.5,
+        ease: 'none'
+    });
+}
+
 // ==================== INITIALIZATION ====================
 function init() {
     checkMobile();
@@ -557,6 +844,9 @@ function init() {
     initMobileMenu();
     initEventListeners();
     initNavHoverEffects();
+    
+    // Initialize scroll animations after a short delay to ensure DOM is ready
+    setTimeout(initScrollAnimations, 100);
 }
 
 // Wait for DOM to be ready
@@ -565,3 +855,81 @@ if (document.readyState === 'loading') {
 } else {
     init();
 }
+
+// ==================== FORUM NAVIGATION ====================
+async function checkAuthStatus() {
+    try {
+        const response = await fetch('/api/auth/status');
+        if (response.ok) {
+            const data = await response.json();
+            return data.authenticated ? data.user : null;
+        }
+    } catch (error) {
+        // Silent fail - user not authenticated
+    }
+    return null;
+}
+
+function setupForumNavigation() {
+    const forumButtons = [
+        document.getElementById('forum-btn'),
+        document.getElementById('mobile-forum-btn'),
+        document.getElementById('community-forum-btn')
+    ];
+
+    forumButtons.forEach(button => {
+        if (button) {
+            button.addEventListener('click', () => {
+                window.location.href = '/forum';
+            });
+        }
+    });
+    
+    // Check authentication and update UI
+    checkAuthStatus().then(user => {
+        const desktopSigninBtn = document.getElementById('signin-btn');
+        const mobileSigninBtn = document.getElementById('mobile-signin-btn');
+        
+        if (user) {
+            // User is signed in - show welcome message
+            const displayName = user.displayName || user.username;
+            
+            // Update desktop button
+            if (desktopSigninBtn) {
+                desktopSigninBtn.textContent = `Hi, ${displayName}`;
+                desktopSigninBtn.style.cursor = 'pointer';
+                desktopSigninBtn.addEventListener('click', () => {
+                    window.location.href = '/profile';
+                });
+            }
+            
+            // Update mobile button
+            if (mobileSigninBtn) {
+                mobileSigninBtn.textContent = `Welcome, ${displayName}`;
+                mobileSigninBtn.style.cursor = 'pointer';
+                mobileSigninBtn.addEventListener('click', () => {
+                    window.location.href = '/profile';
+                });
+            }
+        } else {
+            // User is not signed in - show sign in buttons
+            if (desktopSigninBtn) {
+                desktopSigninBtn.addEventListener('click', () => {
+                    window.location.href = '/auth/signin';
+                });
+            }
+            
+            if (mobileSigninBtn) {
+                mobileSigninBtn.addEventListener('click', () => {
+                    window.location.href = '/auth/signin';
+                });
+            }
+        }
+    });
+}
+
+// Initialize forum navigation when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    setupForumNavigation();
+});
+

@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Community Forum - XXperiment</title>
+    <meta name="description" content="Join the XXperiment community discussion - share your thoughts on women's health, hormones, and life experiences">
+
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Forum-specific styles */
+        .forum-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 6rem 2rem 4rem;
+            min-height: 100vh;
+        }
+
+        .forum-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .forum-header h1 {
+            font-family: 'Alfa Slab One', serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            color: var(--xx-cream);
+            margin-bottom: 1rem;
+            text-shadow: 6px 6px 0 rgba(12,11,11,.6);
+        }
+
+        .forum-header p {
+            font-size: clamp(1rem, 3vw, 1.3rem);
+            color: var(--xx-cream);
+            opacity: 0.9;
+        }
+
+        .forum-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .category-card {
+            background: rgba(226, 214, 199, 0.08);
+            border: 2px solid rgba(226, 214, 199, 0.2);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            background: rgba(226, 214, 199, 0.12);
+            border-color: rgba(226, 214, 199, 0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .category-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .category-title {
+            font-family: 'Alfa Slab One', serif;
+            font-size: 1.5rem;
+            color: var(--xx-cream);
+            margin-bottom: 0.75rem;
+        }
+
+        .category-description {
+            color: var(--xx-cream);
+            opacity: 0.8;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .category-stats {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--xx-cream);
+            opacity: 0.7;
+        }
+
+        .thread-list {
+            background: rgba(226, 214, 199, 0.05);
+            border: 1px solid rgba(226, 214, 199, 0.15);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .thread-item {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(226, 214, 199, 0.1);
+            transition: background 0.2s ease;
+            cursor: pointer;
+        }
+
+        .thread-item:last-child {
+            border-bottom: none;
+        }
+
+        .thread-item:hover {
+            background: rgba(226, 214, 199, 0.08);
+        }
+
+        .thread-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--xx-cream);
+            margin-bottom: 0.5rem;
+        }
+
+        .thread-meta {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.85rem;
+            color: var(--xx-cream);
+            opacity: 0.6;
+        }
+
+        .new-thread-btn {
+            background: linear-gradient(135deg, #7f1e16, #5a1510);
+            color: #ffffff;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(127, 30, 22, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .new-thread-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(127, 30, 22, 0.6);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--xx-cream);
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            padding: 0.75rem 1.5rem;
+            border: 2px solid rgba(226, 214, 199, 0.3);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: rgba(226, 214, 199, 0.1);
+            border-color: rgba(226, 214, 199, 0.5);
+            transform: translateX(-4px);
+        }
+
+        @media (max-width: 768px) {
+            .forum-container {
+                padding: 5rem 1.5rem 3rem;
+            }
+
+            .forum-categories {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .category-card {
+                padding: 1.5rem;
+            }
+
+            .thread-list {
+                padding: 1rem;
+            }
+
+            .thread-item {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body class="grain vignette">
+    <!-- Header -->
+    <header id="header">
+        <nav id="nav" class="nav">
+            <div style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 100%;
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 1rem
+            ">
+                <a href="index.html" class="back-link">
+                    ← Back to Main Site
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Forum Container -->
+    <div class="forum-container">
+        <!-- Forum Header -->
+        <div class="forum-header">
+            <h1>Community Forum</h1>
+            <p>Join the conversation. Share your experiences. Connect with the community.</p>
+        </div>
+
+        <!-- Forum Categories -->
+        <div class="forum-categories">
+            <div class="category-card" onclick="loadCategory('general')">
+                <div class="category-icon">💬</div>
+                <h3 class="category-title">General Discussion</h3>
+                <p class="category-description">
+                    Share your thoughts on women's health, hormones, and life experiences. Open conversations about everything XX.
+                </p>
+                <div class="category-stats">
+                    <span>📝 127 threads</span>
+                    <span>💭 1.2k replies</span>
+                </div>
+            </div>
+
+            <div class="category-card" onclick="loadCategory('episodes')">
+                <div class="category-icon">🎧</div>
+                <h3 class="category-title">Episode Discussions</h3>
+                <p class="category-description">
+                    Dive deeper into specific episodes. Discuss guest insights, share resources, and continue the conversation.
+                </p>
+                <div class="category-stats">
+                    <span>📝 89 threads</span>
+                    <span>💭 890 replies</span>
+                </div>
+            </div>
+
+            <div class="category-card" onclick="loadCategory('health')">
+                <div class="category-icon">🏥</div>
+                <h3 class="category-title">Health & Wellness</h3>
+                <p class="category-description">
+                    Science-backed discussions on hormones, cycle tracking, nutrition, fitness, and holistic wellness for women.
+                </p>
+                <div class="category-stats">
+                    <span>📝 203 threads</span>
+                    <span>💭 2.1k replies</span>
+                </div>
+            </div>
+
+            <div class="category-card" onclick="loadCategory('lifestyle')">
+                <div class="category-icon">✨</div>
+                <h3 class="category-title">Lifestyle & Career</h3>
+                <p class="category-description">
+                    Relationships, career growth, money talks, and navigating life as a woman in the modern world.
+                </p>
+                <div class="category-stats">
+                    <span>📝 156 threads</span>
+                    <span>💭 1.5k replies</span>
+                </div>
+            </div>
+
+            <div class="category-card" onclick="loadCategory('resources')">
+                <div class="category-icon">📚</div>
+                <h3 class="category-title">Resources & Recommendations</h3>
+                <p class="category-description">
+                    Share books, podcasts, products, apps, and tools that have helped you on your journey.
+                </p>
+                <div class="category-stats">
+                    <span>📝 94 threads</span>
+                    <span>💭 670 replies</span>
+                </div>
+            </div>
+
+            <div class="category-card" onclick="loadCategory('community')">
+                <div class="category-icon">🤝</div>
+                <h3 class="category-title">Community Support</h3>
+                <p class="category-description">
+                    A safe space for support, solidarity, and sharing personal experiences. You're not alone.
+                </p>
+                <div class="category-stats">
+                    <span>📝 178 threads</span>
+                    <span>💭 2.3k replies</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Threads -->
+        <div class="thread-list">
+            <h2 style="font-family: 'Alfa Slab One', serif; color: var(--xx-cream); margin-bottom: 1.5rem;">
+                🔥 Recent Discussions
+            </h2>
+
+            <div class="thread-item" onclick="alert('Thread functionality coming soon!')">
+                <div class="thread-title">Cycle-syncing your workouts - what actually works?</div>
+                <div class="thread-meta">
+                    <span>👤 @sarahm</span>
+                    <span>💬 23 replies</span>
+                    <span>🕐 2 hours ago</span>
+                </div>
+            </div>
+
+            <div class="thread-item" onclick="alert('Thread functionality coming soon!')">
+                <div class="thread-title">EP 07 Discussion: Training with hormones</div>
+                <div class="thread-meta">
+                    <span>👤 @alexr</span>
+                    <span>💬 45 replies</span>
+                    <span>🕐 5 hours ago</span>
+                </div>
+            </div>
+
+            <div class="thread-item" onclick="alert('Thread functionality coming soon!')">
+                <div class="thread-title">Best apps for tracking your cycle?</div>
+                <div class="thread-meta">
+                    <span>👤 @jess_w</span>
+                    <span>💬 67 replies</span>
+                    <span>🕐 1 day ago</span>
+                </div>
+            </div>
+
+            <div class="thread-item" onclick="alert('Thread functionality coming soon!')">
+                <div class="thread-title">Negotiating salary as a woman - your success stories</div>
+                <div class="thread-meta">
+                    <span>👤 @maria_k</span>
+                    <span>💬 89 replies</span>
+                    <span>🕐 2 days ago</span>
+                </div>
+            </div>
+
+            <div class="thread-item" onclick="alert('Thread functionality coming soon!')">
+                <div class="thread-title">PCOS support - let's share what's helped</div>
+                <div class="thread-meta">
+                    <span>👤 @lauram</span>
+                    <span>💬 112 replies</span>
+                    <span>🕐 3 days ago</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- New Thread Button -->
+        <div style="text-align: center; margin-top: 3rem;">
+            <button class="new-thread-btn" onclick="alert('Sign up or login to start a new thread!')">
+                🚀 Start a New Discussion
+            </button>
+        </div>
+
+        <!-- Coming Soon Notice -->
+        <div style="
+            text-align: center;
+            margin-top: 4rem;
+            padding: 2rem;
+            background: rgba(226, 214, 199, 0.05);
+            border-radius: 16px;
+            border: 2px solid rgba(226, 214, 199, 0.15);
+        ">
+            <h3 style="color: var(--xx-cream); font-size: 1.5rem; margin-bottom: 1rem;">
+                🚧 Forum Coming Soon!
+            </h3>
+            <p style="color: var(--xx-cream); opacity: 0.8; max-width: 600px; margin: 0 auto;">
+                We're building an amazing community space for you. Sign up for our newsletter to be notified when the forum launches!
+            </p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer role="contentinfo" style="margin-top: 4rem;">
+        <div class="foot">
+            <span>© <span id="year"></span> The XXperiment</span>
+            <span aria-label="Podcast tagline">Unfiltered • Bold • Vintage</span>
+        </div>
+    </footer>
+
+    <script>
+        // Set current year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Category navigation
+        function loadCategory(categoryName) {
+            alert(`${categoryName.charAt(0).toUpperCase() + categoryName.slice(1)} category - Full forum functionality coming soon! For now, join our newsletter to stay updated.`);
+        }
+
+        // Mobile menu toggle (if needed)
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const mobileNav = document.getElementById('mobile-nav');
+        const mobileMenuClose = document.getElementById('mobile-menu-close');
+
+        if (mobileMenuToggle) {
+            mobileMenuToggle.addEventListener('click', () => {
+                mobileNav.classList.add('open');
+            });
+        }
+
+        if (mobileMenuClose) {
+            mobileMenuClose.addEventListener('click', () => {
+                mobileNav.classList.remove('open');
+            });
+        }
+    </script>
+</body>
+</html>

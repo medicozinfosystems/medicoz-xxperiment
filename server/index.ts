@@ -1,10 +1,37 @@
 import express, { type Request, Response, NextFunction } from "express";
+import session from "express-session";
+import passport from "passport";
 import { registerRoutes } from "./routes";
+import path from "path";
 import { setupVite, serveStatic, log } from "./vite";
+import { connectToMongoDB } from "./db/mongodb";
+import { configurePassport } from "./config/passport";
+import authRoutes from "./routes/auth.routes";
+import forumRoutes from "./routes/forum.routes";
+import notificationsRoutes from "./routes/notifications.routes";
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+// Session configuration
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'xxperiment-secret-key-change-in-production',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true,
+    maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+  }
+}));
+
+// Initialize Passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Configure Passport strategies
+configurePassport();
 
 app.use((req, res, next) => {
   const start = Date.now();
@@ -37,7 +64,27 @@ app.use((req, res, next) => {
 });
 
 (async () => {
+  // Connect to MongoDB
+  try {
+    await connectToMongoDB();
+  } catch (error) {
+    console.error('Failed to connect to MongoDB:', error);
+    process.exit(1);
+  }
+
   const server = await registerRoutes(app);
+
+  // Register routes
+  app.use('/api/auth', authRoutes);
+  app.use('/api/forum', forumRoutes);
+  app.use('/api/notifications', notificationsRoutes);
+
+  // Serve the static XXperiment site during local dev and production server runs
+  // This serves files from the top-level `xxperiment/` directory at /xxperiment
+  app.use(
+    "/xxperiment",
+    express.static(path.resolve(import.meta.dirname, "..", "xxperiment")),
+  );
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
