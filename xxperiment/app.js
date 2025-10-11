@@ -517,13 +517,14 @@ function initMobileMenu() {
 
     close.addEventListener('click', closeMenu);
 
-    // Close when clicking overlay
-    overlay.addEventListener('click', closeMenu);
-
-    // Stop propagation from menu to overlay
-    menu.addEventListener('click', (e) => {
-        console.log('🔘 Click inside mobile menu:', e.target);
-        e.stopPropagation(); // Prevent clicks inside menu from reaching overlay
+    // Close when clicking anywhere outside the menu
+    document.addEventListener('click', (e) => {
+        if (state.isMobileMenuOpen && 
+            !menu.contains(e.target) && 
+            e.target !== toggle) {
+            console.log('🔘 Click outside menu, closing...');
+            closeMenu();
+        }
     });
 
     // Close when clicking a link
@@ -889,9 +890,10 @@ function setupForumNavigation() {
         if (button) {
             console.log('✅ Found forum button:', button.id);
             button.addEventListener('click', (e) => {
-                console.log('🖱️ Forum button clicked!', button.id);
+                console.log('🖱️ Forum button clicked!', button.id, e);
                 e.preventDefault();
                 e.stopPropagation();
+                e.stopImmediatePropagation();
                 // Close mobile menu if open
                 const mobileMenu = document.getElementById('mobile-nav');
                 if (mobileMenu && mobileMenu.classList.contains('open')) {
@@ -905,7 +907,7 @@ function setupForumNavigation() {
                 setTimeout(() => {
                     window.location.href = '/forum';
                 }, 100);
-            });
+            }, true); // Use capture phase
         }
     });
     
@@ -934,9 +936,10 @@ function setupForumNavigation() {
                 mobileSigninBtn.textContent = `Welcome, ${displayName}`;
                 mobileSigninBtn.style.cursor = 'pointer';
                 mobileSigninBtn.addEventListener('click', (e) => {
-                    console.log('🖱️ Mobile signin button clicked (logged in)');
+                    console.log('🖱️ Mobile signin button clicked (logged in)', e);
                     e.preventDefault();
                     e.stopPropagation();
+                    e.stopImmediatePropagation();
                     // Close mobile menu if open
                     const mobileMenu = document.getElementById('mobile-nav');
                     if (mobileMenu && mobileMenu.classList.contains('open')) {
@@ -950,7 +953,7 @@ function setupForumNavigation() {
                     setTimeout(() => {
                         window.location.href = '/profile';
                     }, 100);
-                });
+                }, true); // Use capture phase
             }
         } else {
             // User is not signed in - show sign in buttons
@@ -963,9 +966,10 @@ function setupForumNavigation() {
             if (mobileSigninBtn) {
                 console.log('✅ Setting up mobile signin button for guest user');
                 mobileSigninBtn.addEventListener('click', (e) => {
-                    console.log('🖱️ Mobile signin button clicked (guest)');
+                    console.log('🖱️ Mobile signin button clicked (guest)', e);
                     e.preventDefault();
                     e.stopPropagation();
+                    e.stopImmediatePropagation();
                     // Close mobile menu if open
                     const mobileMenu = document.getElementById('mobile-nav');
                     if (mobileMenu && mobileMenu.classList.contains('open')) {
@@ -979,7 +983,7 @@ function setupForumNavigation() {
                     setTimeout(() => {
                         window.location.href = '/auth/signin';
                     }, 100);
-                });
+                }, true); // Use capture phase
             }
         }
     });

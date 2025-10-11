@@ -113,10 +113,11 @@ body{
 
 /* ENHANCED NAV */
 header{
-  position:fixed; top:0; left:0; right:0; z-index:50;
+  position:fixed; top:0; left:0; right:0; z-index:9997;
   backdrop-filter: var(--blur-bg); background: rgba(127,30,22,0.9);
   border-bottom: 1px solid rgba(226,214,199,0.1);
   transition: all 0.3s var(--smooth);
+  width: 100%;
 }
 
 header.scrolled {
@@ -2758,6 +2759,18 @@ footer{
 
 /* Mobile-First Responsive Design */
 @media (max-width: 768px) {
+  /* Ensure header stays fixed on mobile */
+  header {
+    position: fixed !important;
+    top: 0 !important;
+    z-index: 9997 !important;
+  }
+  
+  /* Add padding to body/content to account for fixed header */
+  body {
+    padding-top: 60px !important;
+  }
+  
   /* Mobile Navigation */
   .mobile-menu-toggle {
     display: block !important;
@@ -4593,7 +4606,7 @@ footer{
 
 .mobile-menu-overlay.active {
     opacity: 1;
-    pointer-events: auto;
+    pointer-events: none; /* Keep pointer-events: none so overlay doesn't block menu */
 }
 
 /* Desktop Navigation */
