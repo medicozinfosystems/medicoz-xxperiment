@@ -87,9 +87,17 @@ router.post('/signin', async (req: Request, res: Response) => {
     req.session.userId = user._id!.toString();
     req.session.role = user.role;
     
-    res.json({
-      message: 'Signed in successfully',
-      user: getPublicUserData(user)
+    // Explicitly save session before sending response
+    req.session.save((err) => {
+      if (err) {
+        console.error('Session save error:', err);
+        return res.status(500).json({ error: 'Failed to save session' });
+      }
+      
+      res.json({
+        message: 'Signed in successfully',
+        user: getPublicUserData(user)
+      });
     });
   } catch (error: any) {
     console.error('Signin error:', error);
@@ -330,8 +338,18 @@ router.get('/google/callback',
       const user = req.user as any;
       req.session.userId = user._id.toString();
       req.session.role = user.role;
+      
+      // Explicitly save session before redirecting
+      req.session.save((err) => {
+        if (err) {
+          console.error('Google OAuth session save error:', err);
+          return res.redirect('/auth/signin?error=session_error');
+        }
+        res.redirect('/forum');
+      });
+    } else {
+      res.redirect('/auth/signin?error=no_user');
     }
-    res.redirect('/forum');
   }
 );
 
