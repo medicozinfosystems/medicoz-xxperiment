@@ -66,7 +66,9 @@ export default function PostDetail() {
 
   const checkAuth = async () => {
     try {
-      const response = await fetch('/api/auth/status');
+      const response = await fetch('/api/auth/status', {
+        credentials: 'include' // Important: Send cookies with request
+      });
       const data = await response.json();
       setIsAuthenticated(data.authenticated);
       if (data.user) {

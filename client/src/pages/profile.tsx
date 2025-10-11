@@ -89,7 +89,9 @@ export default function Profile() {
 
   const fetchProfile = async () => {
     try {
-      const response = await fetch('/api/auth/me');
+      const response = await fetch('/api/auth/me', {
+        credentials: 'include' // Important: Send cookies with request
+      });
       
       if (response.ok) {
         const data = await response.json();

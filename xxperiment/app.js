@@ -830,7 +830,9 @@ if (document.readyState === 'loading') {
 // ==================== FORUM NAVIGATION ====================
 async function checkAuthStatus() {
     try {
-        const response = await fetch('/api/auth/status');
+        const response = await fetch('/api/auth/status', {
+            credentials: 'include' // Important: Send cookies with request
+        });
         if (response.ok) {
             const data = await response.json();
             return data.authenticated ? data.user : null;

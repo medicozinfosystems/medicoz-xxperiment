@@ -21,6 +21,7 @@ export default function SignIn() {
       const response = await fetch('/api/auth/signin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include', // Important: Send cookies with request
         body: JSON.stringify({ emailOrUsername, password }),
       });
 
