@@ -851,32 +851,58 @@ function initStickyHeader() {
     // Force sticky header on mobile
     if (window.innerWidth <= 768) {
         console.log('📌 Forcing sticky header on mobile');
-        header.style.position = 'fixed';
-        header.style.top = '0';
-        header.style.left = '0';
-        header.style.right = '0';
-        header.style.width = '100%';
-        header.style.zIndex = '9997';
-        header.style.transform = 'translateZ(0)';
-        header.style.webkitTransform = 'translateZ(0)';
         
-        // Keep it fixed on scroll
+        const forceFixed = () => {
+            header.style.cssText = `
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+                width: 100% !important;
+                z-index: 9997 !important;
+                transform: translateZ(0) !important;
+                -webkit-transform: translateZ(0) !important;
+            `;
+        };
+        
+        // Initial force
+        forceFixed();
+        
+        // Monitor on scroll
+        let scrollCount = 0;
         window.addEventListener('scroll', () => {
-            if (header.style.position !== 'fixed') {
-                console.log('⚠️ Header position changed! Restoring...');
-                header.style.position = 'fixed';
-                header.style.top = '0';
+            scrollCount++;
+            const rect = header.getBoundingClientRect();
+            const computedTop = getComputedStyle(header).top;
+            
+            if (rect.top !== 0 || computedTop !== '0px') {
+                console.warn(`⚠️ Scroll ${scrollCount}: Header moved! rect.top=${rect.top}, computed.top=${computedTop}`);
             }
+            
+            forceFixed();
         }, { passive: true });
         
-        // Check periodically
+        // Monitor with MutationObserver
+        const observer = new MutationObserver(() => {
+            console.log('🔄 Header DOM changed, re-forcing...');
+            forceFixed();
+        });
+        
+        observer.observe(header, {
+            attributes: true,
+            attributeFilter: ['style', 'class']
+        });
+        
+        // Check every 500ms
         setInterval(() => {
-            if (header.style.position !== 'fixed') {
-                console.log('⚠️ Header position changed! Restoring...');
-                header.style.position = 'fixed';
-                header.style.top = '0';
+            const rect = header.getBoundingClientRect();
+            if (rect.top !== 0) {
+                console.warn(`⚠️ Periodic check: Header at top=${rect.top}, forcing back!`);
+                forceFixed();
             }
-        }, 1000);
+        }, 500);
+        
+        console.log('✅ Sticky header monitors active');
     }
 }
 
