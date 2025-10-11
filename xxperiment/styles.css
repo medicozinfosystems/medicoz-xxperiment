@@ -2766,11 +2766,6 @@ footer{
     z-index: 9997 !important;
   }
   
-  /* Add padding to body/content to account for fixed header */
-  body {
-    padding-top: 60px !important;
-  }
-  
   /* Mobile Navigation */
   .mobile-menu-toggle {
     display: block !important;
@@ -2794,18 +2789,10 @@ footer{
     margin-bottom: 0;
   }
   
-  /* Remove any default margins/padding that might create gaps */
+  /* Hero section should start right under the fixed header */
   .hero {
-    margin-top: -2rem !important;
-    padding-top: 0 !important;
-  }
-  
-  /* Ensure no gap between nav and hero */
-  header + .hero,
-  nav + .hero,
-  #header + .hero {
-    margin-top: -2rem !important;
-    padding-top: 0 !important;
+    margin-top: 0 !important;
+    padding-top: 70px !important; /* Account for fixed header height */
   }
   
   /* Target the header element specifically */
