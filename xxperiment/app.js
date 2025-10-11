@@ -879,8 +879,20 @@ function setupForumNavigation() {
 
     forumButtons.forEach(button => {
         if (button) {
-            button.addEventListener('click', () => {
-                window.location.href = '/forum';
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                // Close mobile menu if open
+                const mobileMenu = document.getElementById('mobile-nav');
+                if (mobileMenu && mobileMenu.classList.contains('open')) {
+                    mobileMenu.classList.remove('open');
+                    document.getElementById('mobile-menu-overlay').classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+                // Navigate after a short delay
+                setTimeout(() => {
+                    window.location.href = '/forum';
+                }, 100);
             });
         }
     });
@@ -907,8 +919,20 @@ function setupForumNavigation() {
             if (mobileSigninBtn) {
                 mobileSigninBtn.textContent = `Welcome, ${displayName}`;
                 mobileSigninBtn.style.cursor = 'pointer';
-                mobileSigninBtn.addEventListener('click', () => {
-                    window.location.href = '/profile';
+                mobileSigninBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    // Close mobile menu if open
+                    const mobileMenu = document.getElementById('mobile-nav');
+                    if (mobileMenu && mobileMenu.classList.contains('open')) {
+                        mobileMenu.classList.remove('open');
+                        document.getElementById('mobile-menu-overlay').classList.remove('active');
+                        document.body.style.overflow = '';
+                    }
+                    // Navigate after a short delay
+                    setTimeout(() => {
+                        window.location.href = '/profile';
+                    }, 100);
                 });
             }
         } else {
@@ -920,8 +944,20 @@ function setupForumNavigation() {
             }
             
             if (mobileSigninBtn) {
-                mobileSigninBtn.addEventListener('click', () => {
-                    window.location.href = '/auth/signin';
+                mobileSigninBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    // Close mobile menu if open
+                    const mobileMenu = document.getElementById('mobile-nav');
+                    if (mobileMenu && mobileMenu.classList.contains('open')) {
+                        mobileMenu.classList.remove('open');
+                        document.getElementById('mobile-menu-overlay').classList.remove('active');
+                        document.body.style.overflow = '';
+                    }
+                    // Navigate after a short delay
+                    setTimeout(() => {
+                        window.location.href = '/auth/signin';
+                    }, 100);
                 });
             }
         }
