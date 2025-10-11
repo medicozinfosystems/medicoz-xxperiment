@@ -843,6 +843,43 @@ function initScrollAnimations() {
     });
 }
 
+// ==================== STICKY HEADER ====================
+function initStickyHeader() {
+    const header = document.getElementById('header') || document.querySelector('header');
+    if (!header) return;
+    
+    // Force sticky header on mobile
+    if (window.innerWidth <= 768) {
+        console.log('📌 Forcing sticky header on mobile');
+        header.style.position = 'fixed';
+        header.style.top = '0';
+        header.style.left = '0';
+        header.style.right = '0';
+        header.style.width = '100%';
+        header.style.zIndex = '9997';
+        header.style.transform = 'translateZ(0)';
+        header.style.webkitTransform = 'translateZ(0)';
+        
+        // Keep it fixed on scroll
+        window.addEventListener('scroll', () => {
+            if (header.style.position !== 'fixed') {
+                console.log('⚠️ Header position changed! Restoring...');
+                header.style.position = 'fixed';
+                header.style.top = '0';
+            }
+        }, { passive: true });
+        
+        // Check periodically
+        setInterval(() => {
+            if (header.style.position !== 'fixed') {
+                console.log('⚠️ Header position changed! Restoring...');
+                header.style.position = 'fixed';
+                header.style.top = '0';
+            }
+        }, 1000);
+    }
+}
+
 // ==================== INITIALIZATION ====================
 function init() {
     checkMobile();
@@ -852,6 +889,7 @@ function init() {
     initEventListeners();
     initNavHoverEffects();
     setupForumNavigation(); // Initialize forum navigation
+    initStickyHeader(); // Force sticky header
     
     // Initialize scroll animations after a short delay to ensure DOM is ready
     setTimeout(initScrollAnimations, 100);
