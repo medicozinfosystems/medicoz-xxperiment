@@ -100,112 +100,112 @@ export default function MainSite({ showButtonsImmediately = false }: MainSitePro
       name: "Dr Mahesh Jariwala",
       role: "Founder",
       tagline: "Visionary leader",
-      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Mahesh",
+      image: "https://ui-avatars.com/api/?name=Dr+Mahesh+Jariwala&background=DC2626&color=fff&size=400&bold=true",
       color: "#DC2626" // red
     },
     {
       name: "Vanshita Neetu",
       role: "Director",
       tagline: "Strategic excellence",
-      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Vanshita",
+      image: "https://ui-avatars.com/api/?name=Vanshita+Neetu&background=DB2777&color=fff&size=400&bold=true",
       color: "#DB2777" // pink
     },
     {
       name: "Mitra Shah",
       role: "COO",
       tagline: "Operational mastery",
-      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Mitra",
+      image: "https://ui-avatars.com/api/?name=Mitra+Shah&background=7C3AED&color=fff&size=400&bold=true",
       color: "#7C3AED" // violet
     },
     {
       name: "Bhavya Somaiya",
       role: "CFO",
       tagline: "Financial stewardship",
-      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Bhavya",
+      image: "https://ui-avatars.com/api/?name=Bhavya+Somaiya&background=059669&color=fff&size=400&bold=true",
       color: "#059669" // emerald
     },
     {
       name: "Harshiv Gajjar",
       role: "CTO",
       tagline: "Technical innovation",
-      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Harshiv",
+      image: "https://ui-avatars.com/api/?name=Harshiv+Gajjar&background=0891B2&color=fff&size=400&bold=true",
       color: "#0891B2" // cyan
     },
     {
       name: "Khevna Gandhi",
       role: "Marketing Strategist",
       tagline: "Brand storyteller",
-      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Khevna",
+      image: "https://ui-avatars.com/api/?name=Khevna+Gandhi&background=F59E0B&color=fff&size=400&bold=true",
       color: "#F59E0B" // amber
     },
     {
       name: "Kathaa Gadhvi",
       role: "HR Head, India",
       tagline: "People champion",
-      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Kathaa",
+      image: "https://ui-avatars.com/api/?name=Kathaa+Gadhvi&background=8B5CF6&color=fff&size=400&bold=true",
       color: "#8B5CF6" // purple
     },
     {
       name: "Hitanshu Raval",
       role: "Director of Production",
       tagline: "Creative execution",
-      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Hitanshu",
+      image: "https://ui-avatars.com/api/?name=Hitanshu+Raval&background=EC4899&color=fff&size=400&bold=true",
       color: "#EC4899" // rose
     },
     {
       name: "Pratixa Batviya",
       role: "Sales Head, Gujarat",
       tagline: "Market expansion",
-      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Pratixa",
+      image: "https://ui-avatars.com/api/?name=Pratixa+Batviya&background=F59E0B&color=fff&size=400&bold=true",
       color: "#F59E0B" // amber
     },
     {
       name: "Samaresh Das",
       role: "Content Director",
       tagline: "Content strategist",
-      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Samaresh",
+      image: "https://ui-avatars.com/api/?name=Samaresh+Das&background=EF4444&color=fff&size=400&bold=true",
       color: "#EF4444" // red
     },
     {
       name: "Nilkanth Sudani",
       role: "Visual Artist",
       tagline: "Visual storyteller",
-      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Nilkanth",
+      image: "https://ui-avatars.com/api/?name=Nilkanth+Sudani&background=10B981&color=fff&size=400&bold=true",
       color: "#10B981" // emerald
     },
     {
       name: "Het Prajapati",
       role: "Visual Artist",
       tagline: "Creative visionary",
-      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Het",
+      image: "https://ui-avatars.com/api/?name=Het+Prajapati&background=F97316&color=fff&size=400&bold=true",
       color: "#F97316" // orange
     },
     {
       name: "Tushar Narokar",
       role: "Visual Artist",
       tagline: "Design excellence",
-      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Tushar",
+      image: "https://ui-avatars.com/api/?name=Tushar+Narokar&background=06B6D4&color=fff&size=400&bold=true",
       color: "#06B6D4" // cyan
     },
     {
       name: "Naman Sejwal",
       role: "Graphic Designer",
       tagline: "Visual communicator",
-      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Naman",
+      image: "https://ui-avatars.com/api/?name=Naman+Sejwal&background=84CC16&color=fff&size=400&bold=true",
       color: "#84CC16" // lime
     },
     {
       name: "Latika Hirani",
       role: "Content Writer",
       tagline: "Wordsmith",
-      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Latika",
+      image: "https://ui-avatars.com/api/?name=Latika+Hirani&background=A855F7&color=fff&size=400&bold=true",
       color: "#A855F7" // purple
     },
     {
       name: "Nimisha Ahuja",
       role: "Jr UI/UX Designer",
       tagline: "User experience",
-      image: "https://api.dicebear.com/7.x/avataaars/svg?seed=Nimisha",
+      image: "https://ui-avatars.com/api/?name=Nimisha+Ahuja&background=14B8A6&color=fff&size=400&bold=true",
       color: "#14B8A6" // teal
     }
   ];
