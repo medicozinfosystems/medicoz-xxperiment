@@ -131,8 +131,18 @@ export default function NewPost() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="general">General Discussion</SelectItem>
-                    <SelectItem value="episode">Episode Discussion</SelectItem>
+                    <SelectItem value="general">
+                      <div>
+                        <div className="font-semibold">General Discussion</div>
+                        <div className="text-sm text-gray-600">"Have you experimented yet?" share your xxperiment moment</div>
+                      </div>
+                    </SelectItem>
+                    <SelectItem value="episode">
+                      <div>
+                        <div className="font-semibold">Episode Discussion</div>
+                        <div className="text-sm text-gray-600">Dive deeper and share your thoughts episode wise</div>
+                      </div>
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>

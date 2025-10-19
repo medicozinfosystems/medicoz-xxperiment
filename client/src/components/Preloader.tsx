@@ -10,7 +10,23 @@ interface PreloaderProps {
 }
 
 export default function Preloader({ onComplete }: PreloaderProps) {
-  const { t } = useTranslation();
+  // Use try-catch to handle the translation context error
+  let t: (key: string) => string;
+  
+  try {
+    const { t: translationFunction } = useTranslation();
+    t = translationFunction;
+  } catch (error) {
+    // Fallback if translation context is not available
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-white dark:bg-gray-900">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-600 mx-auto mb-4"></div>
+          <p className="text-gray-600 dark:text-gray-400">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   const frames = [
     {

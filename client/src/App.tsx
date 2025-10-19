@@ -14,6 +14,7 @@ import Forum from "@/pages/forum/index";
 import NewPost from "@/pages/forum/new-post";
 import PostDetail from "@/pages/forum/post-detail";
 import Profile from "@/pages/profile";
+import Admin from "@/pages/admin";
 
 function Router() {
   return (
@@ -26,6 +27,7 @@ function Router() {
       <Route path="/forum/new" component={NewPost} />
       <Route path="/forum/post/:id" component={PostDetail} />
       <Route path="/profile" component={Profile} />
+      <Route path="/admin" component={Admin} />
       <Route component={NotFound} />
     </Switch>
   );

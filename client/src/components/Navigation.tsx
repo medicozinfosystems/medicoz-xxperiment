@@ -2,11 +2,12 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
+import { useLocation } from "wouter";
 
 const navItems = [
   { label: "Home", href: "#home" },
-  { label: "Our Mission", href: "#subheadline" },
-  { label: "Objectives", href: "#objectives" },
+  { label: "Services", href: "#services" },
+  { label: "About", href: "#about" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -89,6 +90,29 @@ export default function Navigation() {
                   {item.label}
                 </button>
               ))}
+
+              <button
+                onClick={() => window.location.href = '/forum'}
+                className="text-sm font-medium hover:opacity-70 transition-opacity"
+                style={{
+                  color: isScrolled ? "#27515F" : "white",
+                }}
+                data-testid="link-forum"
+              >
+                Forum
+              </button>
+
+              <button
+                onClick={() => window.location.href = '/auth/signin'}
+                className="text-sm font-medium px-4 py-2 rounded-md border transition-colors"
+                style={{
+                  color: isScrolled ? "#27515F" : "white",
+                  borderColor: isScrolled ? "#27515F" : "white",
+                }}
+                data-testid="link-signin"
+              >
+                Sign In
+              </button>
             </div>
 
             <Button
@@ -111,24 +135,70 @@ export default function Navigation() {
         </div>
       </motion.nav>
 
+      {/* Mobile Menu Backdrop */}
+      {isMobileMenuOpen && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+          className="fixed inset-0 bg-black/20 backdrop-blur-sm z-30 md:hidden"
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+
+      {/* Mobile Menu */}
       {isMobileMenuOpen && (
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
-          className="fixed top-16 left-0 right-0 z-40 bg-white border-b shadow-lg md:hidden"
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+          className="fixed top-16 left-0 right-0 z-50 bg-white dark:bg-gray-900 border-b shadow-lg md:hidden"
+          style={{ minHeight: '200px' }}
         >
-          <div className="px-6 py-4 space-y-4">
-            {navItems.map((item) => (
-              <button
-                key={item.label}
-                onClick={() => scrollToSection(item.href)}
-                className="block w-full text-left text-base font-medium text-foreground hover:text-primary transition-colors"
-                data-testid={`link-mobile-${item.label.toLowerCase().replace(" ", "-")}`}
+          <div className="px-6 py-4">
+            {/* Close Button */}
+            <div className="flex justify-end mb-4">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
               >
-                {item.label}
+                <X className="h-5 w-5" />
+              </Button>
+            </div>
+            
+            {/* Navigation Items */}
+            <div className="space-y-4">
+              {navItems.map((item) => (
+                <button
+                  key={item.label}
+                  onClick={() => scrollToSection(item.href)}
+                  className="block w-full text-left text-base font-medium text-gray-900 dark:text-white hover:text-primary transition-colors py-3 px-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
+                  data-testid={`link-mobile-${item.label.toLowerCase().replace(" ", "-")}`}
+                >
+                  {item.label}
+                </button>
+              ))}
+
+              <button
+                onClick={() => window.location.href = '/forum'}
+                className="block w-full text-left text-base font-medium text-gray-900 dark:text-white hover:text-primary transition-colors py-3 px-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
+                data-testid="link-mobile-forum"
+              >
+                Forum
               </button>
-            ))}
+
+              <button
+                onClick={() => window.location.href = '/auth/signin'}
+                className="block w-full text-left text-base font-medium text-gray-900 dark:text-white hover:text-primary transition-colors py-3 px-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
+                data-testid="link-mobile-signin"
+              >
+                Sign In
+              </button>
+            </div>
           </div>
         </motion.div>
       )}

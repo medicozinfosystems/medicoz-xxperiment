@@ -106,6 +106,24 @@ export interface Session {
   userAgent?: string;
 }
 
+// Contact Form Schema
+export interface ContactForm {
+  _id?: ObjectId;
+  name: string;
+  email: string;
+  message: string;
+  intent: 'partnership' | 'pilot' | 'sponsorship' | 'careers';
+  links?: string;
+  ipAddress?: string;
+  userAgent?: string;
+  isRead: boolean;
+  isReplied: boolean;
+  replyMessage?: string;
+  repliedAt?: Date;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 // Helper types for API responses
 export type UserPublic = Omit<User, 'passwordHash' | 'email'>;
 

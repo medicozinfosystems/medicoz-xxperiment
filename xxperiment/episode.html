@@ -41,21 +41,21 @@
     }
 
     .nav{
-      display:flex; align-items:center; justify-content:space-between; gap:1rem;
-      padding:1rem 2rem; color:var(--xx-cream);
+      display:flex; align-items:center; justify-content:space-between; gap:0.75rem;
+      padding:0.75rem 1.5rem; color:var(--xx-cream);
     }
 
-    .brand{ display:flex; align-items:center; gap:.75rem; text-decoration: none; color: inherit; }
+    .brand{ display:flex; align-items:center; gap:0.5rem; text-decoration: none; color: inherit; }
     .brand .logo{
-      width:40px; aspect-ratio:1; background:var(--xx-cream); color:var(--xx-red);
-      display:grid; place-items:center; border-radius:8px;
+      width:32px; aspect-ratio:1; background:var(--xx-cream); color:var(--xx-red);
+      display:grid; place-items:center; border-radius:6px;
       box-shadow:2px 2px 0 rgba(12,11,11,.6);
     }
 
     .back-btn{
-      background:transparent; border:2px solid var(--xx-cream); color:var(--xx-cream);
-      padding:0.5rem 1rem; border-radius:8px; cursor:pointer; transition: all 0.3s var(--smooth);
-      text-decoration: none; font-weight: 700;
+      background:transparent; border:1.5px solid var(--xx-cream); color:var(--xx-cream);
+      padding:0.4rem 0.8rem; border-radius:6px; cursor:pointer; transition: all 0.3s var(--smooth);
+      text-decoration: none; font-weight: 700; font-size: 0.9rem;
     }
 
     .back-btn:hover{
@@ -115,7 +115,7 @@
       line-height: 1.7;
       margin-bottom: 2rem;
       color: #f6efe5;
-      max-width: 600px;
+      max-width: 800px;
       margin-left: auto;
       margin-right: auto;
     }
@@ -235,42 +235,67 @@
     }
 
     .platform-grid{
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
     }
 
     .platform-link{
       display: flex;
       align-items: center;
-      gap: 0.4rem;
-      padding: 0.6rem 0.8rem;
-      background: rgba(0,0,0,0.4);
-      border-radius: 6px;
-      text-decoration: none;
+      gap: 1rem;
+      padding: 1rem 1.2rem;
+      background: linear-gradient(135deg, rgba(226,214,199,0.1), rgba(226,214,199,0.05));
+      border: 2px solid rgba(226,214,199,0.3);
+      border-radius: 12px;
       color: var(--xx-cream);
+      text-decoration: none;
       transition: all 0.3s var(--smooth);
-      border: 1px solid transparent;
-      font-size: 0.8rem;
-      font-weight: 600;
+      font-weight: 700;
+      font-size: 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .platform-link::before{
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(226,214,199,0.1), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .platform-link:hover::before{
+      left: 100%;
     }
 
     .platform-link:hover{
-      background: rgba(0,0,0,0.5);
-      transform: translateY(-2px);
-      border-color: rgba(226,214,199,0.3);
+      background: linear-gradient(135deg, rgba(226,214,199,0.2), rgba(226,214,199,0.1));
+      transform: translateY(-3px);
+      border-color: rgba(226,214,199,0.5);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
     }
 
     .platform-icon{
-      width: 24px;
-      height: 24px;
-      background: var(--xx-cream);
-      border-radius: 4px;
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--xx-cream), #f0e6d2);
+      border-radius: 10px;
       display: grid;
       place-items: center;
-      font-weight: 900;
       color: var(--xx-red);
-      font-size: 0.8rem;
+      font-weight: 900;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 15px rgba(226,214,199,0.3);
+      transition: all 0.3s var(--smooth);
+    }
+
+    .platform-link:hover .platform-icon{
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(226,214,199,0.4);
     }
 
     /* EPISODE SECTIONS */
@@ -505,7 +530,8 @@
       }
 
       .platform-grid{
-        grid-template-columns: repeat(3, 1fr);
+        flex-direction: row;
+        gap: 0.8rem;
       }
 
       .episode-metadata {
@@ -515,7 +541,8 @@
 
     @media (max-width: 920px){
       .platform-grid{
-        grid-template-columns: repeat(2, 1fr);
+        flex-direction: column;
+        gap: 0.8rem;
       }
 
       .newsletter-form{
@@ -552,8 +579,12 @@
     }
 
     @media (max-width: 640px){
+      main{
+        padding-top: 6rem;
+      }
+      
       .nav{
-        padding: 1rem;
+        padding: 0.75rem 1rem;
       }
 
       .episode-hero{
@@ -636,19 +667,19 @@
       }
 
       .platform-grid{
-        grid-template-columns: 1fr;
-        gap: 0.4rem;
+        flex-direction: column;
+        gap: 0.8rem;
       }
 
       .platform-link{
-        font-size: 0.85rem;
-        padding: 0.7rem 1rem;
+        font-size: 0.9rem;
+        padding: 0.8rem 1rem;
       }
 
       .platform-icon{
-        width: 20px;
-        height: 20px;
-        font-size: 0.7rem;
+        width: 32px;
+        height: 32px;
+        font-size: 1rem;
       }
 
       .episode-stats {
@@ -697,7 +728,7 @@
     /* EXTRA SMALL SCREENS */
     @media (max-width: 480px){
       main{
-        padding-top: 5rem;
+        padding-top: 8rem;
       }
 
       .episode-hero{
@@ -814,7 +845,7 @@
         <div class="logo">XX</div>
         <strong>The XXperiment</strong>
       </a>
-      <a href="index.html" class="back-btn">← Back to Episodes</a>
+      <a href="index.html#episodes" class="back-btn">← Back to Episodes</a>
     </nav>
   </header>
 
@@ -825,11 +856,6 @@
         <div class="episode-info">
           <h1 id="episode-title-main">Loading Episode...</h1>
 
-          <div class="episode-meta">
-            <span class="meta-item" id="episode-number">EP 01</span>
-            <span class="meta-item" id="episode-duration">42 MIN</span>
-            <span class="meta-item" id="episode-date">NOV 2024</span>
-          </div>
 
           <p class="episode-description" id="episode-description">
             Loading episode details...
@@ -889,39 +915,11 @@
           </div>
 
           <!-- KEY TOPICS -->
-          <div class="content-section">
-            <h2>Key Topics Discussed</h2>
-            <ul id="key-topics">
-              <li>Loading topics...</li>
-            </ul>
-          </div>
-
-          <!-- RESOURCES -->
-          <div class="content-section">
-            <h2>Resources & Links</h2>
-            <ul id="resources">
-              <li>Loading resources...</li>
-            </ul>
-          </div>
         </div>
 
         <!-- SIDEBAR CONTENT -->
         <div class="content-sidebar">
 
-          <!-- EPISODE STATS -->
-          <div class="sidebar-section">
-            <h3>Episode Stats</h3>
-            <div class="episode-stats">
-              <div class="stat-item">
-                <div class="stat-value">NEW</div>
-                <div class="stat-label">Latest</div>
-              </div>
-              <div class="stat-item">
-                <div class="stat-value">HD</div>
-                <div class="stat-label">Quality</div>
-              </div>
-            </div>
-          </div>
 
           <!-- PLATFORM LINKS -->
           <div class="sidebar-section platforms">
@@ -931,25 +929,9 @@
                 <div class="platform-icon">S</div>
                 <span>Spotify</span>
               </a>
-              <a href="#" class="platform-link" data-platform="apple">
-                <div class="platform-icon">A</div>
-                <span>Apple</span>
-              </a>
-              <a href="#" class="platform-link" data-platform="google">
-                <div class="platform-icon">G</div>
-                <span>Google</span>
-              </a>
               <a href="#" class="platform-link" data-platform="youtube">
                 <div class="platform-icon">Y</div>
                 <span>YouTube</span>
-              </a>
-              <a href="#" class="platform-link" data-platform="overcast">
-                <div class="platform-icon">O</div>
-                <span>Overcast</span>
-              </a>
-              <a href="#" class="platform-link" data-platform="pocketcasts">
-                <div class="platform-icon">P</div>
-                <span>Pocket Casts</span>
               </a>
             </div>
           </div>
@@ -987,179 +969,204 @@
     </section>
   </main>
 
+
   <script>
     // Episode data - this would normally come from a database or API
     const episodeData = {
       's1e1-episode-1': {
-        number: 'S1E1',
-        title: 'Episode 1',
-        duration: 'PILOT',
+        number: 'EP 01',
+        title: 'Are You Sure It\'s Not Just Stress?',
+        duration: '44:59',
         date: 'Season 1',
-        description: 'The very first episode! Our introduction to the XXperiment and what we\'re all about.',
+        description: 'Why are women still being told "it\'s just stress"? In this episode, we sit down with Dr. Mahesh Jariwala to uncover the truth behind medical gaslighting, rushed diagnoses, and the everyday struggles women face in getting their health taken seriously.',
         youtubeId: 'HQFZT62XtCo',
         guest: {
-          name: 'The Hosts',
-          title: 'Podcast Creators',
-          bio: 'Meet the minds behind The XXperiment as they introduce the show and share their vision.',
+          name: 'Dr. Mahesh Jariwala',
+          title: 'Leading OB-GYN',
+          bio: 'Leading OB-GYN who\'s here to spill the tea on medical myths, lightning-fast diagnoses, and the shocking realities of women\'s health.',
           photo: '',
           links: [
-            { title: 'Instagram', url: '#' },
-            { title: 'Website', url: '#' }
+            { title: 'Instagram', url: 'https://www.instagram.com/doctormahesh/' }
           ]
         },
         summary: [
-          'Welcome to The XXperiment! In our pilot episode, we introduce ourselves and our mission.',
-          'Learn about the unique approach we take to women\'s health and empowerment.',
-          'Discover what makes this podcast different from everything else out there.',
-          'Get a preview of the topics and guests we\'ll be covering in future episodes.'
+          'Welcome to the very first episode of The XXperiment! Today, we\'re tackling a question that\'s as frustrating as it is important— why is women\'s health still not taken seriously?',
+          'From being told "it\'s just stress" to getting prescriptions faster than a coffee order, we\'re breaking down the struggles women face in healthcare.',
+          '',
+          'Your host (aka The Ghosted Patient) has been dismissed, misdiagnosed, and told to "just drink more water" one too many times. But today, we\'re flipping the script with our special guest—Dr Mahesh Jariwala, a leading OB-GYN who\'s here to spill the tea on medical myths, lightning-fast diagnoses, and the shocking realities of women\'s health.',
+          '',
+          'We\'re playing Fact or Fiction, exposing the wildest medical double standards, and even getting into the one thing patients do that drive doctors crazy.',
+          '',
+          'And trust us—you\'ll want to stick around till the end because Dr. Mahesh Jariwala drops a wild hot take that just might hint at Episode 2.',
+          '',
+          'This one\'s equal parts chaos and clarity—so grab your popcorn (or your medical records), and let\'s get into it.',
+          '',
+          '💬 Got a story about medical gaslighting or a health myth you once believed? DM us on Instagram @the.xxperiment—we\'re all ears!'
         ],
         topics: [
-          'Introduction to The XXperiment',
-          'Our approach to women\'s health',
-          'Why we started this podcast',
-          'What to expect in future episodes',
-          'Our mission and values'
+          'Medical gaslighting and rushed diagnoses',
+          'Why women\'s health isn\'t taken seriously',
+          'Medical myths and double standards',
+          'The reality of women\'s healthcare struggles',
+          'Fact or Fiction: Medical myths'
         ],
         resources: [
-          'Follow us on social media',
+          'Follow us on Instagram @the.xxperiment',
           'Subscribe for new episodes',
           'Join our community'
         ],
         platforms: {
-          spotify: '#',
-          apple: '#',
-          google: '#',
-          youtube: 'https://youtube.com/watch?v=HQFZT62XtCo',
-          overcast: '#',
-          pocketcasts: '#'
+          spotify: 'https://open.spotify.com/show/3X5XYWLTkOtmhU1vNWMT7X',
+          youtube: 'https://www.youtube.com/@The.XXperiment'
         }
       },
       's1e2-episode-2': {
-        number: 'S1E2',
-        title: 'Episode 2',
-        duration: 'Season 1',
+        number: 'EP 02',
+        title: 'Ghosted, Gaslit, and Girlbossed',
+        duration: '45:47',
         date: 'Season 1',
-        description: 'Continuing our journey into women\'s health and empowerment.',
+        description: 'Friendships aren\'t what they used to be and that\'s exactly what makes them so fascinating. In this episode, we peel back the layers of modern female friendships the love, the jealousy, the distance, and the quiet understanding that keeps it all together.',
         youtubeId: 'T5bs2CMnUN4',
         guest: {
-          name: 'Special Guest',
-          title: 'Health Expert',
-          bio: 'Exploring important topics in women\'s health and wellness.',
+          name: 'Vanshita Neetu',
+          title: 'Founder & Black Cat Energy',
+          bio: 'The black cat energy who\'ll lovingly call you out and help you level up, exploring the emotional Olympics of modern-day friendships.',
+          photo: '',
+          links: [
+            { title: 'Instagram', url: 'https://www.instagram.com/vanshitatatatata/' }
+          ]
+        },
+        summary: [
+          'From silent treatments to emotional support memes, this episode explores what makes female friendships feel so high-stakes and why growing up, glowing up, and bossing up can sometimes mean drifting apart.',
+          '',
+          'Your host, Asmi (aka the golden retriever with a mic), is joined by Vanshita Neetu—the black cat energy who\'ll lovingly call you out and help you level up. Together, they unpack the emotional Olympics of modern-day friendships, unspoken rules, missed birthdays, and the weird politics of posting each other\'s wins.',
+          '',
+          '🎙️ Expect:',
+          'Friendship Court and the petty crimes we\'re all guilty of',
+          'Red flag vs green flag chaos (tea will be spilled)',
+          'Can ambition and emotional support co-exist?',
+          '',
+          'And the quiet truth: that being a good friend in your girlboss era? It\'s work. And it\'s worth it.',
+          '',
+          'This one\'s for the ride-or-die, the long-distance soulmates, the girl group chats, and every woman figuring out what it really means to be a good friend.',
+          '',
+          '💬 Got a friendship crisis or chaos moment to share? Slide into our DMs @the.xxperiment—we\'re listening (and probably overthinking it too).'
+        ],
+        topics: [
+          'Modern female friendships',
+          'Friendship dynamics and politics',
+          'Ambition vs emotional support',
+          'Growing up and growing apart',
+          'The emotional Olympics of friendship'
+        ],
+        resources: [
+          'Follow us on Instagram @the.xxperiment',
+          'Subscribe for new episodes',
+          'Join our community'
+        ],
+        platforms: {
+          spotify: 'https://open.spotify.com/show/3X5XYWLTkOtmhU1vNWMT7X',
+          youtube: 'https://www.youtube.com/@The.XXperiment'
+        }
+      },
+      's1e3-episode-3': {
+        number: 'EP 03',
+        title: 'Still Waiting For That Gold Star In Adulthood',
+        duration: '1:24:43',
+        date: 'Season 1',
+        description: 'Before we learned to chase deadlines, we learned to chase gold stars. In this episode, The Mentor x The Mess unravel how early schooling quietly shapes our adult obsession with validation, performance, and "being good."',
+        youtubeId: 'M_-DruIjPRU',
+        guest: {
+          name: 'Mrs. Jayati Jhala',
+          title: 'Preschool Principal & Educator',
+          bio: 'Part educator, part life coach, and full-time truth-teller specializing in early childhood education and emotional intelligence.',
           photo: '',
           links: [
             { title: 'Instagram', url: '#' }
           ]
         },
         summary: [
-          'Building on our foundation, we dive deeper into key women\'s health topics.',
-          'Expert insights and evidence-based approaches to wellness.',
-          'Practical tips you can implement in your daily life.',
-          'Community stories and experiences that resonate.'
+          'The Mentor x The Mess take on modern-day parenting, preschool, and performance pressure.',
+          '',
+          'From snack breaks to salary slips, why do we still crave applause for "being good"? In this episode, we dive into how early childhood education shapes not just report cards—but our adult need for gold stars, external validation, and feeling "enough."',
+          '',
+          'Your host, Asmi (the lovable mess with a mic), is joined by Mrs. Jayati Jhala—a preschool principal who\'s part educator, part life coach, and full-time truth-teller. Together, they unpack how we raise kids in a world obsessed with productivity, and what it would look like if emotional intelligence sat at the top of the curriculum.',
+          '',
+          '🎙️ Expect:',
+          '🏅 "Still waiting for that gold star" moments in adult life',
+          '🎨 A chaotic round of If Gen Z Ran the School',
+          '📚 Why your inner child probably needs recess more than revenge',
+          '',
+          'And the realest truth: A child who\'s heard, held, and hugged grows up into an adult who doesn\'t have to unlearn love.',
+          '',
+          'This one\'s for the recovering perfectionists, the reformed toppers, the gentle parents, and the teachers who still believe in joy over judgment.',
+          '',
+          '💬 Got a school scar or parenting plot twist? Slide into our DMs @the.xxperiment—let\'s turn that trauma into a teachable moment (and maybe a meme).'
         ],
         topics: [
-          'Women\'s health fundamentals',
-          'Evidence-based wellness',
-          'Practical health tips',
-          'Community experiences'
+          'Early childhood education and adult validation',
+          'Parenting and emotional intelligence',
+          'Performance pressure and perfectionism',
+          'Healing our inner child',
+          'Unlearning perfection and choosing presence'
         ],
         resources: [
-          'Health tracking apps',
-          'Recommended reading',
-          'Expert resources'
+          'Follow us on Instagram @the.xxperiment',
+          'Subscribe for new episodes',
+          'Join our community'
         ],
         platforms: {
-          spotify: '#',
-          apple: '#',
-          google: '#',
-          youtube: 'https://youtube.com/watch?v=T5bs2CMnUN4',
-          overcast: '#',
-          pocketcasts: '#'
+          spotify: 'https://open.spotify.com/show/3X5XYWLTkOtmhU1vNWMT7X',
+          youtube: 'https://www.youtube.com/@The.XXperiment'
         }
       },
-      's1e3-episode-3': {
-        number: 'S1E3',
-        title: 'Episode 3',
-        duration: 'Season 1',
+      's1e4-episode-4': {
+        number: 'EP 04',
+        title: 'This Was Never About Approval',
+        duration: '50:31',
         date: 'Season 1',
-        description: 'Exploring the intersection of science, health, and women\'s experiences.',
-        youtubeId: 'M_-DruIjPRU',
-        guest: {
-          name: 'Research Expert',
-          title: 'Women\'s Health Researcher',
-          bio: 'Deep dive into the latest research and scientific findings.',
-          photo: '',
-          links: [
-            { title: 'Research', url: '#' },
-            { title: 'LinkedIn', url: '#' }
-          ]
-        },
-        summary: [
-          'Science meets real-world application in women\'s health.',
-          'Latest research findings that matter to your daily life.',
-          'How to interpret health studies and apply them personally.',
-          'Breaking down complex topics into actionable insights.'
-        ],
-        topics: [
-          'Latest health research',
-          'Science-based approaches',
-          'Research interpretation',
-          'Actionable health insights'
-        ],
-        resources: [
-          'Research databases',
-          'Scientific journals',
-          'Study summaries'
-        ],
-        platforms: {
-          spotify: '#',
-          apple: '#',
-          google: '#',
-          youtube: 'https://youtube.com/watch?v=M_-DruIjPRU',
-          overcast: '#',
-          pocketcasts: '#'
-        }
-      },
-      's1e4-part1-episode-4-part-1': {
-        number: 'S1E4 Part 1',
-        title: 'Episode 4 Part 1',
-        duration: 'Season 1',
-        date: 'Season 1',
-        description: 'Deep dive into women\'s health topics and scientific research.',
+        description: 'Why do conversations about women\'s bodies still feel taboo? In this episode, we break the silence on intimate health, postpartum changes, painful sex, and cosmetic gynaecology with Dr. Bhairavi Joshi.',
         youtubeId: 'Q_AYhx6zu1E',
         guest: {
-          name: 'Health Specialist',
-          title: 'Medical Professional',
-          bio: 'Expert guidance on complex health topics affecting women.',
+          name: 'Dr. Bhairavi Joshi',
+          title: 'Cosmetic Gynaecologist',
+          bio: 'Part surgeon, part therapist, and full-time myth-buster specializing in intimate health and women\'s wellness.',
           photo: '',
           links: [
-            { title: 'Practice', url: '#' },
-            { title: 'Publications', url: '#' }
+            { title: 'Instagram', url: '#' }
           ]
         },
         summary: [
-          'Part 1 of our comprehensive exploration of women\'s health.',
-          'Medical expertise meets practical application.',
-          'Understanding your body and health markers.',
-          'Professional insights into common health concerns.'
+          'From postpartum bodies to painful sex, why do we still whisper about the very parts that make us women? In this episode, we crack open the hush-hush world of vaginal discomfort, "rejuvenation," and the quiet battles Indian women fight behind clinic doors (and comment sections).',
+          '',
+          'Your host, Asmi (The Bold Ask), is joined by Dr. Bhairavi Joshi (The Brave Answer)—a cosmetic gynaecologist who\'s part surgeon, part therapist, and full-time myth-buster. Together, they explore why conversations about intimate health are still laced with guilt, who gets to decide what\'s empowering vs. excessive, and why wanting to feel at home in your body isn\'t shallow—it\'s revolutionary.',
+          '',
+          '🎙 Expect:',
+          '💬 "Who told you it\'s vain to want comfort?" debates',
+          '🩺 A crash course in cosmetic gynaecology, minus the judgment',
+          '🌸 A culture check on how shame shapes our choices long before we\'re even conscious of them',
+          '',
+          'And the realest truth: A woman deciding how she wants to feel in her body isn\'t a scandal—it\'s her right.',
+          '',
+          'This one\'s for the new moms, the curious skeptics, the closet googlers, and every woman who\'s ever wondered, "Is it okay to want more for myself?"',
+          '',
+          '💬 Got an unspoken question or a hot take? Slide into our DMs @the.xxperiment—let\'s turn that taboo into a talking point (and maybe a reel).'
         ],
         topics: [
-          'Women\'s health fundamentals',
-          'Medical perspectives',
-          'Health markers and testing',
-          'Common health concerns'
+          'Intimate health and taboo topics',
+          'Postpartum changes and body image',
+          'Cosmetic gynaecology and women\'s choices',
+          'Cultural pressures and shame',
+          'Women\'s right to comfort and confidence'
         ],
         resources: [
-          'Medical resources',
-          'Health testing guides',
-          'Professional directories'
+          'Follow us on Instagram @the.xxperiment',
+          'Subscribe for new episodes',
+          'Join our community'
         ],
         platforms: {
-          spotify: '#',
-          apple: '#',
-          google: '#',
-          youtube: 'https://youtube.com/watch?v=Q_AYhx6zu1E',
-          overcast: '#',
-          pocketcasts: '#'
+          spotify: 'https://open.spotify.com/show/3X5XYWLTkOtmhU1vNWMT7X',
+          youtube: 'https://www.youtube.com/@The.XXperiment'
         }
       },
       's1e4-part2-episode-4-part-2': {
@@ -1206,48 +1213,54 @@
         }
       },
       's1e5-episode-5': {
-        number: 'S1E5',
-        title: 'Episode 5',
-        duration: 'LATEST',
+        number: 'EP 05',
+        title: 'What Does Serving Success Taste Like?',
+        duration: '1:06:54',
         date: 'Season 1',
-        description: 'The latest episode in our first season exploring women\'s health, hormones, and life.',
+        description: 'Success isn\'t a destination it\'s a daring act of creation. In this episode, we sit down with Vira Vora, the visionary behind Sale & Pepe, to unpack what it truly means to reinvent yourself and your life.',
         youtubeId: 'LoXnCNC_iBw',
         guest: {
-          name: 'Featured Expert',
-          title: 'Health & Wellness Specialist',
-          bio: 'Our latest episode features expert insights into women\'s health and wellness topics.',
+          name: 'Ms. Vira Shah Vora',
+          title: 'Founder, Sale & Pepe',
+          bio: 'Visionary behind Sale & Pepe, sharing her journey of reinvention, independence, and creating success on her own terms.',
           photo: '',
           links: [
-            { title: 'Instagram', url: '#' },
-            { title: 'Website', url: '#' }
+            { title: 'Instagram', url: '#' }
           ]
         },
         summary: [
-          'Our most recent exploration of women\'s health topics.',
-          'Latest insights and expert perspectives.',
-          'Community-driven discussions and real experiences.',
-          'Actionable advice you can implement today.'
+          'In Episode 5, we sit down with Vira Vora, the powerhouse behind Sale & Pepe, to unravel what success really tastes like.',
+          '',
+          'This isn\'t just a story about food, or even about business. It\'s about the audacity to begin again. About rewriting the rules of independence, beauty, and identity — and serving yourself a life on your own terms.',
+          '',
+          'Vira takes us inside her journey of reinvention, where courage meant walking away from convention and carving out her boldest chapter yet. Together, we explore:',
+          '',
+          '💠 What it means to redefine success beyond timelines and expectations',
+          '💠 How freedom and self-expression can become the ultimate ingredients for growth',
+          '💠 The role of resilience in turning setbacks into a second act',
+          '💠 Why independence is less about age, and more about choice',
+          '',
+          'This episode is a celebration of becoming — layered, fearless, and unapologetic.',
+          '',
+          'Because in the end, as Vira shows us, success was never on the menu. She had to create it.',
+          '',
+          '💬 Got a take on what success tastes like to you? Slide into our DMs @the.xxperiment — let\'s make this conversation bigger than the table it started at.'
         ],
         topics: [
-          'Current health trends',
-          'Expert perspectives',
-          'Community insights',
-          'Practical applications',
-          'Latest research findings'
+          'Redefining success beyond timelines and expectations',
+          'Freedom and self-expression as ingredients for growth',
+          'The role of resilience in turning setbacks into a second act',
+          'Why independence is less about age, and more about choice',
+          'Creating success on your own terms'
         ],
         resources: [
-          'Health tracking tools',
-          'Expert recommendations',
-          'Community resources',
-          'Latest research'
+          'Follow us on Instagram @the.xxperiment',
+          'Subscribe for new episodes',
+          'Join our community'
         ],
         platforms: {
-          spotify: '#',
-          apple: '#',
-          google: '#',
-          youtube: 'https://youtube.com/watch?v=LoXnCNC_iBw',
-          overcast: '#',
-          pocketcasts: '#'
+          spotify: 'https://open.spotify.com/show/3X5XYWLTkOtmhU1vNWMT7X',
+          youtube: 'https://www.youtube.com/@The.XXperiment'
         }
       }
     };
@@ -1281,9 +1294,6 @@
 
       // Update episode info
       document.getElementById('episode-title-main').textContent = episode.title;
-      document.getElementById('episode-number').textContent = episode.number;
-      document.getElementById('episode-duration').textContent = episode.duration;
-      document.getElementById('episode-date').textContent = episode.date;
       document.getElementById('episode-description').textContent = episode.description;
 
       // Update metadata grid
@@ -1327,23 +1337,6 @@
         summaryContainer.appendChild(p);
       });
 
-      // Update topics
-      const topicsContainer = document.getElementById('key-topics');
-      topicsContainer.innerHTML = '';
-      episode.topics.forEach(topic => {
-        const li = document.createElement('li');
-        li.textContent = topic;
-        topicsContainer.appendChild(li);
-      });
-
-      // Update resources
-      const resourcesContainer = document.getElementById('resources');
-      resourcesContainer.innerHTML = '';
-      episode.resources.forEach(resource => {
-        const li = document.createElement('li');
-        li.textContent = resource;
-        resourcesContainer.appendChild(li);
-      });
 
       // Update platform links
       Object.entries(episode.platforms).forEach(([platform, url]) => {

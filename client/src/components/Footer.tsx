@@ -18,20 +18,29 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <a
-                  href="#subheadline"
+                  href="#home"
                   className="text-white/80 hover:text-white transition-colors text-sm"
-                  data-testid="link-footer-mission"
+                  data-testid="link-footer-home"
                 >
-                  Our Mission
+                  Home
                 </a>
               </li>
               <li>
                 <a
-                  href="#objectives"
+                  href="#services"
                   className="text-white/80 hover:text-white transition-colors text-sm"
-                  data-testid="link-footer-objectives"
+                  data-testid="link-footer-services"
                 >
-                  Objectives
+                  Services
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#about"
+                  className="text-white/80 hover:text-white transition-colors text-sm"
+                  data-testid="link-footer-about"
+                >
+                  About & Team
                 </a>
               </li>
               <li>

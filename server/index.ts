@@ -9,6 +9,7 @@ import { configurePassport } from "./config/passport";
 import authRoutes from "./routes/auth.routes";
 import forumRoutes from "./routes/forum.routes";
 import notificationsRoutes from "./routes/notifications.routes";
+import contactRoutes from "./routes/contact.routes";
 
 const app = express();
 
@@ -17,6 +18,19 @@ app.set('trust proxy', 1);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+// CORS configuration
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  
+  if (req.method === 'OPTIONS') {
+    res.sendStatus(200);
+  } else {
+    next();
+  }
+});
 
 // Session configuration
 app.use(session({
@@ -84,6 +98,7 @@ app.use((req, res, next) => {
   app.use('/api/auth', authRoutes);
   app.use('/api/forum', forumRoutes);
   app.use('/api/notifications', notificationsRoutes);
+  app.use('/api/contact', contactRoutes);
 
   // Serve the static XXperiment site during local dev and production server runs
   // This serves files from the top-level `xxperiment/` directory at /xxperiment

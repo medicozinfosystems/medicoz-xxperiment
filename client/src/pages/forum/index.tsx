@@ -155,9 +155,30 @@ export default function Forum() {
           <h1 className="text-3xl md:text-5xl font-bold text-[#e2d6c7] mb-4 font-['Alfa_Slab_One']">
             Community Forum
           </h1>
-          <p className="text-[#e2d6c7]/80 text-lg">
+          <p className="text-[#e2d6c7]/80 text-lg mb-6">
             Join the conversation about women's health, wellness, and empowerment
           </p>
+          
+          {/* Forum Categories Description */}
+          <div className="grid md:grid-cols-2 gap-6 mb-8">
+            <div className="bg-[#3d1d19]/50 border border-[#e2d6c7]/20 rounded-lg p-6">
+              <h3 className="text-xl font-bold text-[#e2d6c7] mb-3 font-['Alfa_Slab_One']">
+                General Discussion
+              </h3>
+              <p className="text-[#e2d6c7]/80">
+                "Have you experimented yet?" share your xxperiment moment with a community of listeners and readers like you.
+              </p>
+            </div>
+            
+            <div className="bg-[#3d1d19]/50 border border-[#e2d6c7]/20 rounded-lg p-6">
+              <h3 className="text-xl font-bold text-[#e2d6c7] mb-3 font-['Alfa_Slab_One']">
+                Episode Discussion
+              </h3>
+              <p className="text-[#e2d6c7]/80">
+                Dive deeper and share your thoughts episode wise, ask questions and we will answer them on our podcast.
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Tabs */}

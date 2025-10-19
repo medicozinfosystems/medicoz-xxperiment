@@ -1,145 +1,230 @@
 // XXperiment - Vanilla JavaScript Application
 
-// ==================== VIDEO PRELOADER ====================
-function initVideoPreloader() {
-    const preloader = document.getElementById('video-preloader');
-    const video = document.getElementById('preloader-video');
-    const skipBtn = document.getElementById('skip-preloader');
-    
-    if (!preloader || !video) return;
-    
-    function hidePreloader() {
-        // Fade out and scale down the video
-        video.style.transition = 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s ease-out';
-        video.style.transform = 'scale(1.2)';
-        video.style.opacity = '0';
-        
-        // Fade out skip button
-        if (skipBtn) {
-            skipBtn.style.transition = 'opacity 0.5s ease-out';
-            skipBtn.style.opacity = '0';
+// ==================== CUSTOM PRELOADER ====================
+function initCustomPreloader() {
+    console.log('initCustomPreloader called');
+
+    const preloader = document.getElementById('custom-preloader');
+    const loadingPercentage = document.getElementById('loading-percentage');
+    const loadingStatus = document.getElementById('loading-status');
+    const vinylRecord = document.getElementById('vinyl-record');
+
+    console.log('Elements found:', {
+        preloader: !!preloader,
+        loadingPercentage: !!loadingPercentage,
+        loadingStatus: !!loadingStatus,
+        vinylRecord: !!vinylRecord
+    });
+
+    if (!preloader) {
+        console.error('Preloader element not found!');
+        return;
+    }
+
+    let progress = 0;
+    let loadingInterval;
+
+    const statusMessages = [
+        'Dropping the needle...',
+        'Tuning the frequencies...',
+        'Warming up the amp...',
+        'Setting the vibe...',
+        'Almost ready...'
+    ];
+
+    function updateProgress() {
+        progress += Math.random() * 12 + 8;
+        if (progress > 100) progress = 100;
+
+        console.log('Progress:', Math.round(progress) + '%');
+
+        if (loadingPercentage) {
+            loadingPercentage.textContent = Math.round(progress) + '%';
         }
-        
-        // Fade out preloader container
-        setTimeout(() => {
-            preloader.style.transition = 'opacity 0.6s ease-out';
-            preloader.style.opacity = '0';
-        }, 300);
-        
+
+        if (loadingStatus) {
+            let messageIndex = Math.min(Math.floor(progress / 20), statusMessages.length - 1);
+            loadingStatus.textContent = statusMessages[messageIndex];
+        }
+
+        if (vinylRecord) {
+            const speed = 3 - (progress / 100) * 1.5;
+            vinylRecord.style.animationDuration = `${speed}s`;
+        }
+
+        if (progress >= 100) {
+            clearInterval(loadingInterval);
+            setTimeout(hidePreloader, 500);
+        }
+    }
+
+    function hidePreloader() {
+        // Smooth fade out with scale effect
+        preloader.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+        preloader.style.opacity = '0';
+        preloader.style.transform = 'scale(0.95)';
+
         // Remove from DOM
         setTimeout(() => {
             preloader.style.display = 'none';
-        }, 1200);
+        }, 800);
     }
+
+    // Add skip button functionality
+    const skipButton = document.createElement('button');
+    skipButton.textContent = 'Skip';
+    skipButton.style.cssText = `
+        position: absolute;
+        bottom: 2rem;
+        right: 2rem;
+        background: rgba(226, 214, 199, 0.2);
+        border: 1px solid rgba(226, 214, 199, 0.5);
+        color: #e2d6c7;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        cursor: pointer;
+        font-family: 'Alfa Slab One', serif;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+        z-index: 1000;
+    `;
     
-    // Hide preloader when video ends
-    video.addEventListener('ended', hidePreloader);
-    
-    // Fallback: if video fails to load, hide after 3 seconds
-    video.addEventListener('error', () => {
-        console.warn('Preloader video failed to load');
-        setTimeout(hidePreloader, 1000);
+    skipButton.addEventListener('click', () => {
+        clearInterval(loadingInterval);
+        hidePreloader();
     });
     
-    // Skip button functionality
-    if (skipBtn) {
-        skipBtn.addEventListener('click', (e) => {
-            e.stopPropagation(); // Prevent event bubbling
-            hidePreloader();
-        });
-    }
+    skipButton.addEventListener('mouseenter', () => {
+        skipButton.style.background = 'rgba(226, 214, 199, 0.3)';
+        skipButton.style.transform = 'scale(1.05)';
+    });
+    
+    skipButton.addEventListener('mouseleave', () => {
+        skipButton.style.background = 'rgba(226, 214, 199, 0.2)';
+        skipButton.style.transform = 'scale(1)';
+    });
+    
+    preloader.appendChild(skipButton);
+
+    // Start loading simulation
+    console.log('Starting loading interval...');
+    loadingInterval = setInterval(updateProgress, 200);
+    
+    // Force first update immediately
+    updateProgress();
+
+    // Auto-hide after maximum time (2.5 seconds)
+    setTimeout(() => {
+        console.log('Auto-hide triggered, progress:', progress);
+        if (progress < 100) {
+            clearInterval(loadingInterval);
+            progress = 100;
+            updateProgress();
+        }
+    }, 2500);
+    
+    // Emergency fallback - force hide after 5 seconds
+    setTimeout(() => {
+        console.log('Emergency fallback triggered');
+        clearInterval(loadingInterval);
+        hidePreloader();
+    }, 5000);
 }
 
-// Initialize preloader immediately
-initVideoPreloader();
-
+// Initialize preloader when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCustomPreloader);
+} else {
+    // DOM is already loaded
+    initCustomPreloader();
+}
 // ==================== DATA ====================
 const vinylSections = [
-    { title: "Who we are", slug: "who", angle: 225, copy: "We're a small, scrappy crew obsessed with evidence, empathy, and telling women's health stories the way they deserve to be told — nuanced, nerdy, and never boring." },
-    { title: "Purpose", slug: "purpose", angle: 315, copy: "Cut the noise. We bring science-backed clarity to the stuff that actually shapes life in an XX body — hormones, training, mental load, relationships, and the systems around them." },
-    { title: "Hosts", slug: "hosts", angle: 45, copy: "Hosted by two friends who toggle between PubMed and playlists — with researchers, athletes, founders, and community voices joining at the table." },
+    { title: "Who we are", slug: "who", angle: 225, copy: "We are a voice of millions of women, laughing, longing and living to mark the significance of expression for every girl who has felt their words unheard. We are a representation of you, #Unfiltered." },
+    { title: "Purpose", slug: "purpose", angle: 315, copy: "The podcast that is here to bring revolution in the world of women's wellness by talking and building a community together. But above that, also to listen. Listen to that woman inside everyone." },
+    { title: "Ft.Guests", slug: "hosts", angle: 45, copy: "From daring to dream, our guests are the epitome of grace, empathy and gratitude. At XXperiment, our guests aren't placed on a pedestal, they're welcomed on the couch. Sitting with us, they share their raw and unfiltered stories of womanhood not as icons but as equals." },
     { title: "How to listen", slug: "listen", angle: 135, copy: "Subscribe on your favorite app, or read episode notes on our site. New shows drop weekly. Bring coffee. Or creatine. Or both." }
 ];
 
 const episodes = [
     {
         id: 's1e5-episode-5',
-        title: 'EP 07 • Cycle-Syncing 101',
-        meta: 'EP 07 • 42 MIN',
-        description: 'Training with your hormones — luteal cravings, follicular fire, and workout hacks with a sports endocrinologist.',
+        title: 'EP 05 • What Does Serving Success Taste Like?',
+        meta: 'EP 05 • 1:06:54',
+        description: 'Success isn\'t a destination it\'s a daring act of creation. In this episode, we sit down with Vira Vora, the visionary behind Sale & Pepe, to unpack what it truly means to reinvent yourself and your life.',
         cover: 'linear-gradient(135deg, #d4a574, #8b4513)',
-        youtubeId: 'dQw4w9WgXcQ',
-        number: 'EP 07',
-        duration: '42 MIN',
+        youtubeId: 'LoXnCNC_iBw',
+        number: 'EP 05',
+        duration: '1:06:54',
         season: 'Season 1',
         guest: {
-            name: 'Dr. Sarah Johnson',
-            title: 'Sports Endocrinologist',
-            bio: 'Leading expert in women\'s hormonal health with 15+ years of research experience.'
+            name: 'Ms. Vira Shah Vora',
+            title: 'Founder, Sale & Pepe',
+            bio: 'Visionary behind Sale & Pepe, sharing her journey of reinvention, independence, and creating success on her own terms.'
         }
     },
     {
         id: 's1e4-episode-4',
-        title: 'EP 06 • Skin, Stress & Sleep',
-        meta: 'EP 06 • 38 MIN',
-        description: 'The real glow-up: dermatologists and data collide. Night routines, cortisol spikes, and why SPF is a love language.',
+        title: 'EP 04 • This Was Never About Approval',
+        meta: 'EP 04 • 50:31',
+        description: 'Why do conversations about women\'s bodies still feel taboo? In this episode, we break the silence on intimate health, postpartum changes, painful sex, and cosmetic gynaecology with Dr. Bhairavi Joshi.',
         cover: 'linear-gradient(135deg, #f4c2a1, #d2691e)',
-        youtubeId: 'dQw4w9WgXcQ',
-        number: 'EP 06',
-        duration: '38 MIN',
+        youtubeId: 'Q_AYhx6zu1E',
+        number: 'EP 04',
+        duration: '50:31',
         season: 'Season 1',
         guest: {
-            name: 'Dr. Emily Chen',
-            title: 'Dermatologist',
-            bio: 'Specialist in skin health and the connection between stress, sleep, and skin conditions.'
+            name: 'Dr. Bhairavi Joshi',
+            title: 'Cosmetic Gynaecologist',
+            bio: 'Part surgeon, part therapist, and full-time myth-buster specializing in intimate health and women\'s wellness.'
         }
     },
     {
         id: 's1e3-episode-3',
-        title: 'EP 05 • Money Talks',
-        meta: 'EP 05 • 51 MIN',
-        description: 'Raises, rizz & refusing to shrink. Negotiation scripts that slap and making the bag without losing your mind.',
+        title: 'EP 03 • Still Waiting For That Gold Star In Adulthood',
+        meta: 'EP 03 • 1:24:43',
+        description: 'Before we learned to chase deadlines, we learned to chase gold stars. In this episode, The Mentor x The Mess unravel how early schooling quietly shapes our adult obsession with validation, performance, and "being good."',
         cover: 'linear-gradient(135deg, #2d4a3e, #1a5f3f)',
-        youtubeId: 'dQw4w9WgXcQ',
-        number: 'EP 05',
-        duration: '51 MIN',
+        youtubeId: 'M_-DruIjPRU',
+        number: 'EP 03',
+        duration: '1:24:43',
         season: 'Season 1',
         guest: {
-            name: 'Alex Rodriguez',
-            title: 'Career Coach',
-            bio: 'Expert in negotiation strategies and career advancement for women in the workplace.'
+            name: 'Mrs. Jayati Jhala',
+            title: 'Preschool Principal & Educator',
+            bio: 'Part educator, part life coach, and full-time truth-teller specializing in early childhood education and emotional intelligence.'
         }
     },
     {
         id: 's1e2-episode-2',
-        title: 'EP 04 • The Friendship Files',
-        meta: 'EP 04 • 35 MIN',
-        description: 'Why female friendships hit different — the psychology, the drama, and the unbreakable bonds that define us.',
+        title: 'EP 02 • Ghosted, Gaslit, and Girlbossed',
+        meta: 'EP 02 • 45:47',
+        description: 'Friendships aren\'t what they used to be and that\'s exactly what makes them so fascinating. In this episode, we peel back the layers of modern female friendships the love, the jealousy, the distance, and the quiet understanding that keeps it all together.',
         cover: 'linear-gradient(135deg, #9b4444, #654321)',
-        youtubeId: 'dQw4w9WgXcQ',
-        number: 'EP 04',
-        duration: '35 MIN',
+        youtubeId: 'T5bs2CMnUN4',
+        number: 'EP 02',
+        duration: '45:47',
         season: 'Season 1',
         guest: {
-            name: 'Dr. Lisa Park',
-            title: 'Social Psychologist',
-            bio: 'Researcher specializing in female relationships and the psychology of friendship dynamics.'
+            name: 'Vanshita Neetu',
+            title: 'Founder & Black Cat Energy',
+            bio: 'The black cat energy who\'ll lovingly call you out and help you level up, exploring the emotional Olympics of modern-day friendships.'
         }
     },
     {
         id: 's1e1-episode-1',
-        title: 'EP 03 • Hormonal Intelligence',
-        meta: 'EP 03 • 47 MIN',
-        description: 'Beyond PMS — understanding your cycle as a superpower, not a sentence. Science meets self-advocacy.',
+        title: 'EP 01 • Are You Sure It\'s Not Just Stress?',
+        meta: 'EP 01 • 44:59',
+        description: 'Why are women still being told "it\'s just stress"? In this episode, we sit down with Dr. Mahesh Jariwala to uncover the truth behind medical gaslighting, rushed diagnoses, and the everyday struggles women face in getting their health taken seriously.',
         cover: 'linear-gradient(135deg, #5d4e6d, #8a2be2)',
-        youtubeId: 'dQw4w9WgXcQ',
-        number: 'EP 03',
-        duration: '47 MIN',
+        youtubeId: 'HQFZT62XtCo',
+        number: 'EP 01',
+        duration: '44:59',
         season: 'Season 1',
         guest: {
-            name: 'Dr. Maria Santos',
-            title: 'Endocrinologist',
-            bio: 'Specialist in hormonal health and cycle optimization for women of all ages.'
+            name: 'Dr. Mahesh Jariwala',
+            title: 'Leading OB-GYN',
+            bio: 'Leading OB-GYN who\'s here to spill the tea on medical myths, lightning-fast diagnoses, and the shocking realities of women\'s health.'
         }
     }
 ];
@@ -151,9 +236,7 @@ let state = {
     currentVinylSection: 0,
     scrollCooldown: false,
     isMobileMenuOpen: false,
-    isMobile: false,
-    selectedEpisode: null,
-    isModalOpen: false
+    isMobile: false
 };
 
 // ==================== UTILITY FUNCTIONS ====================
@@ -201,6 +284,12 @@ function initVinylPlayer() {
 
     // Initialize content
     updateVinylContent();
+
+    // Set initial arm position
+    if (armRef) {
+        const angle = vinylSections[state.currentVinylSection].angle;
+        armRef.style.setProperty('--angle', `${angle}deg`);
+    }
 }
 
 function selectVinylSection(index) {
@@ -212,10 +301,10 @@ function selectVinylSection(index) {
     });
 
     // Rotate arm
-    const armRef = document.getElementById('arm');
-    if (armRef) {
+    const arm = document.getElementById('arm');
+    if (arm) {
         const angle = vinylSections[index].angle;
-        armRef.style.setProperty('--angle', `${angle}deg`);
+        arm.style.setProperty('--angle', `${angle}deg`);
     }
 
     // Update content
@@ -324,166 +413,17 @@ function goToEpisode(index) {
 
 // ==================== EPISODE MODAL ====================
 function openEpisode(episode) {
-    if (state.isMobile && episode.id) {
+    if (episode.id) {
         window.location.href = `episode.html?id=${encodeURIComponent(episode.id)}`;
         return;
     }
-    showEpisodeModal(episode);
+    
+    // Fallback if no episode ID
+    console.warn('Episode has no ID, cannot navigate to episode page');
 }
 
-function showEpisodeModal(episode) {
-    state.selectedEpisode = episode;
-    state.isModalOpen = true;
 
-    const modalOverlay = document.getElementById('episode-modal-overlay');
-    const modal = document.getElementById('episode-modal');
 
-    modal.innerHTML = createModalContent(episode);
-    modalOverlay.style.display = 'flex';
-
-    // Add close button event
-    const closeBtn = modal.querySelector('.modal-close-btn');
-    if (closeBtn) {
-        closeBtn.addEventListener('click', closeModal);
-    }
-}
-
-function createModalContent(episode) {
-    return `
-        <!-- Close Button -->
-        <button class="modal-close-btn" style="
-            position: sticky;
-            top: 1rem;
-            right: 1rem;
-            background: linear-gradient(135deg, #7f1e16, #5a1510);
-            color: #ffffff;
-            border: 2px solid #ffffff;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            cursor: pointer;
-            font-size: 24px;
-            z-index: 1002;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 6px 20px rgba(127, 30, 22, 0.5);
-            transition: all 0.3s ease;
-            font-weight: bold;
-            float: right;
-            margin-bottom: 1rem;
-        ">×</button>
-
-        <!-- Header -->
-        <div style="
-            padding: 2rem 2rem 1.5rem 2rem;
-            background: linear-gradient(135deg, #7f1e16 0%, #5a1510 100%);
-            color: #ffffff;
-            border-radius: 18px 18px 0 0;
-            position: relative;
-            overflow: hidden;
-        ">
-            <h1 style="
-                font-size: 2rem;
-                font-weight: 800;
-                color: #ffffff;
-                margin: 0 0 1rem 0;
-                font-family: 'Alfa Slab One', serif;
-                text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.3);
-            ">
-                ${episode.title}
-            </h1>
-            <div style="display: flex; gap: 0.75rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
-                <span style="
-                    background: rgba(255, 255, 255, 0.2);
-                    color: #ffffff;
-                    padding: 0.5rem 1rem;
-                    border-radius: 20px;
-                    font-size: 0.8rem;
-                    font-weight: 600;
-                ">${episode.meta}</span>
-                <span style="
-                    background: rgba(255, 255, 255, 0.2);
-                    color: #ffffff;
-                    padding: 0.5rem 1rem;
-                    border-radius: 20px;
-                    font-size: 0.8rem;
-                    font-weight: 600;
-                ">${episode.duration}</span>
-            </div>
-            <p style="
-                color: rgba(255, 255, 255, 0.9);
-                font-size: 1.1rem;
-                line-height: 1.6;
-                margin: 0;
-            ">${episode.description}</p>
-        </div>
-
-        <!-- Content -->
-        <div style="padding: 2rem; background: #ffffff; color: #0c0b0b;">
-            <!-- Video -->
-            <div style="margin: 2rem 0; text-align: center;">
-                <div style="
-                    max-width: 1000px;
-                    margin: 0 auto;
-                    background: linear-gradient(135deg, #f9f0e1 0%, #f5f0e8 100%);
-                    border-radius: 20px;
-                    padding: 2rem;
-                    box-shadow: 0 20px 60px rgba(127, 30, 22, 0.2);
-                    border: 2px solid #7f1e16;
-                ">
-                    <h2 style="
-                        font-family: 'Alfa Slab One', serif;
-                        font-size: 1.8rem;
-                        margin: 0 0 1.5rem;
-                        color: #7f1e16;
-                    ">Watch Episode</h2>
-                    <iframe
-                        style="
-                            width: 100%;
-                            aspect-ratio: 16/9;
-                            border: none;
-                            border-radius: 15px;
-                            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
-                            background: #000;
-                        "
-                        src="https://www.youtube.com/embed/${episode.youtubeId}?rel=0&showinfo=0&modestbranding=1"
-                        title="Episode Video"
-                        frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowfullscreen>
-                    </iframe>
-                </div>
-            </div>
-
-            <!-- Guest Info -->
-            <div style="
-                margin: 3rem 0;
-                padding: 2rem;
-                background: linear-gradient(135deg, #7f1e16 0%, #5a1510 100%);
-                border-radius: 20px;
-                color: #ffffff;
-            ">
-                <h3 style="
-                    font-family: 'Alfa Slab One', serif;
-                    font-size: 1.5rem;
-                    margin: 0 0 1rem;
-                ">Featured Guest</h3>
-                <h4 style="font-size: 1.2rem; margin: 0.5rem 0;">${episode.guest?.name || 'Guest Name'}</h4>
-                <p style="font-weight: 600; opacity: 0.9; margin: 0.5rem 0;">${episode.guest?.title || 'Guest Title'}</p>
-                <p style="line-height: 1.6; opacity: 0.9;">${episode.guest?.bio || 'Guest bio'}</p>
-            </div>
-        </div>
-    `;
-}
-
-function closeModal() {
-    state.isModalOpen = false;
-    state.selectedEpisode = null;
-
-    const modalOverlay = document.getElementById('episode-modal-overlay');
-    modalOverlay.style.display = 'none';
-}
 
 // ==================== MOBILE MENU ====================
 function initMobileMenu() {
@@ -545,6 +485,22 @@ function initEventListeners() {
     // Episode navigation
     document.getElementById('prevBtn').addEventListener('click', previousEpisode);
     document.getElementById('nextBtn').addEventListener('click', nextEpisode);
+
+    // Platform buttons
+    const spotifyButton = document.querySelector('button[aria-label*="Spotify"]');
+    const youtubeButton = document.querySelector('button[aria-label*="YouTube"]');
+    
+    if (spotifyButton) {
+        spotifyButton.addEventListener('click', () => {
+            window.open('https://open.spotify.com/show/3X5XYWLTkOtmhU1vNWMT7X', '_blank');
+        });
+    }
+    
+    if (youtubeButton) {
+        youtubeButton.addEventListener('click', () => {
+            window.open('https://www.youtube.com/@The.XXperiment', '_blank');
+        });
+    }
 
     // Keyboard navigation
     document.addEventListener('keydown', (e) => {
@@ -793,17 +749,17 @@ function initScrollAnimations() {
         ease: 'power2.out'
     });
 
-    // Animate stickers with parallax
-    gsap.to('.sticker', {
-        scrollTrigger: {
-            trigger: '.hero',
-            start: 'top top',
-            end: 'bottom top',
-            scrub: 1
-        },
-        y: (i, target) => -ScrollTrigger.maxScroll(window) * target.dataset.depth * 0.5,
-        ease: 'none'
-    });
+    // Stickers are now fixed position - parallax disabled to prevent glitchy behavior
+    // gsap.to('.sticker', {
+    //     scrollTrigger: {
+    //         trigger: '.hero',
+    //         start: 'top top',
+    //         end: 'bottom top',
+    //         scrub: 1
+    //     },
+    //     y: (i, target) => -ScrollTrigger.maxScroll(window) * target.dataset.depth * 0.5,
+    //     ease: 'none'
+    // });
 }
 
 // ==================== INITIALIZATION ====================
@@ -814,10 +770,15 @@ function init() {
     initMobileMenu();
     initEventListeners();
     initNavHoverEffects();
-    setupForumNavigation(); // Initialize forum navigation
     
+    // Initialize forum navigation with a small delay to ensure DOM is ready
+    setTimeout(() => {
+        setupForumNavigation();
+    }, 100);
+
     // Initialize scroll animations after a short delay to ensure DOM is ready
     setTimeout(initScrollAnimations, 100);
+
 }
 
 // Wait for DOM to be ready
@@ -850,10 +811,14 @@ function setupForumNavigation() {
         document.getElementById('mobile-forum-btn'),
         document.getElementById('community-forum-btn')
     ];
+    
+    console.log('🔍 Forum buttons found:', forumButtons.map(btn => btn ? btn.id : 'null'));
+    console.log('🔍 Total buttons found:', forumButtons.filter(btn => btn).length);
 
     forumButtons.forEach(button => {
         if (button) {
             console.log('✅ Found forum button:', button.id);
+            console.log('✅ Button element:', button);
             button.addEventListener('click', (e) => {
                 console.log('🖱️ Forum button clicked!', button.id, e);
                 e.preventDefault();
@@ -868,7 +833,7 @@ function setupForumNavigation() {
                     document.body.style.overflow = '';
                 }
                 // Navigate after a short delay
-                console.log('🚀 Navigating to /forum...');
+                console.log('🚀 Navigating to forum...');
                 setTimeout(() => {
                     window.location.href = '/forum';
                 }, 100);
@@ -953,3 +918,5 @@ function setupForumNavigation() {
         }
     });
 }
+
+
